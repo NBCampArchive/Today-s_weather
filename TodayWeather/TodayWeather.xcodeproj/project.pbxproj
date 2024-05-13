@@ -13,6 +13,10 @@
 		B54ABF222BF22B51002E89DC /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B54ABF212BF22B51002E89DC /* Assets.xcassets */; };
 		B54ABF322BF22D82002E89DC /* Model.swift in Sources */ = {isa = PBXBuildFile; fileRef = B54ABF312BF22D82002E89DC /* Model.swift */; };
 		B54ABF342BF22D9A002E89DC /* Network.swift in Sources */ = {isa = PBXBuildFile; fileRef = B54ABF332BF22D9A002E89DC /* Network.swift */; };
+		B54ABF372BF22E95002E89DC /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = B54ABF362BF22E95002E89DC /* SnapKit */; };
+		B54ABF3A2BF22E9D002E89DC /* Then in Frameworks */ = {isa = PBXBuildFile; productRef = B54ABF392BF22E9D002E89DC /* Then */; };
+		B54ABF3D2BF22EA6002E89DC /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = B54ABF3C2BF22EA6002E89DC /* Alamofire */; };
+		B54ABF3F2BF22EA6002E89DC /* AlamofireDynamic in Frameworks */ = {isa = PBXBuildFile; productRef = B54ABF3E2BF22EA6002E89DC /* AlamofireDynamic */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -31,6 +35,10 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B54ABF3D2BF22EA6002E89DC /* Alamofire in Frameworks */,
+				B54ABF3F2BF22EA6002E89DC /* AlamofireDynamic in Frameworks */,
+				B54ABF372BF22E95002E89DC /* SnapKit in Frameworks */,
+				B54ABF3A2BF22E9D002E89DC /* Then in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -123,6 +131,12 @@
 			dependencies = (
 			);
 			name = TodayWeather;
+			packageProductDependencies = (
+				B54ABF362BF22E95002E89DC /* SnapKit */,
+				B54ABF392BF22E9D002E89DC /* Then */,
+				B54ABF3C2BF22EA6002E89DC /* Alamofire */,
+				B54ABF3E2BF22EA6002E89DC /* AlamofireDynamic */,
+			);
 			productName = TodayWeather;
 			productReference = B54ABF122BF22B4F002E89DC /* TodayWeather.app */;
 			productType = "com.apple.product-type.application";
@@ -151,6 +165,11 @@
 				Base,
 			);
 			mainGroup = B54ABF092BF22B4F002E89DC;
+			packageReferences = (
+				B54ABF352BF22E95002E89DC /* XCRemoteSwiftPackageReference "SnapKit" */,
+				B54ABF382BF22E9D002E89DC /* XCRemoteSwiftPackageReference "Then" */,
+				B54ABF3B2BF22EA6002E89DC /* XCRemoteSwiftPackageReference "Alamofire" */,
+			);
 			productRefGroup = B54ABF132BF22B4F002E89DC /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -386,6 +405,56 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		B54ABF352BF22E95002E89DC /* XCRemoteSwiftPackageReference "SnapKit" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/SnapKit/SnapKit";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.7.1;
+			};
+		};
+		B54ABF382BF22E9D002E89DC /* XCRemoteSwiftPackageReference "Then" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/devxoul/Then";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 3.0.0;
+			};
+		};
+		B54ABF3B2BF22EA6002E89DC /* XCRemoteSwiftPackageReference "Alamofire" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/Alamofire/Alamofire";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.9.1;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		B54ABF362BF22E95002E89DC /* SnapKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = B54ABF352BF22E95002E89DC /* XCRemoteSwiftPackageReference "SnapKit" */;
+			productName = SnapKit;
+		};
+		B54ABF392BF22E9D002E89DC /* Then */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = B54ABF382BF22E9D002E89DC /* XCRemoteSwiftPackageReference "Then" */;
+			productName = Then;
+		};
+		B54ABF3C2BF22EA6002E89DC /* Alamofire */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = B54ABF3B2BF22EA6002E89DC /* XCRemoteSwiftPackageReference "Alamofire" */;
+			productName = Alamofire;
+		};
+		B54ABF3E2BF22EA6002E89DC /* AlamofireDynamic */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = B54ABF3B2BF22EA6002E89DC /* XCRemoteSwiftPackageReference "Alamofire" */;
+			productName = AlamofireDynamic;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = B54ABF0A2BF22B4F002E89DC /* Project object */;
 }
