@@ -17,6 +17,14 @@
 		B54ABF3A2BF22E9D002E89DC /* Then in Frameworks */ = {isa = PBXBuildFile; productRef = B54ABF392BF22E9D002E89DC /* Then */; };
 		B54ABF3D2BF22EA6002E89DC /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = B54ABF3C2BF22EA6002E89DC /* Alamofire */; };
 		B54ABF3F2BF22EA6002E89DC /* AlamofireDynamic in Frameworks */ = {isa = PBXBuildFile; productRef = B54ABF3E2BF22EA6002E89DC /* AlamofireDynamic */; };
+		B54ABF412BF30223002E89DC /* WeatherAPIManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B54ABF402BF30223002E89DC /* WeatherAPIManager.swift */; };
+		B54ABF432BF303C8002E89DC /* TodayWeatherAPI.plist in Resources */ = {isa = PBXBuildFile; fileRef = B54ABF422BF303C8002E89DC /* TodayWeatherAPI.plist */; };
+		B54ABF452BF304D6002E89DC /* TodayWeatherAPI++Bundle.swift in Sources */ = {isa = PBXBuildFile; fileRef = B54ABF442BF304D6002E89DC /* TodayWeatherAPI++Bundle.swift */; };
+		B54ABF472BF30645002E89DC /* CurrentResponseModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B54ABF462BF30645002E89DC /* CurrentResponseModel.swift */; };
+		B54ABF492BF307B8002E89DC /* ForecastResponseModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B54ABF482BF307B8002E89DC /* ForecastResponseModel.swift */; };
+		B54ABF4B2BF30C3E002E89DC /* DustAPIManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B54ABF4A2BF30C3E002E89DC /* DustAPIManager.swift */; };
+		B54ABF4D2BF30CE9002E89DC /* DustResponseModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B54ABF4C2BF30CE9002E89DC /* DustResponseModel.swift */; };
+		B54ABF522BF314B4002E89DC /* LocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B54ABF512BF314B4002E89DC /* LocationManager.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -28,6 +36,14 @@
 		B54ABF262BF22B51002E89DC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		B54ABF312BF22D82002E89DC /* Model.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Model.swift; sourceTree = "<group>"; };
 		B54ABF332BF22D9A002E89DC /* Network.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Network.swift; sourceTree = "<group>"; };
+		B54ABF402BF30223002E89DC /* WeatherAPIManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherAPIManager.swift; sourceTree = "<group>"; };
+		B54ABF422BF303C8002E89DC /* TodayWeatherAPI.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = TodayWeatherAPI.plist; sourceTree = "<group>"; };
+		B54ABF442BF304D6002E89DC /* TodayWeatherAPI++Bundle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "TodayWeatherAPI++Bundle.swift"; sourceTree = "<group>"; };
+		B54ABF462BF30645002E89DC /* CurrentResponseModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrentResponseModel.swift; sourceTree = "<group>"; };
+		B54ABF482BF307B8002E89DC /* ForecastResponseModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForecastResponseModel.swift; sourceTree = "<group>"; };
+		B54ABF4A2BF30C3E002E89DC /* DustAPIManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DustAPIManager.swift; sourceTree = "<group>"; };
+		B54ABF4C2BF30CE9002E89DC /* DustResponseModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DustResponseModel.swift; sourceTree = "<group>"; };
+		B54ABF512BF314B4002E89DC /* LocationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationManager.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -78,6 +94,9 @@
 			children = (
 				B54ABF262BF22B51002E89DC /* Info.plist */,
 				B54ABF212BF22B51002E89DC /* Assets.xcassets */,
+				B54ABF422BF303C8002E89DC /* TodayWeatherAPI.plist */,
+				B54ABF442BF304D6002E89DC /* TodayWeatherAPI++Bundle.swift */,
+				B54ABF512BF314B4002E89DC /* LocationManager.swift */,
 			);
 			path = Resource;
 			sourceTree = "<group>";
@@ -103,6 +122,8 @@
 			isa = PBXGroup;
 			children = (
 				B54ABF332BF22D9A002E89DC /* Network.swift */,
+				B54ABF402BF30223002E89DC /* WeatherAPIManager.swift */,
+				B54ABF4A2BF30C3E002E89DC /* DustAPIManager.swift */,
 			);
 			path = Network;
 			sourceTree = "<group>";
@@ -111,6 +132,9 @@
 			isa = PBXGroup;
 			children = (
 				B54ABF312BF22D82002E89DC /* Model.swift */,
+				B54ABF462BF30645002E89DC /* CurrentResponseModel.swift */,
+				B54ABF482BF307B8002E89DC /* ForecastResponseModel.swift */,
+				B54ABF4C2BF30CE9002E89DC /* DustResponseModel.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -185,6 +209,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				B54ABF222BF22B51002E89DC /* Assets.xcassets in Resources */,
+				B54ABF432BF303C8002E89DC /* TodayWeatherAPI.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -195,9 +220,16 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B54ABF472BF30645002E89DC /* CurrentResponseModel.swift in Sources */,
 				B54ABF342BF22D9A002E89DC /* Network.swift in Sources */,
 				B54ABF1A2BF22B4F002E89DC /* ViewController.swift in Sources */,
+				B54ABF492BF307B8002E89DC /* ForecastResponseModel.swift in Sources */,
+				B54ABF4D2BF30CE9002E89DC /* DustResponseModel.swift in Sources */,
 				B54ABF162BF22B4F002E89DC /* AppDelegate.swift in Sources */,
+				B54ABF452BF304D6002E89DC /* TodayWeatherAPI++Bundle.swift in Sources */,
+				B54ABF4B2BF30C3E002E89DC /* DustAPIManager.swift in Sources */,
+				B54ABF522BF314B4002E89DC /* LocationManager.swift in Sources */,
+				B54ABF412BF30223002E89DC /* WeatherAPIManager.swift in Sources */,
 				B54ABF182BF22B4F002E89DC /* SceneDelegate.swift in Sources */,
 				B54ABF322BF22D82002E89DC /* Model.swift in Sources */,
 			);
