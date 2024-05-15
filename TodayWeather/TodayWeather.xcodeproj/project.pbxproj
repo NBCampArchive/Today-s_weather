@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		856C9B632BF5035800D99A2F /* WeatherViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 856C9B622BF5035800D99A2F /* WeatherViewController.swift */; };
 		B54ABF162BF22B4F002E89DC /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B54ABF152BF22B4F002E89DC /* AppDelegate.swift */; };
 		B54ABF182BF22B4F002E89DC /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B54ABF172BF22B4F002E89DC /* SceneDelegate.swift */; };
 		B54ABF1A2BF22B4F002E89DC /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B54ABF192BF22B4F002E89DC /* ViewController.swift */; };
@@ -28,6 +29,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		856C9B622BF5035800D99A2F /* WeatherViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherViewController.swift; sourceTree = "<group>"; };
 		B54ABF122BF22B4F002E89DC /* TodayWeather.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TodayWeather.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B54ABF152BF22B4F002E89DC /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		B54ABF172BF22B4F002E89DC /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -114,6 +116,7 @@
 			isa = PBXGroup;
 			children = (
 				B54ABF192BF22B4F002E89DC /* ViewController.swift */,
+				856C9B622BF5035800D99A2F /* WeatherViewController.swift */,
 			);
 			path = Presentation;
 			sourceTree = "<group>";
@@ -224,6 +227,7 @@
 				B54ABF342BF22D9A002E89DC /* Network.swift in Sources */,
 				B54ABF1A2BF22B4F002E89DC /* ViewController.swift in Sources */,
 				B54ABF492BF307B8002E89DC /* ForecastResponseModel.swift in Sources */,
+				856C9B632BF5035800D99A2F /* WeatherViewController.swift in Sources */,
 				B54ABF4D2BF30CE9002E89DC /* DustResponseModel.swift in Sources */,
 				B54ABF162BF22B4F002E89DC /* AppDelegate.swift in Sources */,
 				B54ABF452BF304D6002E89DC /* TodayWeatherAPI++Bundle.swift in Sources */,
@@ -364,7 +368,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = 8B78U37C85;
+				DEVELOPMENT_TEAM = CS9SP68DH3;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = TodayWeather/Resource/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
@@ -393,7 +397,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = 8B78U37C85;
+				DEVELOPMENT_TEAM = CS9SP68DH3;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = TodayWeather/Resource/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
