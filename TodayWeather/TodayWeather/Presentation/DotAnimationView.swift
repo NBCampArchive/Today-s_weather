@@ -11,7 +11,7 @@ import Then
 
 class DotAnimationView: UIView {
     var dots: [CALayer] = []
-
+    
     let dotColor = UIColor.white.cgColor.copy(alpha: 0.5)
     let dotCount = 10
     
@@ -19,20 +19,21 @@ class DotAnimationView: UIView {
         $0.text = "127"
         $0.font = .systemFont(ofSize: 96, weight: .regular)
         $0.textColor = .white
+        $0.backgroundColor = .clear
     }
     
     override init(frame: CGRect) {
         super.init(frame: frame)
         self.backgroundColor =  UIColor(named: "dustFineColor")
         createDots()
-        animateDots()
+        startAnimatingDots()
         setupLayout()
     }
     
     required init?(coder: NSCoder) {
         super.init(coder: coder)
         createDots()
-        animateDots()
+        startAnimatingDots()
     }
     
     func setupLayout() {
@@ -56,7 +57,7 @@ class DotAnimationView: UIView {
         }
     }
     
-    func animateDots() {
+    func startAnimatingDots() {
         for dot in dots {
             let duration = Double.random(in: 1...3)
             let delay = Double.random(in: 0...1)
@@ -71,6 +72,12 @@ class DotAnimationView: UIView {
             animation.autoreverses = true
             animation.timingFunction = CAMediaTimingFunction(name: .easeInEaseOut)
             dot.add(animation, forKey: "position")
+        }
+    }
+    
+    func stopAnimatingDots() {
+        for dot in dots {
+            dot.removeAnimation(forKey: "position")
         }
     }
 }
