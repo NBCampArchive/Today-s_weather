@@ -82,6 +82,15 @@ class FoodViewController: UIViewController {
         return label
     }()
     
+    private let circleView: UIView = {
+        let view = UIView()
+        view.backgroundColor = UIColor(hex: "#E67A4A")
+        view.translatesAutoresizingMaskIntoConstraints = false
+        view.layer.cornerRadius = 140 // 280/2
+        view.clipsToBounds = true
+        return view
+    }()
+    
     private let temperatureLabel: UILabel = {
         let label = UILabel()
         label.text = "25°" // This would be set dynamically
@@ -223,6 +232,7 @@ class FoodViewController: UIViewController {
         view.addSubview(locationIcon)
         view.addSubview(cityLabel)
         view.addSubview(countryLabel)
+        view.addSubview(circleView)
         view.addSubview(temperatureLabel)
         
         NSLayoutConstraint.activate([
@@ -239,6 +249,11 @@ class FoodViewController: UIViewController {
             
             countryLabel.centerYAnchor.constraint(equalTo: cityLabel.centerYAnchor),
             countryLabel.leadingAnchor.constraint(equalTo: cityLabel.trailingAnchor, constant: 8),
+            
+            circleView.centerYAnchor.constraint(equalTo: countryLabel.centerYAnchor),
+            circleView.leadingAnchor.constraint(equalTo: countryLabel.trailingAnchor, constant: 8),
+            circleView.widthAnchor.constraint(equalToConstant: 280),
+            circleView.heightAnchor.constraint(equalToConstant: 280),
             
             temperatureLabel.topAnchor.constraint(equalTo: cityLabel.bottomAnchor, constant: 24),
             temperatureLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16)
@@ -383,3 +398,24 @@ class FoodViewController: UIViewController {
         tableView.reloadData()
     }
 }
+
+extension UIColor {
+    convenience init(hex: String) {
+        let scanner = Scanner(string: hex)
+        scanner.scanLocation = 0
+        
+        var rgbValue: UInt64 = 0
+        scanner.scanHexInt64(&rgbValue)
+        
+        let r = (rgbValue & 0xff0000) >> 16
+        let g = (rgbValue & 0xff00) >> 8
+        let b = rgbValue & 0xff
+        
+        self.init(
+            red: CGFloat(r) / 0xff,
+            green: CGFloat(g) / 0xff,
+            blue: CGFloat(b) / 0xff, alpha: 1
+        )
+    }
+}
+
