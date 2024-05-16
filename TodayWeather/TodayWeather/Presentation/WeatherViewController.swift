@@ -69,6 +69,11 @@ class WeatherViewController: UIViewController {
         $0.transform = CGAffineTransform(rotationAngle: .pi / 2)
     }
     
+    private lazy var weatherImage = UIImageView().then {
+        $0.contentMode = .scaleAspectFit
+        $0.image = UIImage(systemName: "star")
+    }
+    
     // MARK: - View Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -101,7 +106,6 @@ class WeatherViewController: UIViewController {
             }
         }
     }
-    
     // MARK: - UI 관련 함수
     private func configureUI() {
         view.backgroundColor = .white
@@ -109,7 +113,9 @@ class WeatherViewController: UIViewController {
         view.addSubview(scrollView)
         scrollView.addSubview(contentsView)
         
-        [verticalStackView, weatherStateLabel].forEach {
+        [verticalStackView,
+         weatherStateLabel,
+         weatherImage].forEach {
             contentsView.addSubview($0)
         }
         
@@ -137,7 +143,6 @@ class WeatherViewController: UIViewController {
         
         contentsView.snp.makeConstraints {
             $0.width.equalTo(self.scrollView.frameLayoutGuide)
-            //$0.edges.equalTo(scrollView.frameLayoutGuide)
         }
         
         verticalStackView.snp.makeConstraints {
@@ -148,6 +153,12 @@ class WeatherViewController: UIViewController {
         weatherStateLabel.snp.makeConstraints {
             $0.top.equalTo(contentsView.snp.top).inset(124)
             $0.trailing.equalToSuperview().inset(-50)
+        }
+        
+        weatherImage.snp.makeConstraints {
+            $0.top.equalTo(verticalStackView.snp.bottom).inset(-120)
+            $0.leading.equalToSuperview().inset(20)
+            $0.width.height.equalTo(262)
         }
     }
     
@@ -174,4 +185,8 @@ class WeatherViewController: UIViewController {
         return current.localizedString(forRegionCode: countryCode)
     }
     
+}
+
+#Preview {
+    WeatherViewController()
 }
