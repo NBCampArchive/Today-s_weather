@@ -15,8 +15,18 @@ class SearchViewController : UIViewController{
     private var searchCompleter = MKLocalSearchCompleter()
     private var searchResults = [MKLocalSearchCompletion]()
     private var searchRecent : [String] = []
+    private var weather = [CurrentResponseModel]()
+    
+    var longitude: Double = 0 {
+        didSet {
+            callAPIs()
+        }
+    }
+    
+    var latitude: Double = 0
     
     let searchBar = UISearchBar()
+    
     let selectTableView = UITableView().then {
         $0.backgroundColor = .clear
         $0.tintColor = .clear
@@ -29,6 +39,14 @@ class SearchViewController : UIViewController{
     let visualEffectView = UIVisualEffectView(effect: UIBlurEffect(style: .light))
     
     // MARK: Life Cycle
+    override func viewWillAppear(_ animated: Bool) {
+        LocationManager.shared.requestLocation { location in
+            guard let location = location else { return }
+            self.latitude = location.coordinate.latitude
+            self.longitude = location.coordinate.longitude
+        }
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = #colorLiteral(red: 0.9882352941, green: 0.9607843137, blue: 0.9215686275, alpha: 1)
@@ -41,7 +59,18 @@ class SearchViewController : UIViewController{
         setupLayout()
         setupSearch()
     }
-    
+    // MARK: - 금일 날씨 API 호출
+    func callAPIs(){
+        WeatherAPIManager.shared.getCurrentWeatherData(latitude: self.latitude, longitude: self.longitude) { result in
+            switch result{
+            case .success(let data):
+                self.weather.append(data)
+                self.selectTableView.reloadData()
+            case .failure(let error):
+                print("GetCurrentWeatherData Failure \(error)")
+            }
+        }
+    }
     // MARK: Layout
     func setupLayout() {
         selectTableView.delegate = self
@@ -49,6 +78,8 @@ class SearchViewController : UIViewController{
         searchTableView.delegate = self
         searchTableView.dataSource = self
         searchTableView.register(SearchTableViewCell.self, forCellReuseIdentifier: SearchTableViewCell.Identifier)
+        selectTableView.register(SelectedTableViewCell.self, forCellReuseIdentifier: SelectedTableViewCell.Identifier)
+        
         view.addSubview(selectTableView)
         
         searchTableView.separatorStyle = .none
@@ -165,15 +196,19 @@ extension SearchViewController : UISearchBarDelegate {
 extension SearchViewController : UITableViewDelegate, UITableViewDataSource {
     // section 개수
     func numberOfSections(in tableView: UITableView) -> Int {
-        if searchRecent.isEmpty == true || searchResults.isEmpty == true{
+        if tableView == selectTableView {
             return 1
+        }else {
+            if searchRecent.isEmpty == true || searchResults.isEmpty == true{
+                return 1
+            }
+            return 2
         }
-        return 2
     }
     // row 개수
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if tableView == selectTableView {
-            return 0
+            return weather.count
         }else {
             if searchResults.isEmpty == true || section == 1{
                 return searchRecent.count
@@ -186,7 +221,11 @@ extension SearchViewController : UITableViewDelegate, UITableViewDataSource {
     // cell 설정
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if tableView == selectTableView {
-            return UITableViewCell()
+            guard let cell = tableView.dequeueReusableCell(withIdentifier: SelectedTableViewCell.Identifier, for: indexPath) as? SelectedTableViewCell
+                    else { return UITableViewCell() }
+            cell.tempLbl.text = String(weather[indexPath.row].main.temp)
+            cell.locLbl.text = weather[indexPath.row].name
+            return cell
         }else {
             
             guard let cell = tableView.dequeueReusableCell(withIdentifier: SearchTableViewCell.Identifier, for: indexPath) as? SearchTableViewCell
@@ -229,8 +268,13 @@ extension SearchViewController : UITableViewDelegate, UITableViewDataSource {
     }
     //셀 높이
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 26.5
+        if tableView == selectTableView {
+            return 99
+        }else {
+            return 26.5
         }
+        
+    }
     
     //셀 선택
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
