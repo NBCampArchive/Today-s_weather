@@ -8,6 +8,7 @@
 import UIKit
 import Then
 import SnapKit
+
 // ⚠️ 폴더 삭제 방지용 뷰컨트롤러 파일입니다.
 // 개인작업은 각 폴더 생성 후 진행해주세요.(Model, Network 동일!)
 // !!!!!!!!!! API KEY는 Resource/TodayWeatherAPIKey.plist 에 추가하고 사용해주세요 (해당 파일 커밋 금지) !!!!!!!!!!!!!
@@ -27,8 +28,19 @@ class ViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view.
-        view.backgroundColor = .black
+        
+        // MARK: - Color 사용 예시(Assets에서 색 이름 확인)
+        view.backgroundColor = UIColor(named: "sunnyBackground")
+        
+        // MARK: - Font 사용 예시(Fonts.swift 파일 확인)
+        let label = UILabel()
+        label.font = Gabarito.bold.of(size: 30)
+        label.text = "파이팅!"
+        
+        view.addSubview(label)
+        label.snp.makeConstraints { make in
+            make.centerX.centerY.equalToSuperview()
+        }
         // MARK: - 위치정보 권한 요청
         LocationManager.shared.requestLocation { location in
             guard let location = location else { return }

@@ -2,6 +2,19 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>UIAppFonts</key>
+	<array>
+		<string>BagelFatOne-Regular.ttf</string>
+		<string>Gabarito-Bold.ttf</string>
+		<string>Gabarito-Medium.ttf</string>
+		<string>Gabarito-Regular.ttf</string>
+		<string>Gabarito-SemiBold.ttf</string>
+		<string>GlacialIndifference-Regular.otf</string>
+		<string>Pretendard-Bold.otf</string>
+		<string>Pretendard-Medium.otf</string>
+		<string>Pretendard-SemiBold.otf</string>
+		<string>Pretendard-Regular.otf</string>
+	</array>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>사용자의 현재 위치를 기반으로 날씨 정보를 제공하기 위해 필요한 권한입니다. (필수 권한)</string>
 	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
