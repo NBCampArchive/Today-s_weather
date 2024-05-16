@@ -8,7 +8,7 @@
 import UIKit
 import Then
 import SnapKit
-import Kingfisher
+
 // ⚠️ 폴더 삭제 방지용 뷰컨트롤러 파일입니다.
 // 개인작업은 각 폴더 생성 후 진행해주세요.(Model, Network 동일!)
 // !!!!!!!!!! API KEY는 Resource/TodayWeatherAPIKey.plist 에 추가하고 사용해주세요 (해당 파일 커밋 금지) !!!!!!!!!!!!!
@@ -29,7 +29,7 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
-        view.backgroundColor = .black
+        view.backgroundColor = UIColor(named: "sunnyBackground")
         // MARK: - 위치정보 권한 요청
         LocationManager.shared.requestLocation { location in
             guard let location = location else { return }
