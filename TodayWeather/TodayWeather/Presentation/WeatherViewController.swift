@@ -186,7 +186,7 @@ class WeatherViewController: UIViewController {
     }
     
 }
-
-#Preview {
-    WeatherViewController()
-}
+//
+//#Preview {
+//    WeatherViewController()
+//}
