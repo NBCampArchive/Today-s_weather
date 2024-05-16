@@ -9,7 +9,7 @@ import UIKit
 import SnapKit
 import Then
 
-class DustTabViewController: UIViewController {
+class CustomTabControl: UIViewController {
     
     private var segmentControl: UISegmentedControl!
     private let containerView = UIView()
@@ -21,6 +21,10 @@ class DustTabViewController: UIViewController {
     let segmentBackgroundDivider = UIView().then {
         $0.backgroundColor = .black.withAlphaComponent(0.2)
     }
+    
+    let blurEffect = UIBlurEffect(style: .extraLight)
+    
+    let blurEffectView = UIVisualEffectView()
     
     private var currentViewController: UIViewController?
     private var viewControllers: [UIViewController]
@@ -64,15 +68,23 @@ class DustTabViewController: UIViewController {
         super.viewDidLoad()
         setupViews()
         displayCurrentTab(0)
+        blurEffectView.effect = blurEffect
     }
-    
+   
     private func setupViews() {
-        view.addSubview(segmentControl)
+        view.addSubview(blurEffectView)
+        blurEffectView.contentView.addSubview(segmentControl)
+        blurEffectView.contentView.addSubview(segmentDivider)
+        blurEffectView.contentView.addSubview(segmentBackgroundDivider)
         view.addSubview(containerView)
-        view.addSubview(segmentDivider)
-        view.addSubview(segmentBackgroundDivider)
         
         segmentControl.addTarget(self, action: #selector(segmentChanged(_:)), for: .valueChanged)
+        
+        blurEffectView.snp.makeConstraints {
+            $0.top.equalTo(view.safeAreaLayoutGuide)
+            $0.leading.trailing.equalToSuperview()
+            $0.height.equalTo(40) // 블러 영역의 높이를 지정합니다. 필요에 따라 조정할 수 있습니다.
+        }
         
         segmentControl.snp.makeConstraints {
             $0.top.equalTo(view.safeAreaLayoutGuide).offset(8)
@@ -94,7 +106,7 @@ class DustTabViewController: UIViewController {
         }
         
         containerView.snp.makeConstraints {
-            $0.top.equalTo(segmentControl.snp.bottom).offset(16)
+            $0.top.equalTo(segmentBackgroundDivider.snp.bottom)
             $0.leading.trailing.bottom.equalToSuperview()
         }
     }
