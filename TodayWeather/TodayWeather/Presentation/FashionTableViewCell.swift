@@ -13,6 +13,9 @@ class FashionTableViewCell: UITableViewCell {
     let tmpLabel = UILabel()
     let subLabel = UILabel()
     let fashionLabel = UILabel()
+    let tmpFont = UIFont(name: "BagelFatOne-Regular", size: 40)
+    let subFont = UIFont(name: "Gabarito-Medium", size: 14)
+    let fashionFont = UIFont(name: "Pretendard-Regular", size: 13)
     
    static let identifier = "FashionTableViewCell"
     
@@ -22,6 +25,11 @@ class FashionTableViewCell: UITableViewCell {
     }
     
     func configureUI() {
+        tmpLabel.font = tmpFont
+        subLabel.font = subFont
+        fashionLabel.font = fashionFont
+        boxView.layer.cornerRadius = 16
+        self.boxView.backgroundColor = .lightGray
         contentView.addSubview(boxView)
         boxView.addSubview(tmpLabel)
         boxView.addSubview(subLabel)
@@ -31,19 +39,20 @@ class FashionTableViewCell: UITableViewCell {
         
         boxView.snp.makeConstraints {
             $0.leading.trailing.equalToSuperview().inset(20)
-            $0.top.bottom.equalToSuperview().inset(20)
+            $0.top.equalToSuperview().offset(16)
+            $0.bottom.equalToSuperview()
         }
         tmpLabel.snp.makeConstraints {
-            $0.top.bottom.equalToSuperview().inset(16)
-            $0.leading.equalToSuperview().inset(20)
+            $0.top.equalToSuperview().offset(16)
+            $0.leading.equalToSuperview().offset(20)
         }
         subLabel.snp.makeConstraints {
-            $0.leading.equalToSuperview().inset(20)
-            $0.top.equalTo(tmpLabel.snp.bottom).offset(12)
+            $0.leading.equalToSuperview().offset(20)
+            $0.top.equalTo(tmpLabel.snp.bottom)
+            $0.bottom.equalToSuperview().inset(16)
         }
         fashionLabel.snp.makeConstraints {
             $0.centerY.equalToSuperview()
-            $0.top.bottom.equalToSuperview().inset(16)
             $0.trailing.equalToSuperview().inset(20)
         }
     }

@@ -10,27 +10,34 @@ import UIKit
 class FashionViewController: UIViewController {
     
     private let tableView = UITableView()
-    let font = UIFont(name: "Pretendard-Regular", size: 13)
+   
 
     override func viewDidLoad() {
         
         super.viewDidLoad()
         self.view.addSubview(tableView)
+        self.configureUI()
+        self.view.backgroundColor = .sunnyBackground
+        tableView.sectionIndexBackgroundColor = UIColor.sunnyBackground
+        tableView.dataSource = self
+        tableView.delegate = self
+        tableView.register(FashionTableViewCell.self, forCellReuseIdentifier: FashionTableViewCell.identifier)
+        
+    }
+    
+    func configureUI() {
         tableView.snp.makeConstraints {
             $0.top.equalToSuperview().inset(400)
             $0.leading.trailing.equalToSuperview().inset(20)
             $0.bottom.equalToSuperview().inset(80)
         }
-        tableView.dataSource = self
-        tableView.delegate = self
-        tableView.register(FashionTableViewCell.self, forCellReuseIdentifier: FashionTableViewCell.identifier)
         
     }
 
 }
 extension FashionViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 3
+        return 5
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
