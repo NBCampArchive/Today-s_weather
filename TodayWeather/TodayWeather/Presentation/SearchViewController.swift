@@ -22,8 +22,7 @@ class SearchViewController : UIViewController{
     }
     
     private var searchRecent : [String] = []
-    private var weather = [CurrentResponseModel]()
-    
+    private var selectWeather = [CurrentResponseModel]()
     var longitude: Double = 126.978 {
         didSet {
             callAPIs()
@@ -47,13 +46,10 @@ class SearchViewController : UIViewController{
     let visualEffectView = UIVisualEffectView(effect: UIBlurEffect(style: .light))
     
     // MARK: Life Cycle
-    override func viewWillAppear(_ animated: Bool) {
-        callAPIs()
-    }
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = #colorLiteral(red: 0.9882352941, green: 0.9607843137, blue: 0.9215686275, alpha: 1)
+        callAPIs()
         self.navigationItem.titleView = searchBar
         navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
         navigationController?.navigationBar.shadowImage = UIImage()
@@ -63,12 +59,13 @@ class SearchViewController : UIViewController{
         setupLayout()
         setupSearch()
     }
+    
     // MARK: - 금일 날씨 API 호출
     func callAPIs(){
         WeatherAPIManager.shared.getCurrentWeatherData(latitude: self.latitude, longitude: self.longitude) { result in
             switch result{
             case .success(let data):
-                self.weather.append(data)
+                self.selectWeather.append(data)
                 self.selectTableView.reloadData()
             case .failure(let error):
                 print("GetCurrentWeatherData Failure \(error)")
@@ -85,8 +82,8 @@ class SearchViewController : UIViewController{
         selectTableView.register(SelectedTableViewCell.self, forCellReuseIdentifier: SelectedTableViewCell.Identifier)
         
         view.addSubview(selectTableView)
-        
         searchTableView.separatorStyle = .none
+        selectTableView.separatorStyle = .none
         selectTableView.snp.makeConstraints {
             $0.top.equalTo(view.safeAreaLayoutGuide.snp.top)
             $0.leading.equalTo(view.safeAreaLayoutGuide.snp.leading)
@@ -126,8 +123,19 @@ class SearchViewController : UIViewController{
                 $0.height.equalTo(40)
             }
             if let clearButton = textfield.value(forKey: "clearButton") as? UIButton {
-                clearButton.setImage(UIImage(named: "largeX"), for: .normal)
-                clearButton.addTarget(self, action: #selector(clearView(_:)), for: .touchUpInside)
+                clearButton.isHidden = true
+                let customView = UIView(frame: CGRect(x: 0, y: 0, width: 40, height: 40))
+                        
+                        // Create the button and add it to the custom view
+                let customButton = UIButton(type: .custom)
+                customButton.frame = customView.bounds
+                customButton.setImage(UIImage(named: "largeX"), for: .normal)
+                customButton.addTarget(self, action: #selector(clearView(_:)), for: .touchUpInside)
+                customView.addSubview(customButton)
+                        
+                        // Set the custom view as the right view of the text field
+                textfield.rightView = customView
+                textfield.rightViewMode = .whileEditing
             }
             
             textfield.clipsToBounds = true
@@ -163,6 +171,7 @@ class SearchViewController : UIViewController{
             textfield.layer.cornerRadius = 16
             textfield.layer.maskedCorners = CACornerMask(arrayLiteral: .layerMinXMaxYCorner, .layerMaxXMaxYCorner, .layerMinXMinYCorner, .layerMaxXMinYCorner)
             border.frame = CGRect(x: -5, y: textfield.frame.size.height, width:  textfield.frame.size.width+10, height: textfield.frame.size.height)
+            
         }
     }
 }
@@ -216,6 +225,7 @@ extension SearchViewController : UISearchBarDelegate {
                guard let place = response?.mapItems[0] else { return }
                self?.latitude = Double(place.placemark.coordinate.latitude)
                self?.longitude = Double(place.placemark.coordinate.longitude)
+
            }
        }
 }
@@ -237,7 +247,7 @@ extension SearchViewController : UITableViewDelegate, UITableViewDataSource {
     // row 개수
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if tableView == selectTableView {
-            return weather.count
+            return selectWeather.count
         }else {
             if searchResults.isEmpty == true || section == 1{
                 return searchRecent.count
@@ -253,11 +263,13 @@ extension SearchViewController : UITableViewDelegate, UITableViewDataSource {
         if tableView == selectTableView {
             guard let cell = tableView.dequeueReusableCell(withIdentifier: SelectedTableViewCell.Identifier, for: indexPath) as? SelectedTableViewCell
                     else { return UITableViewCell() }
-            cell.tempLbl.text = String(Int(weather[indexPath.row].main.temp)) + "°C"
-            cell.locLbl.text = weather[indexPath.row].name
+            cell.selectionStyle = .none
+            cell.tempLbl.text = String(Int(selectWeather[indexPath.row].main.temp)) + "°C"
+            cell.locLbl.text = selectWeather[indexPath.row].name
+            print(selectWeather[indexPath.row])
+            cell.weatherImage.image = UIImage(named:"\(selectWeather[indexPath.row].weather[0].main)")
             return cell
         }else {
-            
             guard let cell = tableView.dequeueReusableCell(withIdentifier: SearchTableViewCell.Identifier, for: indexPath) as? SearchTableViewCell
                     else { return UITableViewCell() }
             cell.locLbl.attributedText = nil
@@ -304,7 +316,7 @@ extension SearchViewController : UITableViewDelegate, UITableViewDataSource {
     //셀 높이
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         if tableView == selectTableView {
-            return 99
+            return 115
         }else {
             return 26.5
         }
@@ -314,7 +326,7 @@ extension SearchViewController : UITableViewDelegate, UITableViewDataSource {
     //셀 선택
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if tableView == selectTableView {
-            
+            tableView.deselectRow(at: indexPath, animated: true)
         }else {
             if indexPath.section == 0 {
                 if searchResults.isEmpty == true {
@@ -371,6 +383,8 @@ extension SearchViewController : delDelegate{
     }
     
     @objc func clearView(_ sender: UIButton) {
+        searchEnd()
+        searchBar.text = ""
         visualEffectView.removeFromSuperview()
         searchTableView.removeFromSuperview()
         searchBar.resignFirstResponder()
