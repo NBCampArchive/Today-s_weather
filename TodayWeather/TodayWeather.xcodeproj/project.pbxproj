@@ -9,6 +9,17 @@
 /* Begin PBXBuildFile section */
 		5432F2422BF5186B00E6BAF9 /* FoodRecommendation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5432F2412BF5186B00E6BAF9 /* FoodRecommendation.swift */; };
 		5432F2442BF518CA00E6BAF9 /* FoodViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5432F2432BF518CA00E6BAF9 /* FoodViewController.swift */; };
+		856C9B662BF5FE8400D99A2F /* Gabarito-SemiBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 856C9B652BF5FE8400D99A2F /* Gabarito-SemiBold.ttf */; };
+		856C9B682BF5FEE300D99A2F /* Gabarito-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 856C9B672BF5FEE300D99A2F /* Gabarito-Regular.ttf */; };
+		856C9B6A2BF5FF0400D99A2F /* Gabarito-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 856C9B692BF5FF0400D99A2F /* Gabarito-Bold.ttf */; };
+		856C9B6C2BF5FF8900D99A2F /* BagelFatOne-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 856C9B6B2BF5FF8900D99A2F /* BagelFatOne-Regular.ttf */; };
+		856C9B6E2BF5FFA800D99A2F /* Pretendard-Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = 856C9B6D2BF5FFA800D99A2F /* Pretendard-Regular.otf */; };
+		856C9B702BF5FFBF00D99A2F /* Pretendard-SemiBold.otf in Resources */ = {isa = PBXBuildFile; fileRef = 856C9B6F2BF5FFBF00D99A2F /* Pretendard-SemiBold.otf */; };
+		856C9B722BF5FFF000D99A2F /* Gabarito-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 856C9B712BF5FFF000D99A2F /* Gabarito-Medium.ttf */; };
+		856C9B742BF6004400D99A2F /* Pretendard-Medium.otf in Resources */ = {isa = PBXBuildFile; fileRef = 856C9B732BF6004400D99A2F /* Pretendard-Medium.otf */; };
+		856C9B762BF6006E00D99A2F /* Pretendard-Bold.otf in Resources */ = {isa = PBXBuildFile; fileRef = 856C9B752BF6006E00D99A2F /* Pretendard-Bold.otf */; };
+		856C9B782BF6011300D99A2F /* GlacialIndifference-Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = 856C9B772BF6011300D99A2F /* GlacialIndifference-Regular.otf */; };
+		856C9B7A2BF6028E00D99A2F /* Fonts.swift in Sources */ = {isa = PBXBuildFile; fileRef = 856C9B792BF6028E00D99A2F /* Fonts.swift */; };
 		B54ABF162BF22B4F002E89DC /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B54ABF152BF22B4F002E89DC /* AppDelegate.swift */; };
 		B54ABF182BF22B4F002E89DC /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B54ABF172BF22B4F002E89DC /* SceneDelegate.swift */; };
 		B54ABF1A2BF22B4F002E89DC /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B54ABF192BF22B4F002E89DC /* ViewController.swift */; };
@@ -31,6 +42,17 @@
 /* Begin PBXFileReference section */
 		5432F2412BF5186B00E6BAF9 /* FoodRecommendation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FoodRecommendation.swift; sourceTree = "<group>"; };
 		5432F2432BF518CA00E6BAF9 /* FoodViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FoodViewController.swift; sourceTree = "<group>"; };
+		856C9B652BF5FE8400D99A2F /* Gabarito-SemiBold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Gabarito-SemiBold.ttf"; sourceTree = "<group>"; };
+		856C9B672BF5FEE300D99A2F /* Gabarito-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Gabarito-Regular.ttf"; sourceTree = "<group>"; };
+		856C9B692BF5FF0400D99A2F /* Gabarito-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Gabarito-Bold.ttf"; sourceTree = "<group>"; };
+		856C9B6B2BF5FF8900D99A2F /* BagelFatOne-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "BagelFatOne-Regular.ttf"; sourceTree = "<group>"; };
+		856C9B6D2BF5FFA800D99A2F /* Pretendard-Regular.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Pretendard-Regular.otf"; sourceTree = "<group>"; };
+		856C9B6F2BF5FFBF00D99A2F /* Pretendard-SemiBold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Pretendard-SemiBold.otf"; sourceTree = "<group>"; };
+		856C9B712BF5FFF000D99A2F /* Gabarito-Medium.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Gabarito-Medium.ttf"; sourceTree = "<group>"; };
+		856C9B732BF6004400D99A2F /* Pretendard-Medium.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Pretendard-Medium.otf"; sourceTree = "<group>"; };
+		856C9B752BF6006E00D99A2F /* Pretendard-Bold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Pretendard-Bold.otf"; sourceTree = "<group>"; };
+		856C9B772BF6011300D99A2F /* GlacialIndifference-Regular.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "GlacialIndifference-Regular.otf"; sourceTree = "<group>"; };
+		856C9B792BF6028E00D99A2F /* Fonts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Fonts.swift; sourceTree = "<group>"; };
 		B54ABF122BF22B4F002E89DC /* TodayWeather.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TodayWeather.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B54ABF152BF22B4F002E89DC /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		B54ABF172BF22B4F002E89DC /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -63,6 +85,23 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		856C9B642BF5FE1000D99A2F /* Fonts */ = {
+			isa = PBXGroup;
+			children = (
+				856C9B6B2BF5FF8900D99A2F /* BagelFatOne-Regular.ttf */,
+				856C9B692BF5FF0400D99A2F /* Gabarito-Bold.ttf */,
+				856C9B712BF5FFF000D99A2F /* Gabarito-Medium.ttf */,
+				856C9B672BF5FEE300D99A2F /* Gabarito-Regular.ttf */,
+				856C9B652BF5FE8400D99A2F /* Gabarito-SemiBold.ttf */,
+				856C9B772BF6011300D99A2F /* GlacialIndifference-Regular.otf */,
+				856C9B752BF6006E00D99A2F /* Pretendard-Bold.otf */,
+				856C9B732BF6004400D99A2F /* Pretendard-Medium.otf */,
+				856C9B6D2BF5FFA800D99A2F /* Pretendard-Regular.otf */,
+				856C9B6F2BF5FFBF00D99A2F /* Pretendard-SemiBold.otf */,
+			);
+			path = Fonts;
+			sourceTree = "<group>";
+		};
 		B54ABF092BF22B4F002E89DC = {
 			isa = PBXGroup;
 			children = (
@@ -94,11 +133,13 @@
 		B54ABF2C2BF22C30002E89DC /* Resource */ = {
 			isa = PBXGroup;
 			children = (
+				856C9B642BF5FE1000D99A2F /* Fonts */,
 				B54ABF262BF22B51002E89DC /* Info.plist */,
 				B54ABF212BF22B51002E89DC /* Assets.xcassets */,
 				B54ABF422BF303C8002E89DC /* TodayWeatherAPI.plist */,
 				B54ABF442BF304D6002E89DC /* TodayWeatherAPI++Bundle.swift */,
 				B54ABF512BF314B4002E89DC /* LocationManager.swift */,
+				856C9B792BF6028E00D99A2F /* Fonts.swift */,
 			);
 			path = Resource;
 			sourceTree = "<group>";
@@ -211,7 +252,17 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				856C9B762BF6006E00D99A2F /* Pretendard-Bold.otf in Resources */,
+				856C9B6C2BF5FF8900D99A2F /* BagelFatOne-Regular.ttf in Resources */,
+				856C9B742BF6004400D99A2F /* Pretendard-Medium.otf in Resources */,
+				856C9B6A2BF5FF0400D99A2F /* Gabarito-Bold.ttf in Resources */,
+				856C9B782BF6011300D99A2F /* GlacialIndifference-Regular.otf in Resources */,
+				856C9B682BF5FEE300D99A2F /* Gabarito-Regular.ttf in Resources */,
+				856C9B702BF5FFBF00D99A2F /* Pretendard-SemiBold.otf in Resources */,
+				856C9B662BF5FE8400D99A2F /* Gabarito-SemiBold.ttf in Resources */,
+				856C9B6E2BF5FFA800D99A2F /* Pretendard-Regular.otf in Resources */,
 				B54ABF222BF22B51002E89DC /* Assets.xcassets in Resources */,
+				856C9B722BF5FFF000D99A2F /* Gabarito-Medium.ttf in Resources */,
 				B54ABF432BF303C8002E89DC /* TodayWeatherAPI.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -236,6 +287,7 @@
 				B54ABF522BF314B4002E89DC /* LocationManager.swift in Sources */,
 				B54ABF412BF30223002E89DC /* WeatherAPIManager.swift in Sources */,
 				B54ABF182BF22B4F002E89DC /* SceneDelegate.swift in Sources */,
+				856C9B7A2BF6028E00D99A2F /* Fonts.swift in Sources */,
 				B54ABF322BF22D82002E89DC /* Model.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

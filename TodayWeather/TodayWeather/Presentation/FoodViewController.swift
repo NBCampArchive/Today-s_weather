@@ -1,12 +1,5 @@
-//
-//  FoodRecommendationViewController.swift
-//  TodayWeather
-//
-//  Created by Developer_P on 5/16/24.
-//
 import UIKit
 import Foundation
-import Then
 
 class FoodViewController: UIViewController {
     
@@ -14,42 +7,9 @@ class FoodViewController: UIViewController {
     
     private let tableView: UITableView = {
         let tableView = UITableView()
-        // tableView.register(FoodRecommendationCell.self, forCellReuseIdentifier: "FoodRecommendationCell")
+        tableView.translatesAutoresizingMaskIntoConstraints = false
         return tableView
     }()
-    
-    private let tabBarStackView: UIStackView = {
-        let stackView = UIStackView()
-        stackView.axis = .horizontal
-        stackView.distribution = .fillEqually
-        stackView.translatesAutoresizingMaskIntoConstraints = false
-        return stackView
-    }()
-    
-    private let menuButton: UIButton = {
-        let button = UIButton()
-        button.setTitle("Menu", for: .normal)
-        button.setTitleColor(.black, for: .normal)
-        button.addTarget(self, action: #selector(menuTapped), for: .touchUpInside)
-        return button
-    }()
-    
-    private let clothesButton: UIButton = {
-        let button = UIButton()
-        button.setTitle("Clothes", for: .normal)
-        button.setTitleColor(.gray, for: .normal)
-        button.addTarget(self, action: #selector(clothesTapped), for: .touchUpInside)
-        return button
-    }()
-    
-    private let selectedIndicator: UIView = {
-        let view = UIView()
-        view.backgroundColor = .black
-        view.translatesAutoresizingMaskIntoConstraints = false
-        return view
-    }()
-    
-    private var selectedIndicatorLeadingConstraint: NSLayoutConstraint!
     
     private let dateLabel: UILabel = {
         let label = UILabel()
@@ -82,13 +42,12 @@ class FoodViewController: UIViewController {
         return label
     }()
     
-    private let circleView: UIView = {
-        let view = UIView()
-        view.backgroundColor = UIColor(hex: "#E67A4A")
-        view.translatesAutoresizingMaskIntoConstraints = false
-        view.layer.cornerRadius = 140 // 280/2
-        view.clipsToBounds = true
-        return view
+    private let circleImageView: UIImageView = {
+        let imageView = UIImageView()
+        imageView.image = UIImage(named: "smallSunny") // Update with your asset name
+        imageView.translatesAutoresizingMaskIntoConstraints = false
+        imageView.contentMode = .scaleAspectFill
+        return imageView
     }()
     
     private let temperatureLabel: UILabel = {
@@ -112,7 +71,7 @@ class FoodViewController: UIViewController {
     private let suggestionsTitleLabel: UILabel = {
         let label = UILabel()
         label.text = "이런 음식은 어떠세요?"
-        label.font = UIFont.systemFont(ofSize: 17)
+        label.font = UIFont.systemFont(ofSize: 12)
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
@@ -130,7 +89,7 @@ class FoodViewController: UIViewController {
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
-    
+
     private let koreanMenuLabel: UILabel = {
         let label = UILabel()
         label.text = "비빔밥, 김치찌개, 불고기"
@@ -139,7 +98,14 @@ class FoodViewController: UIViewController {
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
-    
+
+    private let koreanSeparator: UIView = {
+        let view = UIView()
+        view.backgroundColor = .lightGray
+        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
+    }()
+
     private let westernFoodLabel: UILabel = {
         let label = UILabel()
         label.text = "양식"
@@ -147,7 +113,7 @@ class FoodViewController: UIViewController {
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
-    
+
     private let westernMenuLabel: UILabel = {
         let label = UILabel()
         label.text = "스테이크, 파스타, 피자"
@@ -156,7 +122,14 @@ class FoodViewController: UIViewController {
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
-    
+
+    private let westernSeparator: UIView = {
+        let view = UIView()
+        view.backgroundColor = .lightGray
+        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
+    }()
+
     private let chineseFoodLabel: UILabel = {
         let label = UILabel()
         label.text = "중식"
@@ -164,7 +137,7 @@ class FoodViewController: UIViewController {
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
-    
+
     private let chineseMenuLabel: UILabel = {
         let label = UILabel()
         label.text = "짜장면, 탕수육, 마라탕"
@@ -173,7 +146,14 @@ class FoodViewController: UIViewController {
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
-    
+
+    private let chineseSeparator: UIView = {
+        let view = UIView()
+        view.backgroundColor = .lightGray
+        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
+    }()
+
     private let japaneseFoodLabel: UILabel = {
         let label = UILabel()
         label.text = "일식"
@@ -181,7 +161,7 @@ class FoodViewController: UIViewController {
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
-    
+
     private let japaneseMenuLabel: UILabel = {
         let label = UILabel()
         label.text = "초밥, 라멘, 우동"
@@ -190,12 +170,18 @@ class FoodViewController: UIViewController {
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
+
+    private let japaneseSeparator: UIView = {
+        let view = UIView()
+        view.backgroundColor = .lightGray
+        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
+    }()
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .white // 기본 배경색 설정
+        view.backgroundColor = UIColor(named: "fewCloudyBackground") // Update with your asset name
         
-        setupTabBar()
         setupHeader()
         setupWeatherDescription()
         setupSuggestionsView()
@@ -203,43 +189,21 @@ class FoodViewController: UIViewController {
         fetchWeatherData()
     }
     
-    private func setupTabBar() {
-        view.addSubview(tabBarStackView)
-        
-        tabBarStackView.addArrangedSubview(menuButton)
-        tabBarStackView.addArrangedSubview(clothesButton)
-        
-        NSLayoutConstraint.activate([
-            tabBarStackView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
-            tabBarStackView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            tabBarStackView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            tabBarStackView.heightAnchor.constraint(equalToConstant: 50)
-        ])
-        
-        view.addSubview(selectedIndicator)
-        selectedIndicatorLeadingConstraint = selectedIndicator.leadingAnchor.constraint(equalTo: view.leadingAnchor)
-        
-        NSLayoutConstraint.activate([
-            selectedIndicator.bottomAnchor.constraint(equalTo: tabBarStackView.bottomAnchor),
-            selectedIndicator.heightAnchor.constraint(equalToConstant: 3),
-            selectedIndicatorLeadingConstraint,
-            selectedIndicator.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.5)
-        ])
-    }
+    
     
     private func setupHeader() {
         view.addSubview(dateLabel)
         view.addSubview(locationIcon)
         view.addSubview(cityLabel)
         view.addSubview(countryLabel)
-        view.addSubview(circleView)
+        view.addSubview(circleImageView)
         view.addSubview(temperatureLabel)
         
         NSLayoutConstraint.activate([
-            dateLabel.topAnchor.constraint(equalTo: tabBarStackView.bottomAnchor, constant: 25),
+            dateLabel.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 80), // 이전: 60
             dateLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
             
-            locationIcon.topAnchor.constraint(equalTo: dateLabel.bottomAnchor, constant: 10),
+            locationIcon.topAnchor.constraint(equalTo: dateLabel.bottomAnchor, constant: 30), // 이전: 20
             locationIcon.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
             locationIcon.widthAnchor.constraint(equalToConstant: 24),
             locationIcon.heightAnchor.constraint(equalToConstant: 24),
@@ -250,12 +214,12 @@ class FoodViewController: UIViewController {
             countryLabel.centerYAnchor.constraint(equalTo: cityLabel.centerYAnchor),
             countryLabel.leadingAnchor.constraint(equalTo: cityLabel.trailingAnchor, constant: 8),
             
-            circleView.centerYAnchor.constraint(equalTo: countryLabel.centerYAnchor),
-            circleView.leadingAnchor.constraint(equalTo: countryLabel.trailingAnchor, constant: 8),
-            circleView.widthAnchor.constraint(equalToConstant: 280),
-            circleView.heightAnchor.constraint(equalToConstant: 280),
+            circleImageView.centerYAnchor.constraint(equalTo: countryLabel.centerYAnchor),
+            circleImageView.leadingAnchor.constraint(equalTo: countryLabel.trailingAnchor, constant: 8),
+            circleImageView.widthAnchor.constraint(equalToConstant: 280),
+            circleImageView.heightAnchor.constraint(equalToConstant: 280),
             
-            temperatureLabel.topAnchor.constraint(equalTo: cityLabel.bottomAnchor, constant: 24),
+            temperatureLabel.topAnchor.constraint(equalTo: cityLabel.bottomAnchor, constant: 60), // 이전: 40
             temperatureLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16)
         ])
     }
@@ -264,7 +228,7 @@ class FoodViewController: UIViewController {
         view.addSubview(weatherDescriptionLabel)
         
         NSLayoutConstraint.activate([
-            weatherDescriptionLabel.topAnchor.constraint(equalTo: temperatureLabel.bottomAnchor, constant: 40),
+            weatherDescriptionLabel.topAnchor.constraint(equalTo: temperatureLabel.bottomAnchor, constant: 100), // Adjusted down
             weatherDescriptionLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
             weatherDescriptionLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16)
         ])
@@ -276,18 +240,22 @@ class FoodViewController: UIViewController {
         
         suggestionsView.addSubview(koreanFoodLabel)
         suggestionsView.addSubview(koreanMenuLabel)
+        suggestionsView.addSubview(koreanSeparator)
         suggestionsView.addSubview(westernFoodLabel)
         suggestionsView.addSubview(westernMenuLabel)
+        suggestionsView.addSubview(westernSeparator)
         suggestionsView.addSubview(chineseFoodLabel)
         suggestionsView.addSubview(chineseMenuLabel)
+        suggestionsView.addSubview(chineseSeparator)
         suggestionsView.addSubview(japaneseFoodLabel)
         suggestionsView.addSubview(japaneseMenuLabel)
+        suggestionsView.addSubview(japaneseSeparator)
         
         NSLayoutConstraint.activate([
-            suggestionsTitleLabel.topAnchor.constraint(equalTo: weatherDescriptionLabel.bottomAnchor, constant: 40),
+            suggestionsTitleLabel.topAnchor.constraint(equalTo: weatherDescriptionLabel.bottomAnchor, constant: 40), // Adjusted down
             suggestionsTitleLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
             
-            suggestionsView.topAnchor.constraint(equalTo: suggestionsTitleLabel.bottomAnchor, constant: 10),
+            suggestionsView.topAnchor.constraint(equalTo: suggestionsTitleLabel.bottomAnchor, constant: 20),
             suggestionsView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
             suggestionsView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
             
@@ -295,74 +263,58 @@ class FoodViewController: UIViewController {
             koreanFoodLabel.leadingAnchor.constraint(equalTo: suggestionsView.leadingAnchor),
             
             koreanMenuLabel.centerYAnchor.constraint(equalTo: koreanFoodLabel.centerYAnchor),
-            koreanMenuLabel.leadingAnchor.constraint(equalTo: koreanFoodLabel.trailingAnchor, constant: 8),
+            koreanMenuLabel.trailingAnchor.constraint(equalTo: suggestionsView.trailingAnchor, constant: -16), // 오른쪽 배치
             
-            westernFoodLabel.topAnchor.constraint(equalTo: koreanFoodLabel.bottomAnchor, constant: 10),
+            koreanSeparator.topAnchor.constraint(equalTo: koreanFoodLabel.bottomAnchor, constant: 8),
+            koreanSeparator.leadingAnchor.constraint(equalTo: suggestionsView.leadingAnchor),
+            koreanSeparator.trailingAnchor.constraint(equalTo: suggestionsView.trailingAnchor),
+            koreanSeparator.heightAnchor.constraint(equalToConstant: 1),
+            
+            westernFoodLabel.topAnchor.constraint(equalTo: koreanSeparator.bottomAnchor, constant: 20),
             westernFoodLabel.leadingAnchor.constraint(equalTo: suggestionsView.leadingAnchor),
             
             westernMenuLabel.centerYAnchor.constraint(equalTo: westernFoodLabel.centerYAnchor),
-            westernMenuLabel.leadingAnchor.constraint(equalTo: westernFoodLabel.trailingAnchor, constant: 8),
+            westernMenuLabel.trailingAnchor.constraint(equalTo: suggestionsView.trailingAnchor, constant: -16), // 오른쪽 배치
             
-            chineseFoodLabel.topAnchor.constraint(equalTo: westernFoodLabel.bottomAnchor, constant: 10),
+            westernSeparator.topAnchor.constraint(equalTo: westernFoodLabel.bottomAnchor, constant: 8),
+            westernSeparator.leadingAnchor.constraint(equalTo: suggestionsView.leadingAnchor),
+            westernSeparator.trailingAnchor.constraint(equalTo: suggestionsView.trailingAnchor),
+            westernSeparator.heightAnchor.constraint(equalToConstant: 1),
+            
+            chineseFoodLabel.topAnchor.constraint(equalTo: westernSeparator.bottomAnchor, constant: 20),
             chineseFoodLabel.leadingAnchor.constraint(equalTo: suggestionsView.leadingAnchor),
             
             chineseMenuLabel.centerYAnchor.constraint(equalTo: chineseFoodLabel.centerYAnchor),
-            chineseMenuLabel.leadingAnchor.constraint(equalTo: chineseFoodLabel.trailingAnchor, constant: 8),
+            chineseMenuLabel.trailingAnchor.constraint(equalTo: suggestionsView.trailingAnchor, constant: -16), // 오른쪽 배치
             
-            japaneseFoodLabel.topAnchor.constraint(equalTo: chineseFoodLabel.bottomAnchor, constant: 10),
+            chineseSeparator.topAnchor.constraint(equalTo: chineseFoodLabel.bottomAnchor, constant: 8),
+            chineseSeparator.leadingAnchor.constraint(equalTo: suggestionsView.leadingAnchor),
+            chineseSeparator.trailingAnchor.constraint(equalTo: suggestionsView.trailingAnchor),
+            chineseSeparator.heightAnchor.constraint(equalToConstant: 1),
+            
+            japaneseFoodLabel.topAnchor.constraint(equalTo: chineseSeparator.bottomAnchor, constant: 20),
             japaneseFoodLabel.leadingAnchor.constraint(equalTo: suggestionsView.leadingAnchor),
             
             japaneseMenuLabel.centerYAnchor.constraint(equalTo: japaneseFoodLabel.centerYAnchor),
-            japaneseMenuLabel.leadingAnchor.constraint(equalTo: japaneseFoodLabel.trailingAnchor, constant: 8),
-            japaneseMenuLabel.bottomAnchor.constraint(equalTo: suggestionsView.bottomAnchor)
+            japaneseMenuLabel.trailingAnchor.constraint(equalTo: suggestionsView.trailingAnchor, constant: -16), // 오른쪽 배치
+            
+            japaneseSeparator.topAnchor.constraint(equalTo: japaneseFoodLabel.bottomAnchor, constant: 8),
+            japaneseSeparator.leadingAnchor.constraint(equalTo: suggestionsView.leadingAnchor),
+            japaneseSeparator.trailingAnchor.constraint(equalTo: suggestionsView.trailingAnchor),
+            japaneseSeparator.heightAnchor.constraint(equalToConstant: 1),
+            japaneseSeparator.bottomAnchor.constraint(equalTo: suggestionsView.bottomAnchor)
         ])
     }
     
     private func setupContentView() {
         view.addSubview(tableView)
         
-        tableView.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
-            tableView.topAnchor.constraint(equalTo: suggestionsView.bottomAnchor, constant: 20),
+            tableView.topAnchor.constraint(equalTo: suggestionsView.bottomAnchor, constant: 60), // Adjusted down
             tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
         ])
-    }
-    
-    @objc private func menuTapped() {
-        menuButton.setTitleColor(.black, for: .normal)
-        clothesButton.setTitleColor(.gray, for: .normal)
-        selectedIndicatorLeadingConstraint.constant = 0
-        UIView.animate(withDuration: 0.3) {
-            self.view.layoutIfNeeded()
-        }
-        
-        // Menu 뷰를 로드
-        loadMenuView()
-    }
-    
-    @objc private func clothesTapped() {
-        menuButton.setTitleColor(.gray, for: .normal)
-        clothesButton.setTitleColor(.black, for: .normal)
-        selectedIndicatorLeadingConstraint.constant = view.frame.width / 2
-        UIView.animate(withDuration: 0.3) {
-            self.view.layoutIfNeeded()
-        }
-        
-        // Clothes 뷰를 로드
-        loadClothesView()
-    }
-    
-    private func loadMenuView() {
-        // 메뉴 관련 데이터를 로드하고 테이블 뷰를 업데이트하는 코드를 작성합니다.
-        fetchFoodRecommendations()
-    }
-    
-    private func loadClothesView() {
-        // 옷 관련 데이터를 로드하고 테이블 뷰를 업데이트하는 코드를 작성합니다.
-        // 예시: 옷 추천 데이터를 로드하는 함수 호출
-        // fetchClothesRecommendations()
     }
     
     private func fetchWeatherData() {
@@ -376,15 +328,15 @@ class FoodViewController: UIViewController {
     private func updateBackgroundColor(for weather: String) {
         switch weather {
         case "sunny":
-            view.backgroundColor = .yellow
+            view.backgroundColor = UIColor(named: "sunnyBackground")
         case "rainy":
-            view.backgroundColor = .gray
+            view.backgroundColor = UIColor(named: "rainyBackground")
         case "cloudy":
-            view.backgroundColor = .lightGray
+            view.backgroundColor = UIColor(named: "fewCloudyBackground")
         case "snowy":
-            view.backgroundColor = .white
+            view.backgroundColor = UIColor(named: "snowyBackground")
         default:
-            view.backgroundColor = .white
+            view.backgroundColor = UIColor(named: "defaultBackground")
         }
     }
     
@@ -418,4 +370,3 @@ extension UIColor {
         )
     }
 }
-

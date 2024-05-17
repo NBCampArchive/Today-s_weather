@@ -27,8 +27,19 @@ class ViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view.
-        view.backgroundColor = .black
+        
+        // MARK: - Color 사용 예시(Assets에서 색 이름 확인)
+        view.backgroundColor = UIColor(named: "sunnyBackground")
+        
+        // MARK: - Font 사용 예시(Fonts.swift 파일 확인)
+        let label = UILabel()
+        label.font = Gabarito.bold.of(size: 30)
+        label.text = "파이팅!"
+        
+        view.addSubview(label)
+        label.snp.makeConstraints { make in
+            make.centerX.centerY.equalToSuperview()
+        }
         // MARK: - 위치정보 권한 요청
         LocationManager.shared.requestLocation { location in
             guard let location = location else { return }
