@@ -19,7 +19,7 @@ class WeatherViewController: UIViewController {
     
     var latitude: Double = 0 {
         didSet {
-            callAPIs()
+          //  callAPIs()
         }
     }
     
@@ -132,6 +132,9 @@ class WeatherViewController: UIViewController {
             switch result {
                 case .success(let data):
                     self.weatherData = data
+                    DispatchQueue.main.async {
+                        self.updateUI(with: data)
+                    }
                     print("GetCurrentWeatherData Success : \(data)")
                 case .failure(let error):
                     print("GetCurrentWeatherData Failure \(error)")
@@ -140,7 +143,7 @@ class WeatherViewController: UIViewController {
     }
     // MARK: - UI 관련 함수
     private func configureUI() {
-        view.backgroundColor = .sunnyBackground
+        view.backgroundColor = .rainyBackground
         
         view.addSubview(scrollView)
         scrollView.addSubview(contentsView)
@@ -238,5 +241,31 @@ class WeatherViewController: UIViewController {
         }
         
         return current.localizedString(forRegionCode: countryCode)
+    }
+    
+    func updateUI(with weather: CurrentResponseModel) {
+        guard let weatherCondition = weather.weather.first else { return }
+        let weatherState = WeatherModel(id: weatherCondition.id)
+        
+        // Update weather label
+        // weatherStateLabel.text = weatherCondition.main.capitalized
+        
+        // Update weather image
+        
+        
+        // Update background color and layout based on weather ID
+        switch weatherState {
+            case .sunny:
+                self.view.backgroundColor = .sunnyBackground
+                //remakeConstraintsForClearSky()
+            case .rainy:
+                self.view.backgroundColor = .rainyBackground
+                //remakeConstraintsForRain()
+            case .cloudy:
+                self.view.backgroundColor = .cloudyBackground
+                //remakeConstraintsForCloudy()
+            case .fewCloudy:
+                self.view.backgroundColor = .fewCloudytext
+        }
     }
 }
