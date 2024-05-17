@@ -8,21 +8,26 @@
 import UIKit
 import Then
 import SnapKit
+protocol delDelegate {
+    func delDelegate(row: Int)
+}
 
 class SearchTableViewCell: UITableViewCell {
     static let Identifier = "SearchTableViewCell"
-    
+    var delegate : delDelegate?
+    var delRow = 0
     let locLbl = UILabel().then {
-        $0.font = UIFont.systemFont(ofSize: 11)
+        $0.font = Pretendard.medium.of(size: 11)
         $0.textColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 0.4030680877)
     }
     
     let cancelBtn = UIButton().then {
-        $0.setImage(UIImage(systemName: "cancel"), for: .normal)
+        $0.setImage(UIImage(named: "smallX"), for: .normal)
     }
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
+        self.cancelBtn.addTarget(self, action: #selector(setBtnTap(_:)), for: .touchUpInside)
         setupLayout()
         
     }
@@ -33,17 +38,23 @@ class SearchTableViewCell: UITableViewCell {
     
     func setupLayout() {
         addSubview(locLbl)
-        addSubview(cancelBtn)
+        contentView.addSubview(cancelBtn)
         
         locLbl.snp.makeConstraints {
             $0.top.bottom.equalToSuperview()
             $0.leading.equalToSuperview().offset(32)
-            $0.trailing.equalToSuperview().offset(32)
+            $0.trailing.equalToSuperview().offset(-32)
         }
         
         cancelBtn.snp.makeConstraints {
             $0.top.bottom.equalToSuperview()
             $0.leading.equalTo(locLbl.snp.trailing).offset(8)
+        }
+    }
+    
+    @objc func setBtnTap(_ sender: UIButton) {
+        if let delegate = delegate {
+            delegate.delDelegate(row: delRow)
         }
     }
 }
@@ -56,7 +67,7 @@ extension UILabel {
 
         let attributedText = NSMutableAttributedString(string: self.text ?? "")
         attributedText.addAttribute(.foregroundColor, value: UIColor.black, range: range)
-        attributedText.addAttribute(.font, value: UIFont.boldSystemFont(ofSize: 11), range: range)
+        attributedText.addAttribute(.font, value: Pretendard.bold.of(size: 11), range: range)
         self.attributedText = attributedText
     }
 }
