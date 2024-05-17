@@ -76,6 +76,7 @@ class WeatherViewController: UIViewController {
     private let weatherStateLabel = UILabel().then {
         $0.font = BagelFatOne.regular.of(size: 96)
         $0.text = "Sunny"
+        $0.textColor = .sunnyText
         $0.transform = CGAffineTransform(rotationAngle: .pi / 2)
     }
     
@@ -139,7 +140,7 @@ class WeatherViewController: UIViewController {
     }
     // MARK: - UI 관련 함수
     private func configureUI() {
-        view.backgroundColor = .white
+        view.backgroundColor = .sunnyBackground
         
         view.addSubview(scrollView)
         scrollView.addSubview(contentsView)
@@ -205,12 +206,12 @@ class WeatherViewController: UIViewController {
         }
         
         currentTemperatureLabel.snp.makeConstraints {
-            $0.leading.equalToSuperview().inset(20)
-            $0.bottom.equalTo(self.view.safeAreaLayoutGuide).inset(180)
+            $0.leading.equalToSuperview().inset(44)
+            $0.bottom.equalTo(self.view.safeAreaLayoutGuide).inset(194)
         }
         
         maxMinTempStackView.snp.makeConstraints {
-            $0.bottom.equalTo(self.view.safeAreaLayoutGuide).inset(133)
+            $0.bottom.equalTo(self.view.safeAreaLayoutGuide).inset(130)
             $0.trailing.equalToSuperview().inset(24)
         }
     }
