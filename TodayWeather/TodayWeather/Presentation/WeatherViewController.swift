@@ -35,43 +35,74 @@ class WeatherViewController: UIViewController {
     
     private let contentsView = UIView()
     
-    private let verticalStackView = UIStackView().then {
+    // 날짜와 위치 정보
+    private let weatherAndLocationStackView = UIStackView().then {
         $0.axis = .vertical
         $0.spacing = 4
     }
     
-    private let horizontalStackView = UIStackView().then {
+    // 위치 정보(locationMark + 위치 레이블)
+    private let locationStackView = UIStackView().then {
         $0.axis = .horizontal
         $0.spacing = 4
     }
     
+    private let locationLabelStackView = UIStackView().then {
+        $0.axis = .horizontal
+        $0.spacing = 4
+        $0.alignment = .firstBaseline
+    }
+    
     private lazy var dateLable = UILabel().then {
-        $0.font = .systemFont(ofSize: 17, weight: .bold)
+        $0.font = Gabarito.bold.of(size: 17)
         $0.text = configureDate()
     }
     
     private let locationMarkImage = UIImageView().then {
         $0.contentMode = .scaleAspectFit
-        $0.image = UIImage(systemName: "star")
+        $0.image = UIImage(named: "locationMark")
     }
     
     private let cityLabel = UILabel().then {
-        $0.font = .systemFont(ofSize: 32, weight: .bold)
+        $0.font = Gabarito.bold.of(size: 32)
+        $0.text = "Seoul"
     }
     
     private let countryLabel = UILabel().then {
-        $0.font = .systemFont(ofSize: 15, weight: .bold)
+        $0.font = Gabarito.bold.of(size: 15)
+        $0.text = "Korea"
     }
     
     private let weatherStateLabel = UILabel().then {
-        $0.font = .systemFont(ofSize: 96)
+        $0.font = BagelFatOne.regular.of(size: 96)
         $0.text = "Sunny"
         $0.transform = CGAffineTransform(rotationAngle: .pi / 2)
     }
     
     private lazy var weatherImage = UIImageView().then {
         $0.contentMode = .scaleAspectFit
-        $0.image = UIImage(systemName: "star")
+        $0.image = UIImage(named: "sunny")
+    }
+    
+    private let currentTemperatureLabel = UILabel().then {
+        $0.font = BagelFatOne.regular.of(size: 96)
+        $0.text = "20°"
+    }
+    
+    private let maximumTemperatureLabel = UILabel().then {
+        $0.font = BagelFatOne.regular.of(size: 42)
+        $0.text = "22°"
+        $0.textColor = .black30
+    }
+    
+    private let minimumTemperatureLabel = GradientLabel().then {
+        $0.font = BagelFatOne.regular.of(size: 42)
+        $0.text = "22°"
+    }
+    
+    private let maxMinTempStackView = UIStackView().then {
+        $0.axis = .vertical
+        $0.spacing = 2
     }
     
     // MARK: - View Life Cycle
@@ -113,21 +144,33 @@ class WeatherViewController: UIViewController {
         view.addSubview(scrollView)
         scrollView.addSubview(contentsView)
         
-        [verticalStackView,
+        [weatherAndLocationStackView,
+         weatherImage,
          weatherStateLabel,
-         weatherImage].forEach {
+         currentTemperatureLabel,
+         maxMinTempStackView
+         ].forEach {
             contentsView.addSubview($0)
         }
         
         [dateLable,
-         horizontalStackView].forEach {
-            verticalStackView.addArrangedSubview($0)
+         locationStackView].forEach {
+            weatherAndLocationStackView.addArrangedSubview($0)
         }
         
         [locationMarkImage,
-         cityLabel,
+         locationLabelStackView].forEach {
+            locationStackView.addArrangedSubview($0)
+        }
+        
+        [cityLabel,
          countryLabel].forEach {
-            horizontalStackView.addArrangedSubview($0)
+            locationLabelStackView.addArrangedSubview($0)
+        }
+        
+        [maximumTemperatureLabel, 
+         minimumTemperatureLabel].forEach {
+            maxMinTempStackView.addArrangedSubview($0)
         }
         
     }
@@ -145,20 +188,30 @@ class WeatherViewController: UIViewController {
             $0.width.equalTo(self.scrollView.frameLayoutGuide)
         }
         
-        verticalStackView.snp.makeConstraints {
+        weatherAndLocationStackView.snp.makeConstraints {
             $0.top.equalToSuperview().inset(54)
             $0.leading.equalToSuperview().inset(20)
         }
         
         weatherStateLabel.snp.makeConstraints {
             $0.top.equalTo(contentsView.snp.top).inset(124)
-            $0.trailing.equalToSuperview().inset(-50)
+            $0.trailing.equalToSuperview().inset(-80)
         }
         
         weatherImage.snp.makeConstraints {
-            $0.top.equalTo(verticalStackView.snp.bottom).inset(-120)
-            $0.leading.equalToSuperview().inset(20)
+            $0.top.equalTo(weatherAndLocationStackView.snp.bottom).inset(-120)
+            $0.leading.equalToSuperview().inset(24)
             $0.width.height.equalTo(262)
+        }
+        
+        currentTemperatureLabel.snp.makeConstraints {
+            $0.leading.equalToSuperview().inset(20)
+            $0.bottom.equalTo(self.view.safeAreaLayoutGuide).inset(180)
+        }
+        
+        maxMinTempStackView.snp.makeConstraints {
+            $0.bottom.equalTo(self.view.safeAreaLayoutGuide).inset(133)
+            $0.trailing.equalToSuperview().inset(24)
         }
     }
     
@@ -182,11 +235,7 @@ class WeatherViewController: UIViewController {
         if countryCode == "KR" {
             return "Korea"
         }
+        
         return current.localizedString(forRegionCode: countryCode)
     }
-    
 }
-//
-//#Preview {
-//    WeatherViewController()
-//}

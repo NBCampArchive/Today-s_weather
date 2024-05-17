@@ -19,6 +19,8 @@
 		856C9B762BF6006E00D99A2F /* Pretendard-Bold.otf in Resources */ = {isa = PBXBuildFile; fileRef = 856C9B752BF6006E00D99A2F /* Pretendard-Bold.otf */; };
 		856C9B782BF6011300D99A2F /* GlacialIndifference-Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = 856C9B772BF6011300D99A2F /* GlacialIndifference-Regular.otf */; };
 		856C9B7A2BF6028E00D99A2F /* Fonts.swift in Sources */ = {isa = PBXBuildFile; fileRef = 856C9B792BF6028E00D99A2F /* Fonts.swift */; };
+		856C9B7C2BF6F45000D99A2F /* GradientLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 856C9B7B2BF6F45000D99A2F /* GradientLabel.swift */; };
+		856C9B7E2BF6F4A800D99A2F /* UIViewExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 856C9B7D2BF6F4A800D99A2F /* UIViewExtension.swift */; };
 		B54ABF162BF22B4F002E89DC /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B54ABF152BF22B4F002E89DC /* AppDelegate.swift */; };
 		B54ABF182BF22B4F002E89DC /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B54ABF172BF22B4F002E89DC /* SceneDelegate.swift */; };
 		B54ABF1A2BF22B4F002E89DC /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B54ABF192BF22B4F002E89DC /* ViewController.swift */; };
@@ -52,6 +54,8 @@
 		856C9B752BF6006E00D99A2F /* Pretendard-Bold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Pretendard-Bold.otf"; sourceTree = "<group>"; };
 		856C9B772BF6011300D99A2F /* GlacialIndifference-Regular.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "GlacialIndifference-Regular.otf"; sourceTree = "<group>"; };
 		856C9B792BF6028E00D99A2F /* Fonts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Fonts.swift; sourceTree = "<group>"; };
+		856C9B7B2BF6F45000D99A2F /* GradientLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GradientLabel.swift; sourceTree = "<group>"; };
+		856C9B7D2BF6F4A800D99A2F /* UIViewExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIViewExtension.swift; sourceTree = "<group>"; };
 		B54ABF122BF22B4F002E89DC /* TodayWeather.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TodayWeather.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B54ABF152BF22B4F002E89DC /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		B54ABF172BF22B4F002E89DC /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -140,6 +144,8 @@
 				B54ABF442BF304D6002E89DC /* TodayWeatherAPI++Bundle.swift */,
 				B54ABF512BF314B4002E89DC /* LocationManager.swift */,
 				856C9B792BF6028E00D99A2F /* Fonts.swift */,
+				856C9B7B2BF6F45000D99A2F /* GradientLabel.swift */,
+				856C9B7D2BF6F4A800D99A2F /* UIViewExtension.swift */,
 			);
 			path = Resource;
 			sourceTree = "<group>";
@@ -275,10 +281,12 @@
 			buildActionMask = 2147483647;
 			files = (
 				B54ABF472BF30645002E89DC /* CurrentResponseModel.swift in Sources */,
+				856C9B7C2BF6F45000D99A2F /* GradientLabel.swift in Sources */,
 				B54ABF342BF22D9A002E89DC /* Network.swift in Sources */,
 				B54ABF1A2BF22B4F002E89DC /* ViewController.swift in Sources */,
 				B54ABF492BF307B8002E89DC /* ForecastResponseModel.swift in Sources */,
 				856C9B632BF5035800D99A2F /* WeatherViewController.swift in Sources */,
+				856C9B7E2BF6F4A800D99A2F /* UIViewExtension.swift in Sources */,
 				B54ABF4D2BF30CE9002E89DC /* DustResponseModel.swift in Sources */,
 				B54ABF162BF22B4F002E89DC /* AppDelegate.swift in Sources */,
 				B54ABF452BF304D6002E89DC /* TodayWeatherAPI++Bundle.swift in Sources */,
