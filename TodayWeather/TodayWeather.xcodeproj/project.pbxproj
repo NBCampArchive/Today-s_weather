@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		2B3EB4022BF625010077E4FD /* FashionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B3EB4012BF625010077E4FD /* FashionViewController.swift */; };
+		2B3EB4042BF6250B0077E4FD /* FashionTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B3EB4032BF6250B0077E4FD /* FashionTableViewCell.swift */; };
 		856C9B662BF5FE8400D99A2F /* Gabarito-SemiBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 856C9B652BF5FE8400D99A2F /* Gabarito-SemiBold.ttf */; };
 		856C9B682BF5FEE300D99A2F /* Gabarito-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 856C9B672BF5FEE300D99A2F /* Gabarito-Regular.ttf */; };
 		856C9B6A2BF5FF0400D99A2F /* Gabarito-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 856C9B692BF5FF0400D99A2F /* Gabarito-Bold.ttf */; };
@@ -39,6 +41,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		2B3EB4012BF625010077E4FD /* FashionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FashionViewController.swift; sourceTree = "<group>"; };
+		2B3EB4032BF6250B0077E4FD /* FashionTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FashionTableViewCell.swift; sourceTree = "<group>"; };
 		856C9B652BF5FE8400D99A2F /* Gabarito-SemiBold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Gabarito-SemiBold.ttf"; sourceTree = "<group>"; };
 		856C9B672BF5FEE300D99A2F /* Gabarito-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Gabarito-Regular.ttf"; sourceTree = "<group>"; };
 		856C9B692BF5FF0400D99A2F /* Gabarito-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Gabarito-Bold.ttf"; sourceTree = "<group>"; };
@@ -155,6 +159,8 @@
 			isa = PBXGroup;
 			children = (
 				B54ABF192BF22B4F002E89DC /* ViewController.swift */,
+				2B3EB4012BF625010077E4FD /* FashionViewController.swift */,
+				2B3EB4032BF6250B0077E4FD /* FashionTableViewCell.swift */,
 			);
 			path = Presentation;
 			sourceTree = "<group>";
@@ -283,7 +289,9 @@
 				B54ABF412BF30223002E89DC /* WeatherAPIManager.swift in Sources */,
 				B54ABF182BF22B4F002E89DC /* SceneDelegate.swift in Sources */,
 				856C9B7A2BF6028E00D99A2F /* Fonts.swift in Sources */,
+				2B3EB4042BF6250B0077E4FD /* FashionTableViewCell.swift in Sources */,
 				B54ABF322BF22D82002E89DC /* Model.swift in Sources */,
+				2B3EB4022BF625010077E4FD /* FashionViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
