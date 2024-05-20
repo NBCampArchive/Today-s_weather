@@ -9,8 +9,10 @@ import UIKit
 import SnapKit
 import Then
 import MapKit
+import CoreLocation
 
 class SearchViewController : UIViewController{
+    private let searchView = SearchView()
     
     private var searchCompleter = MKLocalSearchCompleter()
     private var searchResults = [MKLocalSearchCompletion]()
@@ -23,42 +25,36 @@ class SearchViewController : UIViewController{
     
     private var searchRecent : [String] = []
     private var selectWeather = [CurrentResponseModel]()
-    var longitude: Double = 126.978 {
-        didSet {
-            callAPIs()
-        }
-    }
+    var longitude: Double = 126.978
     
     var latitude: Double = 37.5665
+    var localtitle : [String] = ["Seoul"]
     
-    let searchBar = UISearchBar()
-    let border = CALayer()
-    let width = CGFloat(2.0)
-    let selectTableView = UITableView().then {
-        $0.backgroundColor = .clear
-        $0.tintColor = .clear
-    }
-    
-    let searchTableView = UITableView().then {
-        $0.backgroundColor = .clear
-    }
-    
-    let visualEffectView = UIVisualEffectView(effect: UIBlurEffect(style: .light))
     
     // MARK: Life Cycle
+    override func loadView() {
+        view = searchView
+    }
     override func viewWillAppear(_ animated: Bool) {
         callAPIs()
     }
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.navigationItem.titleView = searchBar
+        self.navigationItem.titleView = searchView.searchBar
         navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
         navigationController?.navigationBar.shadowImage = UIImage()
         navigationController?.navigationBar.isTranslucent = true
         self.navigationItem.hidesSearchBarWhenScrolling = false
+        searchView.selectTableView.delegate = self
+        searchView.selectTableView.dataSource = self
+        searchView.searchTableView.delegate = self
+        searchView.searchTableView.dataSource = self
+        searchView.searchBar.delegate = self
+        searchView.searchTableView.register(SearchTableViewCell.self, forCellReuseIdentifier: SearchTableViewCell.Identifier)
+        searchView.selectTableView.register(SelectedTableViewCell.self, forCellReuseIdentifier: SelectedTableViewCell.Identifier)
         setupSearchCompleter()
-        setupLayout()
-        setupSearch()
+        searchView.setupSearch()
+        
     }
     
     // MARK: - 금일 날씨 API 호출, view background 설정
@@ -69,112 +65,10 @@ class SearchViewController : UIViewController{
                 self?.selectWeather.append(data)
                 CurrentWeather.weather = "rain"
                 self?.view.backgroundColor = CurrentWeather.shared.weatherColor()
-                self?.selectTableView.insertRows(at: [IndexPath(row: (self?.selectWeather.count ?? 0) - 1, section: 0)], with: .automatic)
+                self?.searchView.selectTableView.insertRows(at: [IndexPath(row: (self?.selectWeather.count ?? 0) - 1, section: 0)], with: .automatic)
             case .failure(let error):
                 print("GetCurrentWeatherData Failure \(error)")
             }
-        }
-    }
-    // MARK: Layout
-    func setupLayout() {
-        selectTableView.delegate = self
-        selectTableView.dataSource = self
-        searchTableView.delegate = self
-        searchTableView.dataSource = self
-        searchTableView.register(SearchTableViewCell.self, forCellReuseIdentifier: SearchTableViewCell.Identifier)
-        selectTableView.register(SelectedTableViewCell.self, forCellReuseIdentifier: SelectedTableViewCell.Identifier)
-        
-        view.addSubview(selectTableView)
-        searchTableView.separatorStyle = .none
-        selectTableView.separatorStyle = .none
-        selectTableView.snp.makeConstraints {
-            $0.top.equalTo(view.safeAreaLayoutGuide.snp.top)
-            $0.leading.equalTo(view.safeAreaLayoutGuide.snp.leading)
-            $0.trailing.equalTo(view.safeAreaLayoutGuide.snp.trailing).inset(20)
-            $0.bottom.equalTo(view.safeAreaLayoutGuide.snp.bottom)
-        }
-    }
-    
-    //searchbar 클릭시 layout
-    func searchLayout() {
-        visualEffectView.frame = view.frame
-        view.addSubview(visualEffectView)
-        view.addSubview(searchTableView)
-        searchTableView.contentInset = .zero
-        searchTableView.contentInsetAdjustmentBehavior = .never
-        searchBar.layer.cornerRadius = 0 // 모서리를 직각으로 만듭니다.
-        searchBar.layer.masksToBounds = true
-        searchTableView.snp.makeConstraints {
-            $0.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(-12)
-            $0.leading.equalTo(view.safeAreaLayoutGuide.snp.leading).offset(20)
-            $0.trailing.equalTo(view.safeAreaLayoutGuide.snp.trailing).offset(-20)
-            $0.bottom.equalTo(view.safeAreaLayoutGuide.snp.bottom)
-        }
-    }
-    
-    //searchbar layout
-    func setupSearch() {
-        searchBar.delegate = self
-        searchBar.setImage(UIImage(named: "searchUnselected"), for: .search, state: .normal)
-        
-        if let textfield = searchBar.value(forKey: "searchField") as? UITextField {
-            textfield.borderStyle = .none
-            textfield.snp.makeConstraints {
-                $0.top.equalToSuperview().offset(4)
-                $0.leading.equalToSuperview().offset(20)
-                $0.trailing.equalToSuperview().offset(-20)
-                $0.height.equalTo(40)
-            }
-            if let clearButton = textfield.value(forKey: "clearButton") as? UIButton {
-                clearButton.isHidden = true
-                let customView = UIView(frame: CGRect(x: 0, y: 0, width: 40, height: 40))
-                
-                // Create the button and add it to the custom view
-                let customButton = UIButton(type: .custom)
-                customButton.frame = customView.bounds
-                customButton.setImage(UIImage(named: "largeX"), for: .normal)
-                customButton.addTarget(self, action: #selector(clearView(_:)), for: .touchUpInside)
-                customView.addSubview(customButton)
-                
-                // Set the custom view as the right view of the text field
-                textfield.rightView = customView
-                textfield.rightViewMode = .whileEditing
-            }
-            
-            textfield.clipsToBounds = true
-            textfield.layer.cornerRadius = 16
-            textfield.attributedPlaceholder = NSAttributedString(string: textfield.placeholder ?? "어느지역 날씨가 궁금해요?", attributes: [NSAttributedString.Key.foregroundColor : UIColor(#colorLiteral(red: 0.8039215803, green: 0.8039215803, blue: 0.8039215803, alpha: 1)), NSAttributedString.Key.font : Pretendard.medium.of(size: 11)])
-            textfield.tintColor = UIColor(named: "yp-m")
-            textfield.textColor = UIColor(named: "bk")
-            textfield.font = Pretendard.bold.of(size: 11)
-            textfield.backgroundColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1).withAlphaComponent(0.6)
-        }
-    }
-    
-    // 서치바 layout 변경
-    func searchChanging() {
-        if let textfield = searchBar.value(forKey: "searchField") as? UITextField {
-            textfield.clipsToBounds = true
-            textfield.layer.cornerRadius = 0
-            textfield.layer.cornerRadius = 16
-            textfield.layer.maskedCorners = CACornerMask(arrayLiteral: .layerMinXMinYCorner, .layerMaxXMinYCorner)
-            
-            border.borderColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 1)
-            border.frame = CGRect(x: 13, y: textfield.frame.size.height - 5, width:  textfield.frame.size.width-26, height: 1)
-            border.borderWidth = width
-            textfield.layer.addSublayer(border)
-            textfield.layer.masksToBounds = true
-            
-        }
-    }
-    
-    func searchEnd() {
-        if let textfield = searchBar.value(forKey: "searchField") as? UITextField {
-            textfield.clipsToBounds = true
-            textfield.layer.cornerRadius = 16
-            textfield.layer.maskedCorners = CACornerMask(arrayLiteral: .layerMinXMaxYCorner, .layerMaxXMaxYCorner, .layerMinXMinYCorner, .layerMaxXMinYCorner)
-            border.frame = CGRect(x: -5, y: textfield.frame.size.height, width:  textfield.frame.size.width+10, height: textfield.frame.size.height)
-            
         }
     }
 }
@@ -185,8 +79,12 @@ extension SearchViewController : UISearchBarDelegate {
     //검색 시작시
     func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
         searchResults = []
-        searchTableView.reloadData()
-        searchLayout()
+        searchView.searchTableView.reloadData()
+        searchView.searchLayout()
+        searchView.searchBar.setImage(UIImage(named: "searchSelected"), for: .search, state: .normal)
+        if let textfield = searchBar.value(forKey: "searchField") as? UITextField {
+            textfield.backgroundColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1).withAlphaComponent(0.8)
+        }
         print("뷰열기")
     }
     
@@ -194,7 +92,7 @@ extension SearchViewController : UISearchBarDelegate {
         if let text = searchBar.text {
             searchRecent.insert(text , at: 0)
         }
-        searchTableView.reloadData()
+        searchView.searchTableView.reloadData()
         print(searchRecent)
         print("뷰닫기")
     }
@@ -204,7 +102,8 @@ extension SearchViewController : UISearchBarDelegate {
         // searchText를 queryFragment로 넘겨준다.
         if searchText == "" {
             if searchRecent.isEmpty == true {
-                searchEnd()
+                searchView.searchEnd()
+                searchView.searchBar.setImage(UIImage(named: "searchSelected"), for: .search, state: .normal)
             }
         }else {
             searchCompleter.queryFragment = searchText
@@ -219,7 +118,7 @@ extension SearchViewController : UISearchBarDelegate {
     
     func searchLocal(using searchRequest: MKLocalSearch.Request) {
         searchRequest.resultTypes = .address  // 검색 유형
-        
+        searchRequest.naturalLanguageQuery = "en"
         localSearch = MKLocalSearch(request: searchRequest)
         
         localSearch?.start { [weak self] (response, error) in
@@ -228,7 +127,8 @@ extension SearchViewController : UISearchBarDelegate {
             guard let place = response?.mapItems[0] else { return }
             self?.latitude = Double(place.placemark.coordinate.latitude)
             self?.longitude = Double(place.placemark.coordinate.longitude)
-            
+//            self?.localtitle.append(place.name ?? "")
+            self?.reverseGeocode(latitude: self?.latitude ?? 0, longitude: self?.longitude ?? 0)
         }
     }
 }
@@ -237,7 +137,7 @@ extension SearchViewController : UISearchBarDelegate {
 extension SearchViewController : UITableViewDelegate, UITableViewDataSource {
     // section 개수
     func numberOfSections(in tableView: UITableView) -> Int {
-        if tableView == selectTableView {
+        if tableView == searchView.selectTableView {
             return 1
         }else {
             if searchRecent.isEmpty == true || searchResults.isEmpty == true{
@@ -246,10 +146,36 @@ extension SearchViewController : UITableViewDelegate, UITableViewDataSource {
             return 2
         }
     }
-    
+    func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
+        if tableView == searchView.searchTableView {
+            if section == 0 && searchRecent.isEmpty == false && searchResults.isEmpty == false{
+                let footerView = UIView()
+                footerView.backgroundColor =  #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1).withAlphaComponent(0.8)
+                
+                // 구분선 추가
+                let separatorLine = UIView()
+                separatorLine.backgroundColor =  #colorLiteral(red: 0, green: 0, blue: 0, alpha: 1).withAlphaComponent(0.16)
+                footerView.addSubview(separatorLine)
+                
+                separatorLine.snp.makeConstraints {
+                    $0.leading.trailing.equalToSuperview().inset(13)
+                    $0.top.equalToSuperview()
+                    $0.height.equalTo(0.5)
+                }
+                return footerView
+            }
+            
+        }
+        return UIView()
+    }
+        
+        // 섹션 푸터 높이 설정
+    func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
+        return 0.5 // 원하는 높이로 설정
+    }
     // row 개수
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if tableView == selectTableView {
+        if tableView == searchView.selectTableView {
             return selectWeather.count
         }else {
             if searchResults.isEmpty == true || section == 1{
@@ -263,12 +189,13 @@ extension SearchViewController : UITableViewDelegate, UITableViewDataSource {
     
     // cell 설정
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        if tableView == selectTableView {
+        if tableView == searchView.selectTableView {
             guard let cell = tableView.dequeueReusableCell(withIdentifier: SelectedTableViewCell.Identifier, for: indexPath) as? SelectedTableViewCell
             else { return UITableViewCell() }
             cell.selectionStyle = .none
             cell.tempLbl.text = String(Int(selectWeather[indexPath.row].main.temp)) + "°C"
-            cell.locLbl.text = selectWeather[indexPath.row].name
+            cell.locLbl.text = localtitle[indexPath.row]
+            print(selectWeather[indexPath.row].coord.lat, selectWeather[indexPath.row].coord.lon)
             cell.weatherImage.image = CurrentWeather.shared.weatherImage(weather: selectWeather[indexPath.row].weather[0].description)
             return cell
         }else {
@@ -280,7 +207,7 @@ extension SearchViewController : UITableViewDelegate, UITableViewDataSource {
                 cell.cancelBtn.isHidden = false
                 cell.locLbl.text = searchRecent[indexPath.row]
                 cell.locLbl.textColor = #colorLiteral(red: 0.3882352941, green: 0.3882352941, blue: 0.3882352941, alpha: 1)
-                cell.backgroundColor =  #colorLiteral(red: 1, green: 0.9999999404, blue: 1, alpha: 1).withAlphaComponent(0.6)
+                cell.backgroundColor =  #colorLiteral(red: 1, green: 0.9999999404, blue: 1, alpha: 1).withAlphaComponent(0.8)
                 cell.selectionStyle = .none
                 cell.clipsToBounds = true
                 if indexPath.row == searchRecent.count - 1{
@@ -289,11 +216,11 @@ extension SearchViewController : UITableViewDelegate, UITableViewDataSource {
                 }else {
                     cell.layer.cornerRadius = 0
                 }
-                searchChanging()
+                searchView.searchChanging()
             }else {
                 cell.cancelBtn.isHidden = true
                 cell.locLbl.text = searchResults[indexPath.row].title
-                cell.backgroundColor =  #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1).withAlphaComponent(0.6)
+                cell.backgroundColor =  #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1).withAlphaComponent(0.8)
                 cell.selectionStyle = .none
                 cell.clipsToBounds = true
                 if searchRecent.isEmpty == true {
@@ -306,7 +233,7 @@ extension SearchViewController : UITableViewDelegate, UITableViewDataSource {
                 }else {
                     cell.layer.cornerRadius = 0
                 }
-                if let highlightText = searchBar.text {
+                if let highlightText = searchView.searchBar.text {
                     cell.locLbl.setHighlighted(searchResults[indexPath.row].title, with: highlightText)
                 }
             }
@@ -317,7 +244,7 @@ extension SearchViewController : UITableViewDelegate, UITableViewDataSource {
     
     //셀 높이
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        if tableView == selectTableView {
+        if tableView == searchView.selectTableView {
             return 115
         }else {
             return 26.5
@@ -327,7 +254,7 @@ extension SearchViewController : UITableViewDelegate, UITableViewDataSource {
     
     //셀 선택
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        if tableView == selectTableView {
+        if tableView == searchView.selectTableView {
             tableView.deselectRow(at: indexPath, animated: true)
             CurrentWeather.weather = selectWeather[indexPath.row].weather[0].description
             view.backgroundColor = CurrentWeather.shared.weatherColor()
@@ -336,26 +263,29 @@ extension SearchViewController : UITableViewDelegate, UITableViewDataSource {
             //검색중 셀선택시
             if indexPath.section == 0 {
                 if searchResults.isEmpty == true {
-                    searchBar.text = searchRecent[indexPath.row]
+                    searchView.searchBar.text = searchRecent[indexPath.row]
                     searchCompleter.queryFragment = searchRecent[indexPath.row]
                 }else {
                     search(for: searchResults[indexPath.row])
-                    searchEnd()
-                    visualEffectView.removeFromSuperview()
-                    searchTableView.removeFromSuperview()
-                    searchBar.resignFirstResponder()
+                    searchView.searchEnd()
+                    searchView.visualEffectView.removeFromSuperview()
+                    searchView.searchTableView.removeFromSuperview()
+                    searchView.searchBar.resignFirstResponder()
                     searchRecent.insert(searchResults[indexPath.row].title, at: 0)
-                    
-                    searchBar.text = ""
+                    searchView.searchBar.setImage(UIImage(named: "searchUnselected"), for: .search, state: .normal)
+                    if let textfield = searchView.searchBar.value(forKey: "searchField") as? UITextField {
+                        textfield.backgroundColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1).withAlphaComponent(0.6)
+                    }
+                    searchView.searchBar.text = ""
                 }
             }else {
-                searchBar.text = searchRecent[indexPath.row]
+                searchView.searchBar.text = searchRecent[indexPath.row]
                 searchCompleter.queryFragment = searchRecent[indexPath.row]
             }
         }
     }
     func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
-        if tableView == selectTableView {
+        if tableView == searchView.selectTableView {
             if indexPath.row == 0 {
                 return false
             }else {
@@ -365,6 +295,8 @@ extension SearchViewController : UITableViewDelegate, UITableViewDataSource {
             return false
         }
     }
+    
+    //셀 삭제
     func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath)
     -> UISwipeActionsConfiguration? {
         let customView = UIView()
@@ -383,6 +315,7 @@ extension SearchViewController : UITableViewDelegate, UITableViewDataSource {
         
         let deleteAction = UIContextualAction(style: .destructive, title: nil) { (_, _, completionHandler) in
             self.selectWeather.remove(at: indexPath.row)
+            self.localtitle.remove(at: indexPath.row)
             tableView.deleteRows(at: [indexPath], with: .automatic)
             completionHandler(true)
         }
@@ -410,15 +343,15 @@ extension SearchViewController : MKLocalSearchCompleterDelegate {
         // completer.results를 통해 검색한 결과를 searchResults에 담아줍니다
         searchResults = completer.results
         if searchResults.count == 0 {
-            searchEnd()
+            searchView.searchEnd()
         }else {
-            searchChanging()
+            searchView.searchChanging()
         }
-        searchTableView.reloadData()
+        searchView.searchTableView.reloadData()
     }
     
     func completer(_ completer: MKLocalSearchCompleter, didFailWithError error: Error) {
-        searchEnd()
+        searchView.searchEnd()
         // 에러 확인
         print(error.localizedDescription)
     }
@@ -426,15 +359,34 @@ extension SearchViewController : MKLocalSearchCompleterDelegate {
 
 extension SearchViewController : delDelegate{
     func delDelegate(row: Int) {
+        searchView.searchEnd()
         searchRecent.remove(at: row)
-        searchTableView.reloadData()
-    }
-    
-    @objc func clearView(_ sender: UIButton) {
-        searchEnd()
-        searchBar.text = ""
-        visualEffectView.removeFromSuperview()
-        searchTableView.removeFromSuperview()
-        searchBar.resignFirstResponder()
+        searchView.searchTableView.reloadData()
     }
 }
+
+extension SearchViewController: CLLocationManagerDelegate {
+    func reverseGeocode(latitude: Double, longitude: Double) {
+           let location = CLLocation(latitude: latitude, longitude: longitude)
+            let geocoder: CLGeocoder = CLGeocoder()
+            let local: Locale = Locale(identifier: "en-US")
+           geocoder.reverseGeocodeLocation(location, preferredLocale: local) { (placemarks, error) in
+               if let error = error {
+                   print("Reverse geocoding error: \(error.localizedDescription)")
+                   return
+               }
+               
+               guard let placemark = placemarks?.first else {
+                   print("No placemark found")
+                   return
+               }
+               
+               let name = (placemark.locality ?? "") + ", " + (placemark.country ?? "")
+               
+               // 주소 정보 가져오기
+               self.localtitle.append(name)
+               self.callAPIs()
+           }
+       }
+}
+

@@ -42,13 +42,13 @@ class SearchTableViewCell: UITableViewCell {
         
         locLbl.snp.makeConstraints {
             $0.top.bottom.equalToSuperview()
-            $0.leading.equalToSuperview().offset(32)
+            $0.leading.equalToSuperview().offset(43)
             $0.trailing.equalToSuperview().offset(-32)
         }
         
         cancelBtn.snp.makeConstraints {
             $0.top.bottom.equalToSuperview()
-            $0.leading.equalTo(locLbl.snp.trailing).offset(8)
+            $0.trailing.equalToSuperview().inset(24)
         }
     }
     
