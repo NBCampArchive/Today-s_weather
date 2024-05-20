@@ -12,3 +12,9 @@ struct FoodRecommendation {
     let description: String
     let imageUrl: String
 }
+
+struct WeatherData {
+    let weatherType: String
+    let temperature: Int
+    let location: String
+}

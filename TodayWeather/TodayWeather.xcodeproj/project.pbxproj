@@ -85,6 +85,22 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		5475D9622BF770B90006739B /* Food */ = {
+			isa = PBXGroup;
+			children = (
+				5432F2432BF518CA00E6BAF9 /* FoodViewController.swift */,
+			);
+			path = Food;
+			sourceTree = "<group>";
+		};
+		5475D9632BF770EA0006739B /* Food */ = {
+			isa = PBXGroup;
+			children = (
+				5432F2412BF5186B00E6BAF9 /* FoodRecommendation.swift */,
+			);
+			path = Food;
+			sourceTree = "<group>";
+		};
 		856C9B642BF5FE1000D99A2F /* Fonts */ = {
 			isa = PBXGroup;
 			children = (
@@ -156,8 +172,8 @@
 		B54ABF2E2BF22C43002E89DC /* Presentation */ = {
 			isa = PBXGroup;
 			children = (
+				5475D9622BF770B90006739B /* Food */,
 				B54ABF192BF22B4F002E89DC /* ViewController.swift */,
-				5432F2432BF518CA00E6BAF9 /* FoodViewController.swift */,
 			);
 			path = Presentation;
 			sourceTree = "<group>";
@@ -175,11 +191,11 @@
 		B54ABF302BF22C68002E89DC /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				5475D9632BF770EA0006739B /* Food */,
 				B54ABF312BF22D82002E89DC /* Model.swift */,
 				B54ABF462BF30645002E89DC /* CurrentResponseModel.swift */,
 				B54ABF482BF307B8002E89DC /* ForecastResponseModel.swift */,
 				B54ABF4C2BF30CE9002E89DC /* DustResponseModel.swift */,
-				5432F2412BF5186B00E6BAF9 /* FoodRecommendation.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
