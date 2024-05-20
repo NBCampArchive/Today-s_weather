@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		856C9B632BF5035800D99A2F /* WeatherViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 856C9B622BF5035800D99A2F /* WeatherViewController.swift */; };
 		856C9B662BF5FE8400D99A2F /* Gabarito-SemiBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 856C9B652BF5FE8400D99A2F /* Gabarito-SemiBold.ttf */; };
 		856C9B682BF5FEE300D99A2F /* Gabarito-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 856C9B672BF5FEE300D99A2F /* Gabarito-Regular.ttf */; };
 		856C9B6A2BF5FF0400D99A2F /* Gabarito-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 856C9B692BF5FF0400D99A2F /* Gabarito-Bold.ttf */; };
@@ -18,6 +19,8 @@
 		856C9B762BF6006E00D99A2F /* Pretendard-Bold.otf in Resources */ = {isa = PBXBuildFile; fileRef = 856C9B752BF6006E00D99A2F /* Pretendard-Bold.otf */; };
 		856C9B782BF6011300D99A2F /* GlacialIndifference-Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = 856C9B772BF6011300D99A2F /* GlacialIndifference-Regular.otf */; };
 		856C9B7A2BF6028E00D99A2F /* Fonts.swift in Sources */ = {isa = PBXBuildFile; fileRef = 856C9B792BF6028E00D99A2F /* Fonts.swift */; };
+		856C9B7E2BF6F4A800D99A2F /* UIViewExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 856C9B7D2BF6F4A800D99A2F /* UIViewExtension.swift */; };
+		856C9B812BF7500F00D99A2F /* WeatherModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 856C9B802BF7500F00D99A2F /* WeatherModel.swift */; };
 		B54ABF162BF22B4F002E89DC /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B54ABF152BF22B4F002E89DC /* AppDelegate.swift */; };
 		B54ABF182BF22B4F002E89DC /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B54ABF172BF22B4F002E89DC /* SceneDelegate.swift */; };
 		B54ABF1A2BF22B4F002E89DC /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B54ABF192BF22B4F002E89DC /* ViewController.swift */; };
@@ -39,6 +42,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		856C9B622BF5035800D99A2F /* WeatherViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherViewController.swift; sourceTree = "<group>"; };
 		856C9B652BF5FE8400D99A2F /* Gabarito-SemiBold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Gabarito-SemiBold.ttf"; sourceTree = "<group>"; };
 		856C9B672BF5FEE300D99A2F /* Gabarito-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Gabarito-Regular.ttf"; sourceTree = "<group>"; };
 		856C9B692BF5FF0400D99A2F /* Gabarito-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Gabarito-Bold.ttf"; sourceTree = "<group>"; };
@@ -50,6 +54,8 @@
 		856C9B752BF6006E00D99A2F /* Pretendard-Bold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Pretendard-Bold.otf"; sourceTree = "<group>"; };
 		856C9B772BF6011300D99A2F /* GlacialIndifference-Regular.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "GlacialIndifference-Regular.otf"; sourceTree = "<group>"; };
 		856C9B792BF6028E00D99A2F /* Fonts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Fonts.swift; sourceTree = "<group>"; };
+		856C9B7D2BF6F4A800D99A2F /* UIViewExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIViewExtension.swift; sourceTree = "<group>"; };
+		856C9B802BF7500F00D99A2F /* WeatherModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherModel.swift; sourceTree = "<group>"; };
 		B54ABF122BF22B4F002E89DC /* TodayWeather.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TodayWeather.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B54ABF152BF22B4F002E89DC /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		B54ABF172BF22B4F002E89DC /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -100,6 +106,14 @@
 			path = Fonts;
 			sourceTree = "<group>";
 		};
+		856C9B7F2BF74D4F00D99A2F /* Extension */ = {
+			isa = PBXGroup;
+			children = (
+				856C9B7D2BF6F4A800D99A2F /* UIViewExtension.swift */,
+			);
+			path = Extension;
+			sourceTree = "<group>";
+		};
 		B54ABF092BF22B4F002E89DC = {
 			isa = PBXGroup;
 			children = (
@@ -124,6 +138,7 @@
 				B54ABF302BF22C68002E89DC /* Model */,
 				B54ABF2E2BF22C43002E89DC /* Presentation */,
 				B54ABF2C2BF22C30002E89DC /* Resource */,
+				856C9B7F2BF74D4F00D99A2F /* Extension */,
 			);
 			path = TodayWeather;
 			sourceTree = "<group>";
@@ -155,6 +170,7 @@
 			isa = PBXGroup;
 			children = (
 				B54ABF192BF22B4F002E89DC /* ViewController.swift */,
+				856C9B622BF5035800D99A2F /* WeatherViewController.swift */,
 			);
 			path = Presentation;
 			sourceTree = "<group>";
@@ -176,6 +192,7 @@
 				B54ABF462BF30645002E89DC /* CurrentResponseModel.swift */,
 				B54ABF482BF307B8002E89DC /* ForecastResponseModel.swift */,
 				B54ABF4C2BF30CE9002E89DC /* DustResponseModel.swift */,
+				856C9B802BF7500F00D99A2F /* WeatherModel.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -275,6 +292,8 @@
 				B54ABF342BF22D9A002E89DC /* Network.swift in Sources */,
 				B54ABF1A2BF22B4F002E89DC /* ViewController.swift in Sources */,
 				B54ABF492BF307B8002E89DC /* ForecastResponseModel.swift in Sources */,
+				856C9B632BF5035800D99A2F /* WeatherViewController.swift in Sources */,
+				856C9B7E2BF6F4A800D99A2F /* UIViewExtension.swift in Sources */,
 				B54ABF4D2BF30CE9002E89DC /* DustResponseModel.swift in Sources */,
 				B54ABF162BF22B4F002E89DC /* AppDelegate.swift in Sources */,
 				B54ABF452BF304D6002E89DC /* TodayWeatherAPI++Bundle.swift in Sources */,
@@ -282,6 +301,7 @@
 				B54ABF522BF314B4002E89DC /* LocationManager.swift in Sources */,
 				B54ABF412BF30223002E89DC /* WeatherAPIManager.swift in Sources */,
 				B54ABF182BF22B4F002E89DC /* SceneDelegate.swift in Sources */,
+				856C9B812BF7500F00D99A2F /* WeatherModel.swift in Sources */,
 				856C9B7A2BF6028E00D99A2F /* Fonts.swift in Sources */,
 				B54ABF322BF22D82002E89DC /* Model.swift in Sources */,
 			);
@@ -416,7 +436,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = 8B78U37C85;
+				DEVELOPMENT_TEAM = CS9SP68DH3;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = TodayWeather/Resource/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
@@ -445,7 +465,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = 8B78U37C85;
+				DEVELOPMENT_TEAM = CS9SP68DH3;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = TodayWeather/Resource/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
