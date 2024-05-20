@@ -28,6 +28,7 @@ class DustyViewController: UIViewController{
         $0.text = "Seoul"
         $0.font = .systemFont(ofSize: 32, weight: .bold)
         $0.textColor = .black
+        $0.backgroundColor = .clear
     }
     
     let locationCountryLabel = UILabel().then {
@@ -45,24 +46,26 @@ class DustyViewController: UIViewController{
     let locationStackView = UIStackView().then {
         $0.axis = .horizontal
         $0.spacing = 8
+        $0.alignment = .center
     }
     
-    let optionSegment = CustomSegmentedControl(items: ["AQI","PM10","PM2.5","Q3","NO2","CO","SO2"]).then{
-        $0.setDividerImage(UIImage(), forLeftSegmentState: .normal, rightSegmentState: .normal, barMetrics: .default)
-        $0.setTitleTextAttributes([.foregroundColor: UIColor.gray], for: .normal)
-        $0.setTitleTextAttributes([.foregroundColor: UIColor.black], for: .selected)
-        $0.selectedSegmentTintColor = UIColor(red: 176/255, green: 216/255, blue: 175/255, alpha: 1)
+    let locationLabelStackView = UIStackView().then {
+        $0.axis = .horizontal
+        $0.spacing = 8
+        $0.alignment = .firstBaseline
     }
     
-    var longitude: Double = 0
+    let optionSegment = SegmentControlView()
     
-    var latitude: Double = 0
+    var longitude: Double = 0.0
+    
+    var latitude: Double = 0.0
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = UIColor(named: "sunBackground")
         self.backgroundColor = UIColor(named: "dustFineColor")
-        
         setupLayout()
         startDotAnimation()
         LocationManager.shared.requestLocation { location in
@@ -75,6 +78,8 @@ class DustyViewController: UIViewController{
             print("Latitude: \(self.latitude)")
             print("Longitude: \(self.longitude)")
         }
+        
+        optionSegment.selectedColor = dotAnimationView.backgroundColor
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -100,8 +105,9 @@ class DustyViewController: UIViewController{
         view.addSubview(dayLabel)
         view.addSubview(locationStackView)
         locationStackView.addArrangedSubview(locationImageView)
-        locationStackView.addArrangedSubview(locationCityLabel)
-        locationStackView.addArrangedSubview(locationCountryLabel)
+        locationStackView.addArrangedSubview(locationLabelStackView)
+        locationLabelStackView.addArrangedSubview(locationCityLabel)
+        locationLabelStackView.addArrangedSubview(locationCountryLabel)
         view.addSubview(optionSegment)
         
         dayLabel.snp.makeConstraints{
@@ -113,17 +119,21 @@ class DustyViewController: UIViewController{
             $0.top.equalTo(dayLabel.snp.bottom).offset(4)
             $0.leading.equalTo(dayLabel)
         }
+
+        locationImageView.snp.makeConstraints{
+            $0.centerY.equalToSuperview()
+            $0.width.height.equalTo(28)
+        }
         
         dotAnimationView.snp.makeConstraints{
-            $0.top.equalTo(locationStackView.snp.bottom).offset(40)
+            $0.top.equalTo(locationLabelStackView.snp.bottom).offset(40)
             $0.centerX.equalToSuperview()
             $0.width.height.equalTo(280)
         }
         
         optionSegment.snp.makeConstraints{
             $0.top.equalTo(dotAnimationView.snp.bottom).offset(32)
-            $0.leading.equalToSuperview().offset(20)
-            $0.trailing.equalToSuperview().offset(-20)
+            $0.leading.trailing.equalToSuperview().inset(20)
             $0.height.equalTo(40)
         }
     }
@@ -134,10 +144,11 @@ class DustyViewController: UIViewController{
             case .success(let data):
                 print("getDustData Success: \(data.data.city.name)")
                 let city = data.data.city.name.components(separatedBy: ", ")
+                print("City : \(city[1])")
                 DispatchQueue.main.async{
                     self.dayLabel.text = data.data.time.s.components(separatedBy: " ")[0]
                     self.locationCityLabel.text = city[1]
-                    self.locationCountryLabel.text = city[2]
+                    self.locationCountryLabel.text = city[0]
                     self.dotAnimationView.aqiLabel.text = String(data.data.aqi)
                 }
             case .failure(let error):
