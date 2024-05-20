@@ -25,11 +25,12 @@ class FashionTableViewCell: UITableViewCell {
     }
     
     func configureUI() {
+        contentView.backgroundColor = .sunnyBackground
         tmpLabel.font = tmpFont
         subLabel.font = subFont
         fashionLabel.font = fashionFont
         boxView.layer.cornerRadius = 16
-        self.boxView.backgroundColor = .lightGray
+        self.boxView.backgroundColor = .white
         contentView.addSubview(boxView)
         boxView.addSubview(tmpLabel)
         boxView.addSubview(subLabel)
@@ -40,7 +41,7 @@ class FashionTableViewCell: UITableViewCell {
         boxView.snp.makeConstraints {
             $0.leading.trailing.equalToSuperview().inset(20)
             $0.top.equalToSuperview().offset(16)
-            $0.bottom.equalToSuperview()
+            $0.bottom.equalToSuperview().inset(5)
         }
         tmpLabel.snp.makeConstraints {
             $0.top.equalToSuperview().offset(16)
