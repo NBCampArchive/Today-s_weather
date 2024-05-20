@@ -260,7 +260,7 @@ class WeatherViewController: UIViewController {
     }
     
     private func updateFewCloudy() {
-        self.view.backgroundColor = .fewCloudytext
+        self.view.backgroundColor = .fewCloudyBackground
         self.weatherStateLabel.text = "Cloudy"
         self.weatherStateLabel.textColor = .fewCloudytext
         self.weatherImage.image = UIImage(named: "largeFewCloudy")
