@@ -22,10 +22,6 @@ class CustomTabControl: UIViewController {
         $0.backgroundColor = .black.withAlphaComponent(0.2)
     }
     
-    let blurEffect = UIBlurEffect(style: .extraLight)
-    
-    let blurEffectView = UIVisualEffectView()
-    
     private var currentViewController: UIViewController?
     private var viewControllers: [UIViewController]
     private var segmentTitles: [String]
@@ -68,23 +64,15 @@ class CustomTabControl: UIViewController {
         super.viewDidLoad()
         setupViews()
         displayCurrentTab(0)
-        blurEffectView.effect = blurEffect
     }
    
     private func setupViews() {
-        view.addSubview(blurEffectView)
-        blurEffectView.contentView.addSubview(segmentControl)
-        blurEffectView.contentView.addSubview(segmentDivider)
-        blurEffectView.contentView.addSubview(segmentBackgroundDivider)
+        view.addSubview(segmentControl)
+        view.addSubview(segmentDivider)
+        view.addSubview(segmentBackgroundDivider)
         view.addSubview(containerView)
         
         segmentControl.addTarget(self, action: #selector(segmentChanged(_:)), for: .valueChanged)
-        
-        blurEffectView.snp.makeConstraints {
-            $0.top.equalTo(view.safeAreaLayoutGuide)
-            $0.leading.trailing.equalToSuperview()
-            $0.height.equalTo(40) // 블러 영역의 높이를 지정합니다. 필요에 따라 조정할 수 있습니다.
-        }
         
         segmentControl.snp.makeConstraints {
             $0.top.equalTo(view.safeAreaLayoutGuide).offset(8)
