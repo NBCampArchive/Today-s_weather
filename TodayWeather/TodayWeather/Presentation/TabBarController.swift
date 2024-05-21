@@ -8,27 +8,20 @@
 import UIKit
 
 class TabBarController: UITabBarController {
-
+    let border = CALayer()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         tabBar.isTranslucent = true
         tabBar.backgroundImage = UIImage()
         tabBar.shadowImage = UIImage() // add this if you want remove tabBar separator
         tabBar.barTintColor = .clear
-        tabBar.tintColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 1)// TabBar Item 이 선택되었을때의 색
-        tabBar.unselectedItemTintColor = #colorLiteral(red: 0.3960784314, green: 0.3960784314, blue: 0.3960784314, alpha: 1) // TabBar Item 의 기본 색
+        tabBar.tintColor = UIColor(named: "menu")// TabBar Item 이 선택되었을때의 색
+        tabBar.unselectedItemTintColor = UIColor(named: "unselectedTab")// TabBar Item 의 기본 색
         tabBar.backgroundColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1).withAlphaComponent(0.2) // here is your tabBar color
         tabBar.layer.backgroundColor = UIColor.clear.cgColor
-
-
-        let blurEffect = UIBlurEffect(style: .light) // here you can change blur style
-        let blurView = UIVisualEffectView(effect: blurEffect)
-        blurView.frame = tabBar.bounds
-        blurView.autoresizingMask = .flexibleWidth
-        tabBar.insertSubview(blurView, at: 0)
-        blurView.snp.makeConstraints { make in
-            make.edges.equalToSuperview()
-        }
+        setUpBorder()
+        setUpBlur()
         setUpTabBar()
     }
     private func setUpTabBar() {
@@ -50,5 +43,24 @@ class TabBarController: UITabBarController {
         
         viewControllers = [firstViewController,
                            secondViewController,ThirdViewController,fourthViewController]
+    }
+    
+    private func setUpBlur() {
+        let blurEffect = UIBlurEffect(style: .light) // here you can change blur style
+        let blurView = UIVisualEffectView(effect: blurEffect)
+        blurView.frame = tabBar.bounds
+        blurView.autoresizingMask = .flexibleWidth
+        tabBar.insertSubview(blurView, at: 0)
+        blurView.snp.makeConstraints { make in
+            make.edges.equalToSuperview()
+        }
+    }
+    
+    private func setUpBorder() {
+        border.borderColor = UIColor(named: "graph")?.cgColor
+        border.frame = CGRect(x: 0, y: 1, width:  tabBar.frame.size.width, height: 1)
+        border.borderWidth = tabBar.frame.size.width
+        tabBar.layer.addSublayer(border)
+        tabBar.layer.masksToBounds = true
     }
 }
