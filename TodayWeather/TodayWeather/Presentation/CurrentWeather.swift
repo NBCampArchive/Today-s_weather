@@ -12,7 +12,7 @@ class CurrentWeather {
     static var id = 0
     
     func weatherImage(weather : Int) -> UIImage {
-        let weatherState = WeatherModel(id: CurrentWeather.id)
+        let weatherState = WeatherModel(id: weather)
         switch weatherState {
         case .sunny :
             return UIImage(named: "smallSunny") ?? UIImage()
