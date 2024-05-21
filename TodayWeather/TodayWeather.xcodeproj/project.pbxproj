@@ -29,7 +29,6 @@
 		B54ABF562BF33782002E89DC /* DustyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B54ABF552BF33782002E89DC /* DustyViewController.swift */; };
 		B54ABF5A2BF5C0FC002E89DC /* CustomTabControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = B54ABF592BF5C0FC002E89DC /* CustomTabControl.swift */; };
 		B54ABF602BF75ACD002E89DC /* SegmentControlView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B54ABF5F2BF75ACD002E89DC /* SegmentControlView.swift */; };
-		B54ABF622BFB5FD9002E89DC /* ChartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B54ABF612BFB5FD9002E89DC /* ChartView.swift */; };
 		B54ABF652BFB608C002E89DC /* DGCharts in Frameworks */ = {isa = PBXBuildFile; productRef = B54ABF642BFB608C002E89DC /* DGCharts */; };
 		B54ABF672BFB608C002E89DC /* DGChartsDynamic in Frameworks */ = {isa = PBXBuildFile; productRef = B54ABF662BFB608C002E89DC /* DGChartsDynamic */; };
 		B54ABF692BFB61DA002E89DC /* DetailAqiViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B54ABF682BFB61DA002E89DC /* DetailAqiViewController.swift */; };
@@ -58,7 +57,6 @@
 		B54ABF552BF33782002E89DC /* DustyViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DustyViewController.swift; sourceTree = "<group>"; };
 		B54ABF592BF5C0FC002E89DC /* CustomTabControl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTabControl.swift; sourceTree = "<group>"; };
 		B54ABF5F2BF75ACD002E89DC /* SegmentControlView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SegmentControlView.swift; sourceTree = "<group>"; };
-		B54ABF612BFB5FD9002E89DC /* ChartView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChartView.swift; sourceTree = "<group>"; };
 		B54ABF682BFB61DA002E89DC /* DetailAqiViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailAqiViewController.swift; sourceTree = "<group>"; };
 		B54ABF6A2BFC9521002E89DC /* DetailChartCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailChartCell.swift; sourceTree = "<group>"; };
 		B54ABF6C2BFC968B002E89DC /* DetailCardCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailCardCell.swift; sourceTree = "<group>"; };
@@ -133,15 +131,10 @@
 		B54ABF2E2BF22C43002E89DC /* Presentation */ = {
 			isa = PBXGroup;
 			children = (
+				B54ABF6E2BFCAFCC002E89DC /* Dusty */,
 				B54ABF192BF22B4F002E89DC /* ViewController.swift */,
-				B54ABF532BF33768002E89DC /* DotAnimationView.swift */,
-				B54ABF552BF33782002E89DC /* DustyViewController.swift */,
 				B54ABF592BF5C0FC002E89DC /* CustomTabControl.swift */,
 				B54ABF5F2BF75ACD002E89DC /* SegmentControlView.swift */,
-				B54ABF612BFB5FD9002E89DC /* ChartView.swift */,
-				B54ABF682BFB61DA002E89DC /* DetailAqiViewController.swift */,
-				B54ABF6A2BFC9521002E89DC /* DetailChartCell.swift */,
-				B54ABF6C2BFC968B002E89DC /* DetailCardCell.swift */,
 			);
 			path = Presentation;
 			sourceTree = "<group>";
@@ -165,6 +158,18 @@
 				B54ABF4C2BF30CE9002E89DC /* DustResponseModel.swift */,
 			);
 			path = Model;
+			sourceTree = "<group>";
+		};
+		B54ABF6E2BFCAFCC002E89DC /* Dusty */ = {
+			isa = PBXGroup;
+			children = (
+				B54ABF682BFB61DA002E89DC /* DetailAqiViewController.swift */,
+				B54ABF6A2BFC9521002E89DC /* DetailChartCell.swift */,
+				B54ABF6C2BFC968B002E89DC /* DetailCardCell.swift */,
+				B54ABF552BF33782002E89DC /* DustyViewController.swift */,
+				B54ABF532BF33768002E89DC /* DotAnimationView.swift */,
+			);
+			path = Dusty;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -262,7 +267,6 @@
 				B54ABF452BF304D6002E89DC /* TodayWeatherAPI++Bundle.swift in Sources */,
 				B54ABF4B2BF30C3E002E89DC /* DustAPIManager.swift in Sources */,
 				B54ABF522BF314B4002E89DC /* LocationManager.swift in Sources */,
-				B54ABF622BFB5FD9002E89DC /* ChartView.swift in Sources */,
 				B54ABF562BF33782002E89DC /* DustyViewController.swift in Sources */,
 				B54ABF5A2BF5C0FC002E89DC /* CustomTabControl.swift in Sources */,
 				B54ABF412BF30223002E89DC /* WeatherAPIManager.swift in Sources */,
