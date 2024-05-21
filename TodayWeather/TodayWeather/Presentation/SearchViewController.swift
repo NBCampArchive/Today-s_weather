@@ -32,7 +32,8 @@ class SearchViewController : UIViewController{
     override func loadView() {
         view = searchView
     }
-    override func viewWillAppear(_ animated: Bool) {
+    override func viewDidLoad() {
+        super.viewDidLoad()
         callAPIs()
         for i in CDM.readData() {
             longitude = i.longitude
@@ -40,9 +41,6 @@ class SearchViewController : UIViewController{
             localtitle.append(i.locName)
             callAPIs()
         }
-    }
-    override func viewDidLoad() {
-        super.viewDidLoad()
         self.navigationItem.titleView = searchView.searchBar
         navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
         navigationController?.navigationBar.shadowImage = UIImage()
@@ -52,6 +50,7 @@ class SearchViewController : UIViewController{
         searchView.selectTableView.dataSource = self
         searchView.searchTableView.delegate = self
         searchView.searchTableView.dataSource = self
+        searchView.selectTableView.showsVerticalScrollIndicator = false
         searchView.searchBar.delegate = self
         searchView.searchTableView.register(SearchTableViewCell.self, forCellReuseIdentifier: SearchTableViewCell.Identifier)
         searchView.selectTableView.register(SelectedTableViewCell.self, forCellReuseIdentifier: SelectedTableViewCell.Identifier)
@@ -66,7 +65,7 @@ class SearchViewController : UIViewController{
             switch result{
             case .success(let data):
                 self?.selectWeather.append(data)
-                CurrentWeather.weather = "rain"
+                CurrentWeather.id = self?.selectWeather[0].weather[0].id ?? 0
                 DispatchQueue.main.async {
                     self?.view.backgroundColor = CurrentWeather.shared.weatherColor()
                     self?.searchView.selectTableView.reloadData()
@@ -201,7 +200,7 @@ extension SearchViewController : UITableViewDelegate, UITableViewDataSource {
             cell.tempLbl.text = String(Int(selectWeather[indexPath.row].main.temp)) + "°C"
             cell.locLbl.text = localtitle[indexPath.row]
             print(selectWeather[indexPath.row].coord.lat, selectWeather[indexPath.row].coord.lon)
-            cell.weatherImage.image = CurrentWeather.shared.weatherImage(weather: selectWeather[indexPath.row].weather[0].description)
+            cell.weatherImage.image = CurrentWeather.shared.weatherImage(weather: selectWeather[indexPath.row].weather[0].id)
             return cell
         }else {
             guard let cell = tableView.dequeueReusableCell(withIdentifier: SearchTableViewCell.Identifier, for: indexPath) as? SearchTableViewCell
@@ -269,7 +268,7 @@ extension SearchViewController : UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if tableView == searchView.selectTableView {
             tableView.deselectRow(at: indexPath, animated: true)
-            CurrentWeather.weather = selectWeather[indexPath.row].weather[0].description
+            CurrentWeather.id = selectWeather[indexPath.row].weather[0].id
             view.backgroundColor = CurrentWeather.shared.weatherColor()
             
         }else {
@@ -329,6 +328,7 @@ extension SearchViewController : UITableViewDelegate, UITableViewDataSource {
         let deleteAction = UIContextualAction(style: .destructive, title: nil) { (_, _, completionHandler) in
             self.selectWeather.remove(at: indexPath.row)
             self.localtitle.remove(at: indexPath.row)
+            self.CDM.deleteData(num: indexPath.row - 1)
             tableView.deleteRows(at: [indexPath], with: .automatic)
             completionHandler(true)
         }

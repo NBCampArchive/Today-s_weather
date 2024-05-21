@@ -9,35 +9,33 @@ import UIKit
 
 class CurrentWeather {
     static let shared = CurrentWeather()
-    static var weather = ""
+    static var id = 0
     
-    func weatherImage(weather : String) -> UIImage {
-        switch weather {
-        case "clear sky" :
+    func weatherImage(weather : Int) -> UIImage {
+        let weatherState = WeatherModel(id: CurrentWeather.id)
+        switch weatherState {
+        case .sunny :
             return UIImage(named: "smallSunny") ?? UIImage()
-        case "scattered clouds", "broken clouds", "thunderstorm":
+        case .cloudy:
             return UIImage(named: "smallCloudy") ?? UIImage()
-        case "rain", "shower rain", "snow" :
+        case .rainy :
             return UIImage(named: "smallRainy") ?? UIImage()
-        case "few clouds" :
+        case .fewCloudy :
             return UIImage(named: "smallFewCloudy") ?? UIImage()
-        default:
-            return UIImage(named: "smallSunny") ?? UIImage()
         }
     }
     
     func weatherColor() -> UIColor {
-        switch CurrentWeather.weather {
-        case "clear sky" :
+        let weatherState = WeatherModel(id: CurrentWeather.id)
+        switch weatherState {
+        case .sunny :
             return UIColor(named: "sunnyBackground") ?? UIColor()
-        case "scattered clouds", "broken clouds", "thunderstorm":
+        case .cloudy:
             return UIColor(named: "cloudyBackground") ?? UIColor()
-        case "rain", "shower rain", "snow" :
+        case .rainy :
             return UIColor(named: "rainyBackground") ?? UIColor()
-        case "few clouds" :
+        case .fewCloudy :
             return UIColor(named: "fewCloudyBackground") ?? UIColor()
-        default:
-            return UIColor(named: "sunnyBackground") ?? UIColor()
         }
     }
 }

@@ -37,14 +37,14 @@ class SearchTableViewCell: UITableViewCell {
     }
     override func layoutSubviews() {
         super.layoutSubviews()
-        contentView.frame = contentView.frame.inset(by: UIEdgeInsets(top: 4, left: 0, bottom: 4, right: 0))
     }
     func setupLayout() {
-        addSubview(locLbl)
+        contentView.addSubview(locLbl)
         contentView.addSubview(cancelBtn)
         
         locLbl.snp.makeConstraints {
-            $0.top.bottom.equalToSuperview()
+            $0.top.equalTo(contentView.snp.top).offset(6.5)
+            $0.bottom.equalTo(contentView.snp.bottom).inset(6.5)
             $0.leading.equalToSuperview().offset(43)
             $0.trailing.equalToSuperview().offset(-32)
         }
