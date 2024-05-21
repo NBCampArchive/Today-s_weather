@@ -8,6 +8,13 @@
 import UIKit
 
 class FiveDaysWeatherViewController: UIViewController {
+    var longitude: Double = 0 {
+        didSet {
+            //callAPIs()
+        }
+    }
+    
+    var latitude: Double = 0
     
     private let tableView = UITableView(frame: .zero, style: .grouped).then {
         $0.separatorStyle = .none
@@ -16,6 +23,15 @@ class FiveDaysWeatherViewController: UIViewController {
     // MARK: - Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        LocationManager.shared.requestLocation { [weak self] location in
+            guard let location = location else { return }
+            self?.latitude = location.coordinate.latitude
+            self?.longitude = location.coordinate.longitude
+            
+            print("Latitude: \(self?.latitude ?? 0)")
+            print("Longitude: \(self?.longitude ?? 0)")
+        }
         
         tableView.dataSource = self
         tableView.delegate = self
