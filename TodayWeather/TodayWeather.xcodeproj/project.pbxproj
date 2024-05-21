@@ -46,6 +46,15 @@
 		B54ABF4B2BF30C3E002E89DC /* DustAPIManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B54ABF4A2BF30C3E002E89DC /* DustAPIManager.swift */; };
 		B54ABF4D2BF30CE9002E89DC /* DustResponseModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B54ABF4C2BF30CE9002E89DC /* DustResponseModel.swift */; };
 		B54ABF522BF314B4002E89DC /* LocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B54ABF512BF314B4002E89DC /* LocationManager.swift */; };
+		B54ABF542BF33768002E89DC /* DotAnimationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B54ABF532BF33768002E89DC /* DotAnimationView.swift */; };
+		B54ABF562BF33782002E89DC /* DustyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B54ABF552BF33782002E89DC /* DustyViewController.swift */; };
+		B54ABF5A2BF5C0FC002E89DC /* CustomTabControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = B54ABF592BF5C0FC002E89DC /* CustomTabControl.swift */; };
+		B54ABF602BF75ACD002E89DC /* SegmentControlView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B54ABF5F2BF75ACD002E89DC /* SegmentControlView.swift */; };
+		B54ABF652BFB608C002E89DC /* DGCharts in Frameworks */ = {isa = PBXBuildFile; productRef = B54ABF642BFB608C002E89DC /* DGCharts */; };
+		B54ABF672BFB608C002E89DC /* DGChartsDynamic in Frameworks */ = {isa = PBXBuildFile; productRef = B54ABF662BFB608C002E89DC /* DGChartsDynamic */; };
+		B54ABF692BFB61DA002E89DC /* DetailAqiViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B54ABF682BFB61DA002E89DC /* DetailAqiViewController.swift */; };
+		B54ABF6B2BFC9521002E89DC /* DetailChartCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B54ABF6A2BFC9521002E89DC /* DetailChartCell.swift */; };
+		B54ABF6D2BFC968B002E89DC /* DetailCardCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B54ABF6C2BFC968B002E89DC /* DetailCardCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -86,6 +95,13 @@
 		B54ABF4A2BF30C3E002E89DC /* DustAPIManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DustAPIManager.swift; sourceTree = "<group>"; };
 		B54ABF4C2BF30CE9002E89DC /* DustResponseModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DustResponseModel.swift; sourceTree = "<group>"; };
 		B54ABF512BF314B4002E89DC /* LocationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationManager.swift; sourceTree = "<group>"; };
+		B54ABF532BF33768002E89DC /* DotAnimationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DotAnimationView.swift; sourceTree = "<group>"; };
+		B54ABF552BF33782002E89DC /* DustyViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DustyViewController.swift; sourceTree = "<group>"; };
+		B54ABF592BF5C0FC002E89DC /* CustomTabControl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTabControl.swift; sourceTree = "<group>"; };
+		B54ABF5F2BF75ACD002E89DC /* SegmentControlView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SegmentControlView.swift; sourceTree = "<group>"; };
+		B54ABF682BFB61DA002E89DC /* DetailAqiViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailAqiViewController.swift; sourceTree = "<group>"; };
+		B54ABF6A2BFC9521002E89DC /* DetailChartCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailChartCell.swift; sourceTree = "<group>"; };
+		B54ABF6C2BFC968B002E89DC /* DetailCardCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailCardCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -95,7 +111,9 @@
 			files = (
 				B54ABF3D2BF22EA6002E89DC /* Alamofire in Frameworks */,
 				B54ABF3F2BF22EA6002E89DC /* AlamofireDynamic in Frameworks */,
+				B54ABF652BFB608C002E89DC /* DGCharts in Frameworks */,
 				B54ABF372BF22E95002E89DC /* SnapKit in Frameworks */,
+				B54ABF672BFB608C002E89DC /* DGChartsDynamic in Frameworks */,
 				B54ABF3A2BF22E9D002E89DC /* Then in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -184,7 +202,10 @@
 		B54ABF2E2BF22C43002E89DC /* Presentation */ = {
 			isa = PBXGroup;
 			children = (
+				B54ABF6E2BFCAFCC002E89DC /* Dusty */,
 				B54ABF192BF22B4F002E89DC /* ViewController.swift */,
+				B54ABF592BF5C0FC002E89DC /* CustomTabControl.swift */,
+				B54ABF5F2BF75ACD002E89DC /* SegmentControlView.swift */,
 				A7937AC02BF3836E00E9AD04 /* SearchViewController.swift */,
 				A7894CFE2BF5A98C003469A5 /* SearchTableViewCell.swift */,
 				A7894D022BF61AFD003469A5 /* SelectedTableViewCell.swift */,
@@ -218,6 +239,18 @@
 			path = Model;
 			sourceTree = "<group>";
 		};
+		B54ABF6E2BFCAFCC002E89DC /* Dusty */ = {
+			isa = PBXGroup;
+			children = (
+				B54ABF682BFB61DA002E89DC /* DetailAqiViewController.swift */,
+				B54ABF6A2BFC9521002E89DC /* DetailChartCell.swift */,
+				B54ABF6C2BFC968B002E89DC /* DetailCardCell.swift */,
+				B54ABF552BF33782002E89DC /* DustyViewController.swift */,
+				B54ABF532BF33768002E89DC /* DotAnimationView.swift */,
+			);
+			path = Dusty;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -239,6 +272,8 @@
 				B54ABF392BF22E9D002E89DC /* Then */,
 				B54ABF3C2BF22EA6002E89DC /* Alamofire */,
 				B54ABF3E2BF22EA6002E89DC /* AlamofireDynamic */,
+				B54ABF642BFB608C002E89DC /* DGCharts */,
+				B54ABF662BFB608C002E89DC /* DGChartsDynamic */,
 			);
 			productName = TodayWeather;
 			productReference = B54ABF122BF22B4F002E89DC /* TodayWeather.app */;
@@ -272,6 +307,7 @@
 				B54ABF352BF22E95002E89DC /* XCRemoteSwiftPackageReference "SnapKit" */,
 				B54ABF382BF22E9D002E89DC /* XCRemoteSwiftPackageReference "Then" */,
 				B54ABF3B2BF22EA6002E89DC /* XCRemoteSwiftPackageReference "Alamofire" */,
+				B54ABF632BFB608C002E89DC /* XCRemoteSwiftPackageReference "Charts" */,
 			);
 			productRefGroup = B54ABF132BF22B4F002E89DC /* Products */;
 			projectDirPath = "";
@@ -312,6 +348,9 @@
 				B54ABF472BF30645002E89DC /* CurrentResponseModel.swift in Sources */,
 				B54ABF342BF22D9A002E89DC /* Network.swift in Sources */,
 				B54ABF1A2BF22B4F002E89DC /* ViewController.swift in Sources */,
+				B54ABF542BF33768002E89DC /* DotAnimationView.swift in Sources */,
+				B54ABF492BF307B8002E89DC /* ForecastResponseModel.swift in Sources */,
+				B54ABF692BFB61DA002E89DC /* DetailAqiViewController.swift in Sources */,
 				A71003512BFB8F5B00BF6FD4 /* CoreDataManager.swift in Sources */,
 				B54ABF492BF307B8002E89DC /* ForecastResponseModel.swift in Sources */,
 				856C9B632BF5035800D99A2F /* WeatherViewController.swift in Sources */,
@@ -324,8 +363,13 @@
 				A7937AC12BF3836E00E9AD04 /* SearchViewController.swift in Sources */,
 				A710034E2BFB35E200BF6FD4 /* SearchView.swift in Sources */,
 				B54ABF522BF314B4002E89DC /* LocationManager.swift in Sources */,
+				B54ABF562BF33782002E89DC /* DustyViewController.swift in Sources */,
+				B54ABF5A2BF5C0FC002E89DC /* CustomTabControl.swift in Sources */,
 				B54ABF412BF30223002E89DC /* WeatherAPIManager.swift in Sources */,
+				B54ABF602BF75ACD002E89DC /* SegmentControlView.swift in Sources */,
+				B54ABF6D2BFC968B002E89DC /* DetailCardCell.swift in Sources */,
 				B54ABF182BF22B4F002E89DC /* SceneDelegate.swift in Sources */,
+				B54ABF6B2BFC9521002E89DC /* DetailChartCell.swift in Sources */,
 				A7894D032BF61AFD003469A5 /* SelectedTableViewCell.swift in Sources */,
 				856C9B812BF7500F00D99A2F /* WeatherModel.swift in Sources */,
 				856C9B7A2BF6028E00D99A2F /* Fonts.swift in Sources */,
@@ -563,6 +607,14 @@
 				minimumVersion = 5.9.1;
 			};
 		};
+		B54ABF632BFB608C002E89DC /* XCRemoteSwiftPackageReference "Charts" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/ChartsOrg/Charts";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.1.0;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -585,6 +637,16 @@
 			isa = XCSwiftPackageProductDependency;
 			package = B54ABF3B2BF22EA6002E89DC /* XCRemoteSwiftPackageReference "Alamofire" */;
 			productName = AlamofireDynamic;
+		};
+		B54ABF642BFB608C002E89DC /* DGCharts */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = B54ABF632BFB608C002E89DC /* XCRemoteSwiftPackageReference "Charts" */;
+			productName = DGCharts;
+		};
+		B54ABF662BFB608C002E89DC /* DGChartsDynamic */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = B54ABF632BFB608C002E89DC /* XCRemoteSwiftPackageReference "Charts" */;
+			productName = DGChartsDynamic;
 		};
 /* End XCSwiftPackageProductDependency section */
 
