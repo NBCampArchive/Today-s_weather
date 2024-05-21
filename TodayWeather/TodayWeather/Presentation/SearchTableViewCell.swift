@@ -35,22 +35,18 @@ class SearchTableViewCell: UITableViewCell {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    override func layoutSubviews() {
-        super.layoutSubviews()
-    }
     func setupLayout() {
         contentView.addSubview(locLbl)
         contentView.addSubview(cancelBtn)
         
         locLbl.snp.makeConstraints {
-            $0.top.equalTo(contentView.snp.top).offset(6.5)
-            $0.bottom.equalTo(contentView.snp.bottom).inset(6.5)
+            $0.top.equalToSuperview().offset(8.5)
             $0.leading.equalToSuperview().offset(43)
             $0.trailing.equalToSuperview().offset(-32)
         }
         
         cancelBtn.snp.makeConstraints {
-            $0.top.bottom.equalToSuperview()
+            $0.centerY.equalTo(locLbl.snp.centerY)
             $0.trailing.equalToSuperview().inset(24)
         }
     }
