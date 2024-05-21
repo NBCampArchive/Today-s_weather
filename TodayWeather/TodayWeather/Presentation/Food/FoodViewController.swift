@@ -183,7 +183,7 @@ class FoodViewController: UIViewController {
         
         // Load JSON and update UI
         let recommendations = loadWeatherRecommendations()
-        updateFoodRecommendations(for: "sunny", with: recommendations)  // Test with "sunny"
+        updateFoodRecommendations(for: "sunny", with: recommendations) // Test with "sunny"
     }
     
     // 현재 위치를 기준으로 날씨 데이터를 가져오는 API 호출 함수
