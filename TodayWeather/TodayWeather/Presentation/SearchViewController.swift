@@ -22,21 +22,24 @@ class SearchViewController : UIViewController{
             localSearch?.cancel()
         }
     }
-    
+    let CDM = CoreDataManager()
     private var searchRecent : [String] = []
     private var selectWeather = [CurrentResponseModel]()
-    var longitude: Double = 126.978
-    
-    var latitude: Double = 37.5665
-    var localtitle : [String] = ["Seoul"]
-    
-    
+    var longitude : Double = 126.978
+    var latitude : Double = 37.5665
+    var localtitle : [String] = ["Soeul, South Korea"]
     // MARK: Life Cycle
     override func loadView() {
         view = searchView
     }
     override func viewWillAppear(_ animated: Bool) {
         callAPIs()
+        for i in CDM.readData() {
+            longitude = i.longitude
+            latitude = i.latitude
+            localtitle.append(i.locName)
+            callAPIs()
+        }
     }
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -64,8 +67,10 @@ class SearchViewController : UIViewController{
             case .success(let data):
                 self?.selectWeather.append(data)
                 CurrentWeather.weather = "rain"
-                self?.view.backgroundColor = CurrentWeather.shared.weatherColor()
-                self?.searchView.selectTableView.insertRows(at: [IndexPath(row: (self?.selectWeather.count ?? 0) - 1, section: 0)], with: .automatic)
+                DispatchQueue.main.async {
+                    self?.view.backgroundColor = CurrentWeather.shared.weatherColor()
+                    self?.searchView.selectTableView.reloadData()
+                }
             case .failure(let error):
                 print("GetCurrentWeatherData Failure \(error)")
             }
@@ -247,7 +252,15 @@ extension SearchViewController : UITableViewDelegate, UITableViewDataSource {
         if tableView == searchView.selectTableView {
             return 115
         }else {
-            return 26.5
+            if indexPath.section == 0 {
+                if searchResults.isEmpty == false {
+                    return 26.5
+                }else {
+                    return 24
+                }
+            }else {
+                return 24
+            }
         }
         
     }
@@ -359,7 +372,9 @@ extension SearchViewController : MKLocalSearchCompleterDelegate {
 
 extension SearchViewController : delDelegate{
     func delDelegate(row: Int) {
-        searchView.searchEnd()
+        if searchResults.isEmpty == true {
+            searchView.searchEnd()
+        }
         searchRecent.remove(at: row)
         searchView.searchTableView.reloadData()
     }
@@ -385,6 +400,7 @@ extension SearchViewController: CLLocationManagerDelegate {
                
                // 주소 정보 가져오기
                self.localtitle.append(name)
+               self.CDM.saveData(Data: locationData(latitude: latitude, longitude: longitude, locName: name))
                self.callAPIs()
            }
        }
