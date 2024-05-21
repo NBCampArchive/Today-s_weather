@@ -21,10 +21,24 @@ class FashionViewController: UIViewController {
     let nationLabel = UILabel()
     let nationFont = UIFont(name: "Gabarito-Medium", size: 10)
     let markImageView = UIImageView()
+    var weather : WeatherModel = .sunny
 
     override func viewDidLoad() {
         
         super.viewDidLoad()
+        if weather == .sunny {
+            self.view.backgroundColor = .sunnyBackground
+            tableView.backgroundColor = .sunnyBackground
+        } else if weather == .rainy {
+            self.view.backgroundColor = .rainyBackground
+            tableView.backgroundColor = .rainyBackground
+        } else if weather == .fewCloudy {
+            self.view.backgroundColor = .fewCloudyBackground
+            tableView.backgroundColor = .fewCloudyBackground
+        } else if weather == .cloudy {
+            self.view.backgroundColor = .cloudyBackground
+            tableView.backgroundColor = .cloudyBackground
+        }
         view.addSubview(tableView)
         view.addSubview(tempLabel)
         view.addSubview(tmpView)
@@ -33,8 +47,8 @@ class FashionViewController: UIViewController {
         view.addSubview(markImageView)
         configureUI()
         setupConstraints()
-        self.view.backgroundColor = .sunnyBackground
-        tableView.backgroundColor = .sunnyBackground
+//        self.view.backgroundColor = .sunnyBackground
+//        tableView.backgroundColor = .sunnyBackground
         tableView.separatorStyle = .none
         tableView.dataSource = self
         tableView.delegate = self
@@ -60,7 +74,7 @@ class FashionViewController: UIViewController {
         tmpView.addSubview(tempLabel)
         tempLabel.text = "18"
         tempLabel.font = tempFont
-        tempImageView.image = UIImage(resource: .sunny)
+        tempImageView.image = UIImage(resource: .largeSunny)
 }
     func setupConstraints() {
         dayLabel.snp.makeConstraints {
@@ -69,7 +83,7 @@ class FashionViewController: UIViewController {
         }
         cityLabel.snp.makeConstraints {
             $0.top.equalTo(dayLabel.snp.bottom).offset(4)
-            $0.leading.equalToSuperview()
+            $0.leading.equalTo(markImageView.snp.trailing).offset(5)
         }
         nationLabel.snp.makeConstraints {
             $0.top.equalTo(dayLabel.snp.bottom).inset(-13)
@@ -82,15 +96,17 @@ class FashionViewController: UIViewController {
             $0.trailing.equalToSuperview()
         }
         markImageView.snp.makeConstraints {
-            $0.top.equalToSuperview().inset(32)
-            $0.leading.equalToSuperview().inset(27)
-            $0.trailing.equalToSuperview().inset(351)
-            
+            $0.top.equalTo(dayLabel.snp.bottom)
+            $0.leading.equalTo(dayLabel.snp.leading)
+            $0.width.equalTo(15)
+            $0.height.equalTo(23)
         }
         tempImageView.snp.makeConstraints {
-            $0.top.equalToSuperview().inset(4)
-            $0.bottom.equalToSuperview().inset(4)
-            $0.leading.equalToSuperview().offset(161)
+            $0.top.equalToSuperview().inset(6)
+            $0.leading.equalToSuperview().inset(181)
+            $0.bottom.equalToSuperview().inset(428)
+            $0.width.equalTo(262)
+            $0.height.equalTo(262)
         }
         tempLabel.snp.makeConstraints {
             $0.top.equalToSuperview().offset(166)
@@ -114,6 +130,7 @@ extension FashionViewController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: FashionTableViewCell.identifier, for: indexPath) as! FashionTableViewCell
+
         cell.fashionLabel.text = "나시티,반바지,반팔"
         cell.subLabel.text = "오후"
         cell.tmpLabel.text = "21"
