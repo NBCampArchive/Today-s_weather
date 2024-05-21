@@ -1,393 +1,499 @@
-import UIKit
 import Foundation
+import UIKit
+import Then
+import SnapKit
 
 class FoodViewController: UIViewController {
     
-    private let dateLabel: UILabel = {
-        let label = UILabel()
-        label.text = "Friday August 8"
-        label.font = UIFont(name: "Gabarito", size: 17)
-        label.translatesAutoresizingMaskIntoConstraints = false
-        return label
-    }()
-    
-    private let locationIcon: UIImageView = {
-        let imageView = UIImageView()
-        imageView.image = UIImage(named: "locationMark")
-        imageView.translatesAutoresizingMaskIntoConstraints = false
-        imageView.contentMode = .scaleAspectFit
-        return imageView
-    }()
-    
-    private let cityLabel: UILabel = {
-        let label = UILabel()
-        label.text = "Seoul"
-        if let customFont = UIFont(name: "Gabarito-Bold", size: 32) {
-            label.font = customFont
-        } else {
-            label.font = UIFont(name: "Gabarito", size: 32)
+    var longitude: Double = 0 {
+        didSet {
+            callAPIs()
         }
-        label.translatesAutoresizingMaskIntoConstraints = false
-        return label
-    }()
+    }
     
-    private let countryLabel: UILabel = {
-        let label = UILabel()
-        label.text = "Korea"
-        label.font = UIFont(name: "Gabarito", size: 15)
-        label.translatesAutoresizingMaskIntoConstraints = false
-        return label
-    }()
+    var latitude: Double = 0
     
-    private let circleImageView: UIImageView = {
-        let imageView = UIImageView()
-        imageView.image = UIImage(named: "smallSunny")
-        imageView.translatesAutoresizingMaskIntoConstraints = false
-        imageView.contentMode = .scaleAspectFill
-        return imageView
-    }()
+    var weatherData: CurrentResponseModel? {
+        didSet {
+            configureLabel()
+        }
+    }
     
-    private let temperatureLabel: UILabel = {
-        let label = UILabel()
-        label.text = "30°"
-        label.font = UIFont(name: "Bagel Fat One", size: 60)
-        label.translatesAutoresizingMaskIntoConstraints = false
-        return label
-    }()
+    private let scrollView = UIScrollView().then {
+        $0.showsVerticalScrollIndicator = false
+    }
     
-    private let weatherLine1Label: UILabel = {
-        let label = UILabel()
-        label.text = "OO날씨, 맛있는 선택"
-        label.font = UIFont(name: "Pretendard", size: 14)
-        label.textColor = UIColor.black.withAlphaComponent(0.4)
-        label.translatesAutoresizingMaskIntoConstraints = false
-        return label
-    }()
+    private let contentsView = UIView()
     
-    private let weatherLine2Label: UILabel = {
-        let label = UILabel()
-        label.text = "오늘같이 OO날에 먹는 맛 여기서 찾기"
-        label.font = UIFont(name: "Pretendard", size: 14)
-        label.textColor = UIColor.black.withAlphaComponent(0.4)
-        label.translatesAutoresizingMaskIntoConstraints = false
-        return label
-    }()
+    private let weatherAndLocationStackView = UIStackView().then {
+        $0.axis = .vertical
+        $0.spacing = 4
+    }
     
-    private let weatherLine3Label: UILabel = {
-        let label = UILabel()
-        label.text = "무엇을 먹을지 고민되는 하루"
-        label.font = UIFont(name: "Pretendard", size: 14)
-        label.textColor = UIColor.black.withAlphaComponent(0.4)
-        label.translatesAutoresizingMaskIntoConstraints = false
-        return label
-    }()
+    private let locationStackView = UIStackView().then {
+        $0.axis = .horizontal
+        $0.spacing = 4
+    }
     
-    private let suggestionsTitleLabel: UILabel = {
-        let label = UILabel()
-        label.text = "이런 음식은 어떠세요?"
-        label.font = UIFont(name: "Pretendard", size: 12)
-        label.translatesAutoresizingMaskIntoConstraints = false
-        return label
-    }()
+    private let locationLabelStackView = UIStackView().then {
+        $0.axis = .horizontal
+        $0.spacing = 4
+        $0.alignment = .firstBaseline
+    }
     
-    private let suggestionsView: UIView = {
-        let view = UIView()
-        view.translatesAutoresizingMaskIntoConstraints = false
-        return view
-    }()
+    private lazy var dateLabel = UILabel().then {
+        $0.font = Gabarito.bold.of(size: 17)
+        $0.text = configureDate()
+    }
     
-    private let koreanFoodLabel: UILabel = {
-        let label = UILabel()
-        label.text = "한식"
-        label.font = UIFont(name: "Pretendard", size: 16)
-        label.translatesAutoresizingMaskIntoConstraints = false
-        return label
-    }()
-
-    private let koreanMenuLabel: UILabel = {
-        let label = UILabel()
-        label.text = "비빔밥, 김치찌개, 불고기"
-        label.font = UIFont(name: "Pretendard", size: 14)
-        label.textColor = .black // 텍스트 색상을 검은색으로 설정
-        label.translatesAutoresizingMaskIntoConstraints = false
-        return label
-    }()
-
-    private let koreanSeparator: UIView = {
-        let view = UIView()
-        view.backgroundColor = .black // 배경 색상을 검은색으로 설정
-        view.translatesAutoresizingMaskIntoConstraints = false
-        return view
-    }()
-
-    private let westernFoodLabel: UILabel = {
-        let label = UILabel()
-        label.text = "양식"
-        label.font = UIFont(name: "Pretendard", size: 16)
-        label.translatesAutoresizingMaskIntoConstraints = false
-        return label
-    }()
-
-    private let westernMenuLabel: UILabel = {
-        let label = UILabel()
-        label.text = "스테이크, 파스타, 피자"
-        label.font = UIFont(name: "Pretendard", size: 14)
-        label.textColor = .black // 텍스트 색상을 검은색으로 설정
-        label.translatesAutoresizingMaskIntoConstraints = false
-        return label
-    }()
-
-    private let westernSeparator: UIView = {
-        let view = UIView()
-        view.backgroundColor = .black // 배경 색상을 검은색으로 설정
-        view.translatesAutoresizingMaskIntoConstraints = false
-        return view
-    }()
-
-    private let chineseFoodLabel: UILabel = {
-        let label = UILabel()
-        label.text = "중식"
-        label.font = UIFont(name: "Pretendard", size: 16)
-        label.translatesAutoresizingMaskIntoConstraints = false
-        return label
-    }()
-
-    private let chineseMenuLabel: UILabel = {
-        let label = UILabel()
-        label.text = "짜장면, 탕수육, 마라탕"
-        label.font = UIFont(name: "Pretendard", size: 14)
-        label.textColor = .black // 텍스트 색상을 검은색으로 설정
-        label.translatesAutoresizingMaskIntoConstraints = false
-        return label
-    }()
-
-    private let chineseSeparator: UIView = {
-        let view = UIView()
-        view.backgroundColor = .black // 배경 색상을 검은색으로 설정
-        view.translatesAutoresizingMaskIntoConstraints = false
-        return view
-    }()
-
-    private let japaneseFoodLabel: UILabel = {
-        let label = UILabel()
-        label.text = "일식"
-        label.font = UIFont(name: "Pretendard", size: 16)
-        label.translatesAutoresizingMaskIntoConstraints = false
-        return label
-    }()
-
-    private let japaneseMenuLabel: UILabel = {
-        let label = UILabel()
-        label.text = "초밥, 라멘, 우동"
-        label.font = UIFont(name: "Pretendard", size: 14)
-        label.textColor = .black // 텍스트 색상을 검은색으로 설정
-        label.translatesAutoresizingMaskIntoConstraints = false
-        return label
-    }()
-
-    private let japaneseSeparator: UIView = {
-        let view = UIView()
-        view.backgroundColor = .black // 배경 색상을 검은색으로 설정
-        view.translatesAutoresizingMaskIntoConstraints = false
-        return view
-    }()
+    private let locationMarkImage = UIImageView().then {
+        $0.contentMode = .scaleAspectFit
+        $0.image = UIImage(named: "locationMark")
+    }
+    
+    private lazy var cityLabel = UILabel().then {
+        $0.font = Gabarito.bold.of(size: 32)
+        $0.text = weatherData?.name ?? "Cupertino"
+    }
+    
+    private lazy var countryLabel = UILabel().then {
+        $0.font = Gabarito.bold.of(size: 15)
+        $0.text = weatherData?.sys.country ?? "United States"
+    }
+    
+    private lazy var weatherImage = UIImageView().then {
+        $0.contentMode = .scaleAspectFit
+        $0.image = UIImage(named: "largeSunny")
+    }
+    
+    private lazy var currentTemperatureLabel = UILabel().then {
+        $0.font = BagelFatOne.regular.of(size: 96)
+        $0.text = String(Int(weatherData?.main.temp ?? 0)) + "°"
+    }
+    
+    private let weatherLine1Label = UILabel().then {
+        $0.text = "OO날씨, 맛있는 선택"
+        $0.font = UIFont(name: "Pretendard", size: 14)
+        $0.textColor = UIColor.black.withAlphaComponent(0.4)
+        $0.translatesAutoresizingMaskIntoConstraints = false
+    }
+    
+    private let weatherLine2Label = UILabel().then {
+        $0.text = "현재 기온 0°에 먹는 맛 여기서 찾기"
+        $0.font = UIFont(name: "Pretendard", size: 14)
+        $0.textColor = UIColor.black.withAlphaComponent(0.4)
+        $0.translatesAutoresizingMaskIntoConstraints = false
+    }
+    
+    private let weatherLine3Label = UILabel().then {
+        $0.text = "무엇을 먹을지 고민되는 하루"
+        $0.font = UIFont(name: "Pretendard", size: 14)
+        $0.textColor = UIColor.black.withAlphaComponent(0.4)
+        $0.translatesAutoresizingMaskIntoConstraints = false
+    }
+    
+    private let suggestionsTitleLabel = UILabel().then {
+        $0.text = "이런 음식은 어떠세요?"
+        $0.font = UIFont(name: "Pretendard", size: 12)
+        $0.translatesAutoresizingMaskIntoConstraints = false
+    }
+    
+    private let suggestionsView = UIView().then {
+        $0.translatesAutoresizingMaskIntoConstraints = false
+    }
+    
+    private let koreanFoodLabel = UILabel().then {
+        $0.text = "한식"
+        $0.font = UIFont(name: "Pretendard", size: 16)
+        $0.translatesAutoresizingMaskIntoConstraints = false
+    }
+    
+    private let koreanMenuLabel = UILabel().then {
+        $0.text = "음식 내용 데이터 가져오기"
+        $0.font = UIFont(name: "Pretendard", size: 14)
+        $0.textColor = .black
+        $0.translatesAutoresizingMaskIntoConstraints = false
+    }
+    
+    private let koreanSeparator = UIView().then {
+        $0.backgroundColor = .black
+        $0.translatesAutoresizingMaskIntoConstraints = false
+    }
+    
+    private let westernFoodLabel = UILabel().then {
+        $0.text = "양식"
+        $0.font = UIFont(name: "Pretendard", size: 16)
+        $0.translatesAutoresizingMaskIntoConstraints = false
+    }
+    
+    private let westernMenuLabel = UILabel().then {
+        $0.text = "음식 내용 데이터 가져오기"
+        $0.font = UIFont(name: "Pretendard", size: 14)
+        $0.textColor = .black
+        $0.translatesAutoresizingMaskIntoConstraints = false
+    }
+    
+    private let westernSeparator = UIView().then {
+        $0.backgroundColor = .black
+        $0.translatesAutoresizingMaskIntoConstraints = false
+    }
+    
+    private let chineseFoodLabel = UILabel().then {
+        $0.text = "중식"
+        $0.font = UIFont(name: "Pretendard", size: 16)
+        $0.translatesAutoresizingMaskIntoConstraints = false
+    }
+    
+    private let chineseMenuLabel = UILabel().then {
+        $0.text = "음식 내용 데이터 가져오기"
+        $0.font = UIFont(name: "Pretendard", size: 14)
+        $0.textColor = .black
+        $0.translatesAutoresizingMaskIntoConstraints = false
+    }
+    
+    private let chineseSeparator = UIView().then {
+        $0.backgroundColor = .black
+        $0.translatesAutoresizingMaskIntoConstraints = false
+    }
+    
+    private let japaneseFoodLabel = UILabel().then {
+        $0.text = "일식"
+        $0.font = UIFont(name: "Pretendard", size: 16)
+        $0.translatesAutoresizingMaskIntoConstraints = false
+    }
+    
+    private let japaneseMenuLabel = UILabel().then {
+        $0.text = "음식 내용 데이터 가져오기"
+        $0.font = UIFont(name: "Pretendard", size: 14)
+        $0.textColor = .black
+        $0.translatesAutoresizingMaskIntoConstraints = false
+    }
+    
+    private let japaneseSeparator = UIView().then {
+        $0.backgroundColor = .black
+        $0.translatesAutoresizingMaskIntoConstraints = false
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = UIColor(named: "fewCloudyBackground")
         
-        setupHeader()
-        setupWeatherDescription()
-        setupSuggestionsView()
-        fetchWeatherData()
+        configureUI()
+        setConstraints()
+        
+        // Load JSON and update UI
+        let recommendations = loadWeatherRecommendations()
+        updateFoodRecommendations(for: "sunny", with: recommendations)  // Test with "sunny"
     }
     
-    private func setupHeader() {
-        view.addSubview(circleImageView)
-        view.addSubview(dateLabel)
-        view.addSubview(locationIcon)
-        view.addSubview(cityLabel)
-        view.addSubview(countryLabel)
-        view.addSubview(temperatureLabel)
-        
-        NSLayoutConstraint.activate([
-            dateLabel.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 90),
-            dateLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16)
-        ])
-        
-        NSLayoutConstraint.activate([
-            locationIcon.topAnchor.constraint(equalTo: dateLabel.bottomAnchor, constant: 10),
-            locationIcon.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
-            locationIcon.widthAnchor.constraint(equalToConstant: 24),
-            locationIcon.heightAnchor.constraint(equalToConstant: 24)
-        ])
-        
-        NSLayoutConstraint.activate([
-            cityLabel.centerYAnchor.constraint(equalTo: locationIcon.centerYAnchor),
-            cityLabel.leadingAnchor.constraint(equalTo: locationIcon.trailingAnchor, constant: 8)
-        ])
-        
-        NSLayoutConstraint.activate([
-            countryLabel.centerYAnchor.constraint(equalTo: cityLabel.centerYAnchor),
-            countryLabel.leadingAnchor.constraint(equalTo: cityLabel.trailingAnchor, constant: 8)
-        ])
-        
-        NSLayoutConstraint.activate([
-            circleImageView.topAnchor.constraint(equalTo: cityLabel.bottomAnchor, constant: 54),
-            circleImageView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 24),
-            circleImageView.widthAnchor.constraint(equalToConstant: 280),
-            circleImageView.heightAnchor.constraint(equalToConstant: 280)
-        ])
-        
-        NSLayoutConstraint.activate([
-            temperatureLabel.topAnchor.constraint(equalTo: cityLabel.bottomAnchor, constant: 80),
-            temperatureLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16)
-        ])
-    }
-    
-    private func setupWeatherDescription() {
-        view.addSubview(weatherLine1Label)
-        view.addSubview(weatherLine2Label)
-        view.addSubview(weatherLine3Label)
-        view.addSubview(suggestionsTitleLabel)
-
-        NSLayoutConstraint.activate([
-            weatherLine1Label.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
-            weatherLine1Label.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
-            weatherLine1Label.topAnchor.constraint(equalTo: temperatureLabel.bottomAnchor, constant: 10)
-        ])
-        
-        NSLayoutConstraint.activate([
-            weatherLine2Label.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
-            weatherLine2Label.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
-            weatherLine2Label.topAnchor.constraint(equalTo: weatherLine1Label.bottomAnchor, constant: 10)
-        ])
-        
-        NSLayoutConstraint.activate([
-            weatherLine3Label.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
-            weatherLine3Label.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
-            weatherLine3Label.topAnchor.constraint(equalTo: weatherLine2Label.bottomAnchor, constant: 10)
-        ])
-    }
-    
-    private func setupSuggestionsView() {
-        view.addSubview(suggestionsTitleLabel)
-        view.addSubview(suggestionsView)
-        
-        suggestionsView.addSubview(koreanFoodLabel)
-        suggestionsView.addSubview(koreanMenuLabel)
-        suggestionsView.addSubview(koreanSeparator)
-        suggestionsView.addSubview(westernFoodLabel)
-        suggestionsView.addSubview(westernMenuLabel)
-        suggestionsView.addSubview(westernSeparator)
-        suggestionsView.addSubview(chineseFoodLabel)
-        suggestionsView.addSubview(chineseMenuLabel)
-        suggestionsView.addSubview(chineseSeparator)
-        suggestionsView.addSubview(japaneseFoodLabel)
-        suggestionsView.addSubview(japaneseMenuLabel)
-        suggestionsView.addSubview(japaneseSeparator)
-        
-        NSLayoutConstraint.activate([
-            suggestionsTitleLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
-            suggestionsTitleLabel.bottomAnchor.constraint(equalTo: suggestionsView.topAnchor, constant: -10)
-        ])
-        
-        NSLayoutConstraint.activate([
-            suggestionsView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
-            suggestionsView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
-            suggestionsView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -90)
-        ])
-        
-        NSLayoutConstraint.activate([
-            koreanFoodLabel.topAnchor.constraint(equalTo: suggestionsView.topAnchor),
-            koreanFoodLabel.leadingAnchor.constraint(equalTo: suggestionsView.leadingAnchor)
-        ])
-        
-        NSLayoutConstraint.activate([
-            koreanMenuLabel.centerYAnchor.constraint(equalTo: koreanFoodLabel.centerYAnchor),
-            koreanMenuLabel.trailingAnchor.constraint(equalTo: suggestionsView.trailingAnchor, constant: -16)
-        ])
-        
-        NSLayoutConstraint.activate([
-            koreanSeparator.topAnchor.constraint(equalTo: koreanFoodLabel.bottomAnchor, constant: 8),
-            koreanSeparator.leadingAnchor.constraint(equalTo: suggestionsView.leadingAnchor),
-            koreanSeparator.trailingAnchor.constraint(equalTo: suggestionsView.trailingAnchor),
-            koreanSeparator.heightAnchor.constraint(equalToConstant: 1)
-        ])
-        
-        NSLayoutConstraint.activate([
-            westernFoodLabel.topAnchor.constraint(equalTo: koreanSeparator.bottomAnchor, constant: 20),
-            westernFoodLabel.leadingAnchor.constraint(equalTo: suggestionsView.leadingAnchor)
-        ])
-        
-        NSLayoutConstraint.activate([
-            westernMenuLabel.centerYAnchor.constraint(equalTo: westernFoodLabel.centerYAnchor),
-            westernMenuLabel.trailingAnchor.constraint(equalTo: suggestionsView.trailingAnchor, constant: -16)
-        ])
-        
-        NSLayoutConstraint.activate([
-            westernSeparator.topAnchor.constraint(equalTo: westernFoodLabel.bottomAnchor, constant: 8),
-            westernSeparator.leadingAnchor.constraint(equalTo: suggestionsView.leadingAnchor),
-            westernSeparator.trailingAnchor.constraint(equalTo: suggestionsView.trailingAnchor),
-            westernSeparator.heightAnchor.constraint(equalToConstant: 1)
-        ])
-        
-        NSLayoutConstraint.activate([
-            chineseFoodLabel.topAnchor.constraint(equalTo: westernSeparator.bottomAnchor, constant: 20),
-            chineseFoodLabel.leadingAnchor.constraint(equalTo: suggestionsView.leadingAnchor)
-        ])
-        
-        NSLayoutConstraint.activate([
-            chineseMenuLabel.centerYAnchor.constraint(equalTo: chineseFoodLabel.centerYAnchor),
-            chineseMenuLabel.trailingAnchor.constraint(equalTo: suggestionsView.trailingAnchor, constant: -16)
-        ])
-        
-        NSLayoutConstraint.activate([
-            chineseSeparator.topAnchor.constraint(equalTo: chineseFoodLabel.bottomAnchor, constant: 8),
-            chineseSeparator.leadingAnchor.constraint(equalTo: suggestionsView.leadingAnchor),
-            chineseSeparator.trailingAnchor.constraint(equalTo: suggestionsView.trailingAnchor),
-            chineseSeparator.heightAnchor.constraint(equalToConstant: 1)
-        ])
-        
-        NSLayoutConstraint.activate([
-            japaneseFoodLabel.topAnchor.constraint(equalTo: chineseSeparator.bottomAnchor, constant: 20),
-            japaneseFoodLabel.leadingAnchor.constraint(equalTo: suggestionsView.leadingAnchor)
-        ])
-        
-        NSLayoutConstraint.activate([
-            japaneseMenuLabel.centerYAnchor.constraint(equalTo: japaneseFoodLabel.centerYAnchor),
-            japaneseMenuLabel.trailingAnchor.constraint(equalTo: suggestionsView.trailingAnchor, constant: -16)
-        ])
-        
-        NSLayoutConstraint.activate([
-            japaneseSeparator.topAnchor.constraint(equalTo: japaneseFoodLabel.bottomAnchor, constant: 8),
-            japaneseSeparator.leadingAnchor.constraint(equalTo: suggestionsView.leadingAnchor),
-            japaneseSeparator.trailingAnchor.constraint(equalTo: suggestionsView.trailingAnchor),
-            japaneseSeparator.heightAnchor.constraint(equalToConstant: 1),
-            japaneseSeparator.bottomAnchor.constraint(equalTo: suggestionsView.bottomAnchor)
-        ])
-    }
-    
-    private func fetchWeatherData() {
-        // 더미 날씨 데이터
-        let weather = "largeSunny"
-        updateBackgroundColor(for: weather)
-        
-        // 여기서 네트워크 호출을 통해 실제 날씨 데이터를 가져오고, 날씨에 따라 배경 색상을 업데이트하세요.
-    }
-    
-    private func updateBackgroundColor(for weather: String) {
-        switch weather {
-        case "largeSunny":
-            view.backgroundColor = UIColor(named: "sunnyBackground")
-        case "rainy":
-            view.backgroundColor = UIColor(named: "rainyBackground")
-        case "cloudy":
-            view.backgroundColor = UIColor(named: "fewCloudyBackground")
-        case "snowy":
-            view.backgroundColor = UIColor(named: "snowyBackground")
-        default:
-            view.backgroundColor = UIColor(named: "defaultBackground")
+    // 현재 위치를 기준으로 날씨 데이터를 가져오는 API 호출 함수
+    private func callAPIs() {
+        WeatherAPIManager.shared.getCurrentWeatherData(latitude: self.latitude, longitude: self.longitude) { result in
+            switch result {
+                case .success(let data):
+                    self.weatherData = data
+                    DispatchQueue.main.async {
+                        self.updateUI(with: data)
+                    }
+                    print("GetCurrentWeatherData Success : \(data)")
+                case .failure(let error):
+                    print("GetCurrentWeatherData Failure \(error)")
+            }
         }
+    }
+    
+    private func loadWeatherRecommendations() -> WeatherRecommendations? {
+        guard let url = Bundle.main.url(forResource: "weatherRecommendations", withExtension: "json") else {
+            return nil
+        }
+        
+        do {
+            let data = try Data(contentsOf: url)
+            let decoder = JSONDecoder()
+            let recommendations = try decoder.decode(WeatherRecommendations.self, from: data)
+            return recommendations
+        } catch {
+            print("Error decoding JSON: \(error)")
+            return nil
+        }
+    }
+    
+    // UI 구성 요소를 초기화하고 뷰에 추가하는 함수
+    private func configureUI() {
+        view.addSubview(scrollView)
+        scrollView.addSubview(contentsView)
+        
+        // contentsView에 모든 서브 뷰 추가
+        [weatherAndLocationStackView,
+         weatherImage,
+         currentTemperatureLabel,
+         weatherLine1Label,
+         weatherLine2Label,
+         weatherLine3Label,
+         suggestionsTitleLabel,
+         suggestionsView
+        ].forEach {
+            contentsView.addSubview($0)
+        }
+        
+        // weatherAndLocationStackView에 서브 뷰 추가
+        [dateLabel,
+         locationStackView].forEach {
+            weatherAndLocationStackView.addArrangedSubview($0)
+        }
+        
+        // locationStackView에 서브 뷰 추가
+        [locationMarkImage,
+         locationLabelStackView].forEach {
+            locationStackView.addArrangedSubview($0)
+        }
+        
+        // locationLabelStackView에 서브 뷰 추가
+        [cityLabel,
+         countryLabel].forEach {
+            locationLabelStackView.addArrangedSubview($0)
+        }
+        
+        // suggestionsView에 서브 뷰 추가
+        [koreanFoodLabel,
+         koreanMenuLabel,
+         koreanSeparator,
+         westernFoodLabel,
+         westernMenuLabel,
+         westernSeparator,
+         chineseFoodLabel,
+         chineseMenuLabel,
+         chineseSeparator,
+         japaneseFoodLabel,
+         japaneseMenuLabel,
+         japaneseSeparator
+        ].forEach {
+            suggestionsView.addSubview($0)
+        }
+    }
+    
+    // UI 요소들의 제약 조건을 설정하는 함수
+    private func setConstraints() {
+        scrollView.snp.makeConstraints {
+            $0.edges.equalTo(self.view.safeAreaLayoutGuide)
+        }
+        
+        scrollView.contentLayoutGuide.snp.makeConstraints {
+            $0.edges.equalTo(contentsView)
+            $0.width.equalTo(scrollView.frameLayoutGuide)
+        }
+        
+        contentsView.snp.makeConstraints {
+            $0.width.equalTo(self.scrollView.frameLayoutGuide)
+        }
+        
+        weatherAndLocationStackView.snp.makeConstraints {
+            $0.top.equalToSuperview().inset(54)
+            $0.leading.equalToSuperview().inset(20)
+        }
+        
+        weatherImage.snp.makeConstraints {
+            $0.top.equalTo(weatherAndLocationStackView.snp.bottom).offset(120)
+            $0.leading.equalToSuperview().inset(24)
+            $0.width.equalTo(262)
+            $0.height.equalTo(262)
+        }
+        
+        currentTemperatureLabel.snp.makeConstraints {
+            $0.top.equalTo(weatherImage.snp.bottom).offset(-350)
+            $0.leading.equalToSuperview().inset(16)
+        }
+        
+        weatherLine1Label.snp.makeConstraints {
+            $0.top.equalTo(currentTemperatureLabel.snp.bottom).offset(20)
+            $0.leading.equalToSuperview().inset(16)
+            $0.trailing.equalToSuperview().inset(16)
+        }
+        
+        weatherLine2Label.snp.makeConstraints {
+            $0.top.equalTo(weatherLine1Label.snp.bottom).offset(10)
+            $0.leading.equalToSuperview().inset(16)
+            $0.trailing.equalToSuperview().inset(16)
+        }
+        
+        weatherLine3Label.snp.makeConstraints {
+            $0.top.equalTo(weatherLine2Label.snp.bottom).offset(10)
+            $0.leading.equalToSuperview().inset(16)
+            $0.trailing.equalToSuperview().inset(16)
+        }
+        
+        suggestionsTitleLabel.snp.makeConstraints {
+            $0.top.equalTo(weatherLine3Label.snp.bottom).offset(20)
+            $0.leading.equalToSuperview().inset(16)
+            $0.trailing.equalToSuperview().inset(16)
+        }
+        
+        suggestionsView.snp.makeConstraints {
+            $0.top.equalTo(suggestionsTitleLabel.snp.bottom).offset(10)
+            $0.leading.equalToSuperview().inset(16)
+            $0.trailing.equalToSuperview().inset(16)
+        }
+        
+        koreanFoodLabel.snp.makeConstraints {
+            $0.top.equalToSuperview().offset(10)
+            $0.leading.equalToSuperview()
+        }
+        
+        koreanMenuLabel.snp.makeConstraints {
+            $0.centerY.equalTo(koreanFoodLabel.snp.centerY)
+            $0.trailing.equalToSuperview()
+        }
+        
+        koreanSeparator.snp.makeConstraints {
+            $0.top.equalTo(koreanFoodLabel.snp.bottom).offset(8)
+            $0.leading.equalToSuperview()
+            $0.trailing.equalToSuperview()
+            $0.height.equalTo(1)
+        }
+        
+        westernFoodLabel.snp.makeConstraints {
+            $0.top.equalTo(koreanSeparator.snp.bottom).offset(20)
+            $0.leading.equalToSuperview()
+        }
+        
+        westernMenuLabel.snp.makeConstraints {
+            $0.centerY.equalTo(westernFoodLabel.snp.centerY)
+            $0.trailing.equalToSuperview()
+        }
+        
+        westernSeparator.snp.makeConstraints {
+            $0.top.equalTo(westernFoodLabel.snp.bottom).offset(8)
+            $0.leading.equalToSuperview()
+            $0.trailing.equalToSuperview()
+            $0.height.equalTo(1)
+        }
+        
+        chineseFoodLabel.snp.makeConstraints {
+            $0.top.equalTo(westernSeparator.snp.bottom).offset(20)
+            $0.leading.equalToSuperview()
+        }
+        
+        chineseMenuLabel.snp.makeConstraints {
+            $0.centerY.equalTo(chineseFoodLabel.snp.centerY)
+            $0.trailing.equalToSuperview()
+        }
+        
+        chineseSeparator.snp.makeConstraints {
+            $0.top.equalTo(chineseFoodLabel.snp.bottom).offset(8)
+            $0.leading.equalToSuperview()
+            $0.trailing.equalToSuperview()
+            $0.height.equalTo(1)
+        }
+        
+        japaneseFoodLabel.snp.makeConstraints {
+            $0.top.equalTo(chineseSeparator.snp.bottom).offset(20)
+            $0.leading.equalToSuperview()
+        }
+        
+        japaneseMenuLabel.snp.makeConstraints {
+            $0.centerY.equalTo(japaneseFoodLabel.snp.centerY)
+            $0.trailing.equalToSuperview()
+        }
+        
+        japaneseSeparator.snp.makeConstraints {
+            $0.top.equalTo(japaneseFoodLabel.snp.bottom).offset(8)
+            $0.leading.equalToSuperview()
+            $0.trailing.equalToSuperview()
+            $0.height.equalTo(1)
+            $0.bottom.equalToSuperview().offset(-10)
+        }
+    }
+    
+    // 날씨 데이터에 따라 라벨을 업데이트하는 함수
+    private func configureLabel() {
+        self.cityLabel.text = weatherData?.name
+        self.countryLabel.text = countryName(countryCode: weatherData?.sys.country ?? "")
+    }
+    
+    // 현재 날짜를 문자열로 변환하는 함수
+    private func configureDate() -> String {
+        let nowDate = Date()
+        let dateFormatter = DateFormatter()
+        dateFormatter.timeZone = TimeZone.current
+        dateFormatter.dateFormat = "eeee MMMM d"
+        let dateString = dateFormatter.string(from: nowDate)
+        
+        return dateString
+    }
+    
+    // 국가 코드를 국가 이름으로 변환하는 함수
+    private func countryName(countryCode: String) -> String? {
+        let current = Locale(identifier: "en_US")
+        return current.localizedString(forRegionCode: countryCode)
+    }
+    
+    // 날씨 상태에 따라 UI를 업데이트하는 함수
+    private func updateUI(with weather: CurrentResponseModel) {
+        guard let weatherCondition = weather.weather.first else { return }
+        let weatherState = WeatherModel(id: weatherCondition.id)
+        
+        let temp = Int(weather.main.temp)
+        var weatherDescription: String
+        let recommendations = loadWeatherRecommendations()
+        
+        switch weatherState {
+            case .sunny:
+                weatherDescription = "맑은 날씨"
+                updateSunny()
+                updateFoodRecommendations(for: "sunny", with: recommendations)
+            case .rainy:
+                weatherDescription = "비오는 날씨"
+                updateRainy()
+                updateFoodRecommendations(for: "rainy", with: recommendations)
+            case .cloudy:
+                weatherDescription = "흐린 날씨"
+                updateCloudy()
+                updateFoodRecommendations(for: "cloudy", with: recommendations)
+            case .fewCloudy:
+                weatherDescription = "구름 조금"
+                updateFewCloudy()
+                updateFoodRecommendations(for: "fewCloudy", with: recommendations)
+        }
+        
+        // 라벨 텍스트 업데이트
+        self.weatherLine1Label.text = "\(weatherDescription), 맛있는 선택"
+        self.weatherLine2Label.text = "현재기온 \(temp)°에 먹는 맛 여기서 찾기"
+    }
+
+    private func updateFoodRecommendations(for weather: String, with recommendations: WeatherRecommendations?) {
+        guard let recommendations = recommendations else { return }
+        
+        if let food = recommendations.weatherRecommendations[weather] {
+            koreanMenuLabel.text = food.korean.joined(separator: ", ")
+            westernMenuLabel.text = food.western.joined(separator: ", ")
+            chineseMenuLabel.text = food.chinese.joined(separator: ", ")
+            japaneseMenuLabel.text = food.japanese.joined(separator: ", ")
+        }
+    }
+    
+    private func updateWeatherUI(backgroundColor: UIColor, imageName: String) {
+        self.view.backgroundColor = backgroundColor
+        self.weatherImage.image = UIImage(named: imageName)
+        self.currentTemperatureLabel.text = String(Int(weatherData?.main.temp ?? 0)) + "°"
+    }
+
+    // 'Sunny' 상태에 대한 UI 업데이트 함수
+    private func updateSunny() {
+        updateWeatherUI(backgroundColor: .sunnyBackground, imageName: "largeSunny")
+    }
+
+    // 'Rainy' 상태에 대한 UI 업데이트 함수
+    private func updateRainy() {
+        updateWeatherUI(backgroundColor: .rainyBackground, imageName: "largeRainy")
+    }
+
+    // 'Few Cloudy' 상태에 대한 UI 업데이트 함수
+    private func updateFewCloudy() {
+        updateWeatherUI(backgroundColor: .fewCloudyBackground, imageName: "largeFewCloudy")
+    }
+
+    // 'Cloudy' 상태에 대한 UI 업데이트 함수
+    private func updateCloudy() {
+        updateWeatherUI(backgroundColor: .cloudyBackground, imageName: "largeCloudy")
     }
 }

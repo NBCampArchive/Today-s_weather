@@ -7,8 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		5432F2422BF5186B00E6BAF9 /* FoodRecommendation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5432F2412BF5186B00E6BAF9 /* FoodRecommendation.swift */; };
+		5432F2422BF5186B00E6BAF9 /* FoodRecommendationModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5432F2412BF5186B00E6BAF9 /* FoodRecommendationModel.swift */; };
 		5432F2442BF518CA00E6BAF9 /* FoodViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5432F2432BF518CA00E6BAF9 /* FoodViewController.swift */; };
+		549280582BFB6C8E00A03850 /* weatherRecommendations.json in Resources */ = {isa = PBXBuildFile; fileRef = 549280562BFB6C8E00A03850 /* weatherRecommendations.json */; };
 		856C9B632BF5035800D99A2F /* WeatherViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 856C9B622BF5035800D99A2F /* WeatherViewController.swift */; };
 		856C9B662BF5FE8400D99A2F /* Gabarito-SemiBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 856C9B652BF5FE8400D99A2F /* Gabarito-SemiBold.ttf */; };
 		856C9B682BF5FEE300D99A2F /* Gabarito-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 856C9B672BF5FEE300D99A2F /* Gabarito-Regular.ttf */; };
@@ -43,8 +44,9 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		5432F2412BF5186B00E6BAF9 /* FoodRecommendation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FoodRecommendation.swift; sourceTree = "<group>"; };
+		5432F2412BF5186B00E6BAF9 /* FoodRecommendationModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FoodRecommendationModel.swift; sourceTree = "<group>"; };
 		5432F2432BF518CA00E6BAF9 /* FoodViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FoodViewController.swift; sourceTree = "<group>"; };
+		549280572BFB6C8E00A03850 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.json; name = en; path = en.lproj/weatherRecommendations.json; sourceTree = "<group>"; };
 		856C9B622BF5035800D99A2F /* WeatherViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherViewController.swift; sourceTree = "<group>"; };
 		856C9B652BF5FE8400D99A2F /* Gabarito-SemiBold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Gabarito-SemiBold.ttf"; sourceTree = "<group>"; };
 		856C9B672BF5FEE300D99A2F /* Gabarito-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Gabarito-Regular.ttf"; sourceTree = "<group>"; };
@@ -102,7 +104,8 @@
 		5475D9632BF770EA0006739B /* Food */ = {
 			isa = PBXGroup;
 			children = (
-				5432F2412BF5186B00E6BAF9 /* FoodRecommendation.swift */,
+				5432F2412BF5186B00E6BAF9 /* FoodRecommendationModel.swift */,
+				549280562BFB6C8E00A03850 /* weatherRecommendations.json */,
 			);
 			path = Food;
 			sourceTree = "<group>";
@@ -208,9 +211,9 @@
 			isa = PBXGroup;
 			children = (
 				5475D9632BF770EA0006739B /* Food */,
+				B54ABF482BF307B8002E89DC /* ForecastResponseModel.swift */,
 				B54ABF312BF22D82002E89DC /* Model.swift */,
 				B54ABF462BF30645002E89DC /* CurrentResponseModel.swift */,
-				B54ABF482BF307B8002E89DC /* ForecastResponseModel.swift */,
 				B54ABF4C2BF30CE9002E89DC /* DustResponseModel.swift */,
 				856C9B802BF7500F00D99A2F /* WeatherModel.swift */,
 			);
@@ -294,6 +297,7 @@
 				856C9B702BF5FFBF00D99A2F /* Pretendard-SemiBold.otf in Resources */,
 				856C9B662BF5FE8400D99A2F /* Gabarito-SemiBold.ttf in Resources */,
 				856C9B6E2BF5FFA800D99A2F /* Pretendard-Regular.otf in Resources */,
+				549280582BFB6C8E00A03850 /* weatherRecommendations.json in Resources */,
 				B54ABF222BF22B51002E89DC /* Assets.xcassets in Resources */,
 				856C9B722BF5FFF000D99A2F /* Gabarito-Medium.ttf in Resources */,
 				B54ABF432BF303C8002E89DC /* TodayWeatherAPI.plist in Resources */,
@@ -318,7 +322,7 @@
 				B54ABF452BF304D6002E89DC /* TodayWeatherAPI++Bundle.swift in Sources */,
 				5432F2442BF518CA00E6BAF9 /* FoodViewController.swift in Sources */,
 				B54ABF4B2BF30C3E002E89DC /* DustAPIManager.swift in Sources */,
-				5432F2422BF5186B00E6BAF9 /* FoodRecommendation.swift in Sources */,
+				5432F2422BF5186B00E6BAF9 /* FoodRecommendationModel.swift in Sources */,
 				B54ABF522BF314B4002E89DC /* LocationManager.swift in Sources */,
 				B54ABF412BF30223002E89DC /* WeatherAPIManager.swift in Sources */,
 				B54ABF182BF22B4F002E89DC /* SceneDelegate.swift in Sources */,
@@ -329,6 +333,17 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		549280562BFB6C8E00A03850 /* weatherRecommendations.json */ = {
+			isa = PBXVariantGroup;
+			children = (
+				549280572BFB6C8E00A03850 /* en */,
+			);
+			name = weatherRecommendations.json;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
 		B54ABF272BF22B51002E89DC /* Debug */ = {
