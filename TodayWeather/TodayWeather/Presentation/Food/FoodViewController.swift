@@ -1,3 +1,5 @@
+
+
 import Foundation
 import Alamofire
 import Combine
@@ -192,10 +194,7 @@ class FoodViewController: UIViewController {
         callAPIs()
         
         LocationManager.shared.requestLocation { [weak self] location in
-            guard let location = location else {
-                print("Location data is nil")
-                return
-            }
+            guard let location = location else { return }
             self?.latitude = location.coordinate.latitude
             self?.longitude = location.coordinate.longitude
             
@@ -205,40 +204,39 @@ class FoodViewController: UIViewController {
     }
     
     // 현재 위치를 기준으로 날씨 데이터를 가져오는 API 호출 함수
-    private func callAPIs() {
-        print("Calling APIs with latitude: \(self.latitude) and longitude: \(self.longitude)")
-        WeatherAPIManager.shared.getCurrentWeatherData(latitude: self.latitude, longitude: self.longitude)
-            .receive(on: DispatchQueue.main)
-            .sink(receiveCompletion: { completion in
-                switch completion {
-                case .finished:
-                    print("API call finished")
-                case .failure(let error):
-                    print("GetCurrentWeatherData Failure: \(error)")
-                    if let afError = error as? AFError, case .responseSerializationFailed(let reason) = afError {
-                        switch reason {
-                        case .decodingFailed(let decodingError):
-                            print("Decoding error: \(decodingError)")
-                            // 응답 데이터 로그 추가
-                            if let data = afError.underlyingError as? Data {
-                                if let json = String(data: data, encoding: .utf8) {
-                                    print("Received data: \(json)")
+        private func callAPIs() {
+            print("Calling APIs with latitude: \(self.latitude) and longitude: \(self.longitude)")
+            WeatherAPIManager.shared.getCurrentWeatherData(latitude: self.latitude, longitude: self.longitude)
+                .receive(on: DispatchQueue.main)
+                .sink(receiveCompletion: { completion in
+                    switch completion {
+                    case .finished:
+                        print("API call finished")
+                    case .failure(let error):
+                        print("GetCurrentWeatherData Failure: \(error)")
+                        if let afError = error as? AFError, case .responseSerializationFailed(let reason) = afError {
+                            switch reason {
+                            case .decodingFailed(let decodingError):
+                                print("Decoding error: \(decodingError)")
+                                // 응답 데이터 로그 추가
+                                if let data = afError.underlyingError as? Data {
+                                    if let json = String(data: data, encoding: .utf8) {
+                                        print("Received data: \(json)")
+                                    }
                                 }
+                            default:
+                                print("Other serialization error")
                             }
-                        default:
-                            print("Other serialization error")
                         }
                     }
-                }
-            }, receiveValue: { data in
-                print("Received data: \(data)")
-                WeatherDataManager.shared.weatherData = data
-                self.updateUI(with: data)
-                print("GetCurrentWeatherData Success: \(data)")
-            })
-            .store(in: &cancellable)
-    }
-
+                }, receiveValue: { data in
+                    print("Received data: \(data)")
+                    self.weatherData = data
+                    self.updateUI(with: data)
+                    print("GetCurrentWeatherData Success: \(data)")
+                })
+                .store(in: &cancellable)
+        }
     
     private func loadWeatherRecommendations() -> WeatherRecommendations? {
         guard let url = Bundle.main.url(forResource: "weatherRecommendations", withExtension: "json") else {
