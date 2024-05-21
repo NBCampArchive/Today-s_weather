@@ -267,12 +267,12 @@ extension SearchViewController : UITableViewDelegate, UITableViewDataSource {
         }else {
             if indexPath.section == 0 {
                 if searchResults.isEmpty == false {
-                    return 26.5
+                    return 30.5
                 }else {
-                    return 24
+                    return 28
                 }
             }else {
-                return 24
+                return 28
             }
         }
         
