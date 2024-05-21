@@ -8,10 +8,10 @@
 import Foundation
 
 struct WeatherRecommendations: Codable {
-    let weatherRecommendations: [String: WeatherFood]
+    let weatherRecommendations: [String: FoodRecommendations]
 }
 
-struct WeatherFood: Codable {
+struct FoodRecommendations: Codable {
     let korean: [String]
     let western: [String]
     let chinese: [String]

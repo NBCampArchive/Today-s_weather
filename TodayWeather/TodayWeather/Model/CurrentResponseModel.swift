@@ -78,7 +78,7 @@ struct Clouds: Decodable {
 struct Sys: Decodable {
     let type: Int?
     let id: Int?
-    let country: String
+    let country: String?
     let sunrise: TimeInterval
     let sunset: TimeInterval
 }

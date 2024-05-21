@@ -1,4 +1,5 @@
 import Foundation
+import Alamofire
 import Combine
 import SnapKit
 import Then
@@ -189,6 +190,18 @@ class FoodViewController: UIViewController {
         updateFoodRecommendations(for: "sunny", with: recommendations) // Test with "sunny"
         
         callAPIs()
+        
+        LocationManager.shared.requestLocation { [weak self] location in
+            guard let location = location else {
+                print("Location data is nil")
+                return
+            }
+            self?.latitude = location.coordinate.latitude
+            self?.longitude = location.coordinate.longitude
+            
+            print("Latitude: \(self?.latitude ?? 0)")
+            print("Longitude: \(self?.longitude ?? 0)")
+        }
     }
     
     // 현재 위치를 기준으로 날씨 데이터를 가져오는 API 호출 함수
@@ -198,19 +211,34 @@ class FoodViewController: UIViewController {
             .receive(on: DispatchQueue.main)
             .sink(receiveCompletion: { completion in
                 switch completion {
-                    case .finished:
-                        print("API call finished")
-                        break
-                    case .failure(let error):
-                        print("GetCurrentWeatherData Failure: \(error)")
+                case .finished:
+                    print("API call finished")
+                case .failure(let error):
+                    print("GetCurrentWeatherData Failure: \(error)")
+                    if let afError = error as? AFError, case .responseSerializationFailed(let reason) = afError {
+                        switch reason {
+                        case .decodingFailed(let decodingError):
+                            print("Decoding error: \(decodingError)")
+                            // 응답 데이터 로그 추가
+                            if let data = afError.underlyingError as? Data {
+                                if let json = String(data: data, encoding: .utf8) {
+                                    print("Received data: \(json)")
+                                }
+                            }
+                        default:
+                            print("Other serialization error")
+                        }
+                    }
                 }
             }, receiveValue: { data in
+                print("Received data: \(data)")
                 WeatherDataManager.shared.weatherData = data
                 self.updateUI(with: data)
                 print("GetCurrentWeatherData Success: \(data)")
             })
             .store(in: &cancellable)
     }
+
     
     private func loadWeatherRecommendations() -> WeatherRecommendations? {
         guard let url = Bundle.main.url(forResource: "weatherRecommendations", withExtension: "json") else {
@@ -234,14 +262,7 @@ class FoodViewController: UIViewController {
         scrollView.addSubview(contentsView)
         
         // contentsView에 모든 서브 뷰 추가
-        [weatherAndLocationStackView,
-         weatherImage,
-         currentTemperatureLabel,
-         weatherLine1Label,
-         weatherLine2Label,
-         weatherLine3Label,
-         suggestionsTitleLabel,
-         suggestionsView
+        [weatherAndLocationStackView, weatherImage, currentTemperatureLabel, weatherLine1Label, weatherLine2Label, weatherLine3Label, suggestionsTitleLabel, suggestionsView
         ].forEach {
             contentsView.addSubview($0)
         }
@@ -457,22 +478,22 @@ class FoodViewController: UIViewController {
             case .sunny:
                 weatherDescription = "맑은 날씨"
                 print("Weather is sunny")
-                updateSunny()
+                updateWeatherUI(backgroundColor: .sunnyBackground, imageName: "largeSunny", temperature: temp)
                 updateFoodRecommendations(for: "sunny", with: recommendations)
             case .rainy:
                 weatherDescription = "비오는 날씨"
                 print("Weather is rainy")
-                updateRainy()
+                updateWeatherUI(backgroundColor: .rainyBackground, imageName: "largeRainy", temperature: temp)
                 updateFoodRecommendations(for: "rainy", with: recommendations)
             case .cloudy:
                 weatherDescription = "흐린 날씨"
                 print("Weather is cloudy")
-                updateCloudy()
+                updateWeatherUI(backgroundColor: .cloudyBackground, imageName: "largeCloudy", temperature: temp)
                 updateFoodRecommendations(for: "cloudy", with: recommendations)
             case .fewCloudy:
                 weatherDescription = "구름 조금"
                 print("Weather is few cloudy")
-                updateFewCloudy()
+                updateWeatherUI(backgroundColor: .fewCloudyBackground, imageName: "largeFewCloudy", temperature: temp)
                 updateFoodRecommendations(for: "fewCloudy", with: recommendations)
         }
         
@@ -494,29 +515,12 @@ class FoodViewController: UIViewController {
         }
     }
     
-    private func updateWeatherUI(backgroundColor: UIColor, imageName: String) {
-        self.view.backgroundColor = backgroundColor
-        self.weatherImage.image = UIImage(named: imageName)
-        self.currentTemperatureLabel.text = String(Int(weatherData?.main.temp ?? 0)) + "°"
-    }
-
-    // 'Sunny' 상태에 대한 UI 업데이트 함수
-    private func updateSunny() {
-        updateWeatherUI(backgroundColor: .sunnyBackground, imageName: "largeSunny")
-    }
-
-    // 'Rainy' 상태에 대한 UI 업데이트 함수
-    private func updateRainy() {
-        updateWeatherUI(backgroundColor: .rainyBackground, imageName: "largeRainy")
-    }
-
-    // 'Few Cloudy' 상태에 대한 UI 업데이트 함수
-    private func updateFewCloudy() {
-        updateWeatherUI(backgroundColor: .fewCloudyBackground, imageName: "largeFewCloudy")
-    }
-
-    // 'Cloudy' 상태에 대한 UI 업데이트 함수
-    private func updateCloudy() {
-        updateWeatherUI(backgroundColor: .cloudyBackground, imageName: "largeCloudy")
+    private func updateWeatherUI(backgroundColor: UIColor, imageName: String, temperature: Int) {
+        DispatchQueue.main.async { [weak self] in
+            guard let self = self else { return }
+            self.view.backgroundColor = backgroundColor
+            self.weatherImage.image = UIImage(named: imageName)
+            self.currentTemperatureLabel.text = String(temperature) + "°"
+        }
     }
 }

@@ -15,6 +15,7 @@ class WeatherTableViewHeaderView: UITableViewHeaderFooterView {
     
     private let dateLocationStacview = UIStackView().then {
         $0.axis = .vertical
+        $0.axis = .vertical
         $0.spacing = 13
     }
     
