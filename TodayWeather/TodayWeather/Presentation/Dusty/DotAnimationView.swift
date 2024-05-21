@@ -24,7 +24,7 @@ class DotAnimationView: UIView {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        self.backgroundColor =  UIColor(named: "dustFineColor")
+        self.backgroundColor =  .white
         createDots()
         startAnimatingDots()
         setupLayout()
