@@ -131,7 +131,7 @@ class WeatherViewController: UIViewController {
          weatherImage,
          weatherStateLabel,
          currentTemperatureLabel
-         ].forEach {
+        ].forEach {
             contentsView.addSubview($0)
         }
         
@@ -192,7 +192,7 @@ class WeatherViewController: UIViewController {
         self.countryLabel.text = countryName(countryCode: weatherData?.sys.country ?? "")
     }
     
-    private func configureDate() -> String {
+    func configureDate() -> String {
         let nowDate = Date()
         let dateFormatter = DateFormatter()
         dateFormatter.timeZone = TimeZone.current
