@@ -64,8 +64,8 @@ class DustyViewController: UIViewController{
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = UIColor(named: "sunBackground")
-        self.backgroundColor = UIColor(named: "dustFineColor")
+//        view.backgroundColor = UIColor(named: "sunBackground")
+//        self.backgroundColor = UIColor(named: "dustFineColor")
         setupLayout()
         startDotAnimation()
         LocationManager.shared.requestLocation { location in
