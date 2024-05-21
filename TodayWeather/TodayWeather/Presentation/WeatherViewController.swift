@@ -85,12 +85,6 @@ class WeatherViewController: UIViewController {
     // MARK: - View Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        configureUI()
-        setConstraints()
-    }
-    
-    override func viewWillAppear(_ animated: Bool) {
         LocationManager.shared.requestLocation { [weak self] location in
             guard let location = location else { return }
             self?.latitude = location.coordinate.latitude
@@ -99,6 +93,18 @@ class WeatherViewController: UIViewController {
             print("Latitude: \(self?.latitude ?? 0)")
             print("Longitude: \(self?.longitude ?? 0)")
         }
+        configureUI()
+        setConstraints()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        WeatherDataManager.shared.$weatherData
+            .sink { [weak self] weatherData in
+                guard let weatherData = weatherData else { return }
+                self?.updateUI(with: weatherData)
+            }
+            .store(in: &cancellable)
+        
     }
     // MARK: - API 관련 함수
     // 금일 날씨 API 호출

@@ -10,8 +10,10 @@ import SnapKit
 import Then
 import MapKit
 import CoreLocation
+import Combine
 
 class SearchViewController : UIViewController{
+    var cancellable = Set<AnyCancellable>()
     private let searchView = SearchView()
     
     private var searchCompleter = MKLocalSearchCompleter()
@@ -22,18 +24,26 @@ class SearchViewController : UIViewController{
             localSearch?.cancel()
         }
     }
+    
     let CDM = CoreDataManager()
     private var searchRecent : [String] = []
     private var selectWeather = [CurrentResponseModel]()
-    var longitude : Double = 126.978
-    var latitude : Double = 37.5665
-    var localtitle : [String] = ["Soeul, South Korea"]
-    // MARK: Life Cycle
+    lazy var longitude : Double = WeatherDataManager.shared.weatherData?.coord.lon ?? 126.978
+    lazy var latitude : Double = WeatherDataManager.shared.weatherData?.coord.lat ?? 37.5665
+    var localtitle : [String] = ["s"]
+    // MARK: - Life Cycle
     override func loadView() {
         view = searchView
     }
     override func viewDidLoad() {
         super.viewDidLoad()
+        WeatherDataManager.shared.$weatherData
+            .sink { [weak self] weatherData in
+                guard let weatherData = weatherData else { return }
+                CurrentWeather.id = weatherData.weather[0].id
+                self?.view.backgroundColor = CurrentWeather.shared.weatherColor()
+            }
+            .store(in: &cancellable)
         callAPIs()
         for i in CDM.readData() {
             longitude = i.longitude
@@ -61,23 +71,27 @@ class SearchViewController : UIViewController{
     
     // MARK: - 금일 날씨 API 호출, view background 설정
     func callAPIs(){
-        WeatherAPIManager.shared.getCurrentWeatherData(latitude: self.latitude, longitude: self.longitude) {[weak self] result in
-            switch result{
-            case .success(let data):
-                self?.selectWeather.append(data)
-                CurrentWeather.id = self?.selectWeather[0].weather[0].id ?? 0
-                DispatchQueue.main.async {
-                    self?.view.backgroundColor = CurrentWeather.shared.weatherColor()
-                    self?.searchView.selectTableView.reloadData()
+        WeatherAPIManager.shared.getCurrentWeatherData(latitude: self.latitude, longitude: self.longitude)
+            .receive(on: DispatchQueue.main)
+            .sink(receiveCompletion: { completion in
+                switch completion {
+                    case .finished:
+                        break
+                    case .failure(let error):
+                        print("GetCurrentWeatherData Failure: \(error)")
                 }
-            case .failure(let error):
-                print("GetCurrentWeatherData Failure \(error)")
-            }
+            }, receiveValue: { data in
+                self.selectWeather.append(data)
+                DispatchQueue.main.async {
+                    self.searchView.selectTableView.reloadData()
+                }
+                print("GetCurrentWeatherData Success: \(data)")
+            })
+            .store(in: &cancellable)
         }
-    }
 }
 
-// MARK: searchbar
+// MARK: - searchbar
 extension SearchViewController : UISearchBarDelegate {
     
     //검색 시작시
@@ -137,7 +151,7 @@ extension SearchViewController : UISearchBarDelegate {
     }
 }
 
-//MARK: tableView
+//MARK: - tableView
 extension SearchViewController : UITableViewDelegate, UITableViewDataSource {
     // section 개수
     func numberOfSections(in tableView: UITableView) -> Int {
@@ -199,7 +213,7 @@ extension SearchViewController : UITableViewDelegate, UITableViewDataSource {
             cell.selectionStyle = .none
             cell.tempLbl.text = String(Int(selectWeather[indexPath.row].main.temp)) + "°C"
             cell.locLbl.text = localtitle[indexPath.row]
-            print(selectWeather[indexPath.row].coord.lat, selectWeather[indexPath.row].coord.lon)
+            print(selectWeather[indexPath.row].weather[0].id)
             cell.weatherImage.image = CurrentWeather.shared.weatherImage(weather: selectWeather[indexPath.row].weather[0].id)
             return cell
         }else {
@@ -268,8 +282,7 @@ extension SearchViewController : UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if tableView == searchView.selectTableView {
             tableView.deselectRow(at: indexPath, animated: true)
-            CurrentWeather.id = selectWeather[indexPath.row].weather[0].id
-            view.backgroundColor = CurrentWeather.shared.weatherColor()
+            WeatherDataManager.shared.weatherData = selectWeather[indexPath.row]
             
         }else {
             //검색중 셀선택시
@@ -343,7 +356,7 @@ extension SearchViewController : UITableViewDelegate, UITableViewDataSource {
     }
 }
 
-//MARK: Search Completer
+//MARK: - Search Completer
 extension SearchViewController : MKLocalSearchCompleterDelegate {
     
     func setupSearchCompleter() {
@@ -369,7 +382,7 @@ extension SearchViewController : MKLocalSearchCompleterDelegate {
         print(error.localizedDescription)
     }
 }
-
+//MARK: - search xbutton delegate
 extension SearchViewController : delDelegate{
     func delDelegate(row: Int) {
         if searchResults.isEmpty == true {
@@ -379,7 +392,7 @@ extension SearchViewController : delDelegate{
         searchView.searchTableView.reloadData()
     }
 }
-
+//MARK: - CLLocationManagerDelegate
 extension SearchViewController: CLLocationManagerDelegate {
     func reverseGeocode(latitude: Double, longitude: Double) {
            let location = CLLocation(latitude: latitude, longitude: longitude)
