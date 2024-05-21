@@ -1,9 +1,12 @@
 import Foundation
-import UIKit
-import Then
+import Combine
 import SnapKit
+import Then
+import UIKit
 
 class FoodViewController: UIViewController {
+    
+    private var cancellable = Set<AnyCancellable>()
     
     var longitude: Double = 0 {
         didSet {
@@ -184,22 +187,29 @@ class FoodViewController: UIViewController {
         // Load JSON and update UI
         let recommendations = loadWeatherRecommendations()
         updateFoodRecommendations(for: "sunny", with: recommendations) // Test with "sunny"
+        
+        callAPIs()
     }
     
     // 현재 위치를 기준으로 날씨 데이터를 가져오는 API 호출 함수
     private func callAPIs() {
-        WeatherAPIManager.shared.getCurrentWeatherData(latitude: self.latitude, longitude: self.longitude) { result in
-            switch result {
-                case .success(let data):
-                    self.weatherData = data
-                    DispatchQueue.main.async {
-                        self.updateUI(with: data)
-                    }
-                    print("GetCurrentWeatherData Success : \(data)")
-                case .failure(let error):
-                    print("GetCurrentWeatherData Failure \(error)")
-            }
-        }
+        print("Calling APIs with latitude: \(self.latitude) and longitude: \(self.longitude)")
+        WeatherAPIManager.shared.getCurrentWeatherData(latitude: self.latitude, longitude: self.longitude)
+            .receive(on: DispatchQueue.main)
+            .sink(receiveCompletion: { completion in
+                switch completion {
+                    case .finished:
+                        print("API call finished")
+                        break
+                    case .failure(let error):
+                        print("GetCurrentWeatherData Failure: \(error)")
+                }
+            }, receiveValue: { data in
+                WeatherDataManager.shared.weatherData = data
+                self.updateUI(with: data)
+                print("GetCurrentWeatherData Success: \(data)")
+            })
+            .store(in: &cancellable)
     }
     
     private func loadWeatherRecommendations() -> WeatherRecommendations? {
@@ -332,6 +342,7 @@ class FoodViewController: UIViewController {
             $0.top.equalTo(suggestionsTitleLabel.snp.bottom).offset(10)
             $0.leading.equalToSuperview().inset(16)
             $0.trailing.equalToSuperview().inset(16)
+            $0.bottom.equalToSuperview().offset(-90)
         }
         
         koreanFoodLabel.snp.makeConstraints {
@@ -429,28 +440,38 @@ class FoodViewController: UIViewController {
     
     // 날씨 상태에 따라 UI를 업데이트하는 함수
     private func updateUI(with weather: CurrentResponseModel) {
-        guard let weatherCondition = weather.weather.first else { return }
-        let weatherState = WeatherModel(id: weatherCondition.id)
+        guard let weatherCondition = weather.weather.first else {
+            print("Weather condition is nil")
+            return
+        }
         
+        let weatherState = WeatherModel(id: weatherCondition.id)
         let temp = Int(weather.main.temp)
         var weatherDescription: String
         let recommendations = loadWeatherRecommendations()
-        
+
+        print("Weather condition ID: \(weatherCondition.id)")
+        print("Temperature: \(temp)")
+
         switch weatherState {
             case .sunny:
                 weatherDescription = "맑은 날씨"
+                print("Weather is sunny")
                 updateSunny()
                 updateFoodRecommendations(for: "sunny", with: recommendations)
             case .rainy:
                 weatherDescription = "비오는 날씨"
+                print("Weather is rainy")
                 updateRainy()
                 updateFoodRecommendations(for: "rainy", with: recommendations)
             case .cloudy:
                 weatherDescription = "흐린 날씨"
+                print("Weather is cloudy")
                 updateCloudy()
                 updateFoodRecommendations(for: "cloudy", with: recommendations)
             case .fewCloudy:
                 weatherDescription = "구름 조금"
+                print("Weather is few cloudy")
                 updateFewCloudy()
                 updateFoodRecommendations(for: "fewCloudy", with: recommendations)
         }
@@ -458,6 +479,8 @@ class FoodViewController: UIViewController {
         // 라벨 텍스트 업데이트
         self.weatherLine1Label.text = "\(weatherDescription), 맛있는 선택"
         self.weatherLine2Label.text = "현재기온 \(temp)°에 먹는 맛 여기서 찾기"
+        print("Updated weatherLine1Label: \(self.weatherLine1Label.text ?? "")")
+        print("Updated weatherLine2Label: \(self.weatherLine2Label.text ?? "")")
     }
 
     private func updateFoodRecommendations(for weather: String, with recommendations: WeatherRecommendations?) {
