@@ -24,10 +24,12 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         //
         //        window?.rootViewController = viewController
         //        window?.makeKeyAndVisible()
+//        let viewController = ViewController()
+        let weatherViewController = TabBarController()
         
-        let foodViewController = FoodViewController() // FoodViewController 인스턴스 생성
+//        let foodViewController = FoodViewController() // FoodViewController 인스턴스 생성
         
-        window?.rootViewController = foodViewController // window의 rootViewController로 설정
+        window?.rootViewController = weatherViewController // window의 rootViewController로 설정
         window?.makeKeyAndVisible() // window를 화면에 표시
     }
     
