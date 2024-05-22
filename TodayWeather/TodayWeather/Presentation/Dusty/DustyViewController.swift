@@ -160,7 +160,7 @@ class DustyViewController: UIViewController{
                     self.locationCityLabel.text = WeatherDataManager.shared.weatherData?.name
                     self.locationCountryLabel.text = self.countryName(countryCode: WeatherDataManager.shared.weatherData?.sys.country ?? "")
                     
-                    self.updateLabel(self.dotAnimationView.aqiValueLabel, withText: String(value))
+                    self.updateLabel(self.dotAnimationView.aqiValueLabel, withText: String(Int(value)))
                     self.updateLabel(self.dotAnimationView.aqiOptionLabel, withText: pollutant)
                     self.updateLabel(self.dotAnimationView.aqiQualityLabel, withText: airQuality)
                     
