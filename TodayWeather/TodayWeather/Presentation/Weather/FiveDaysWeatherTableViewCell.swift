@@ -13,20 +13,13 @@ class FiveDaysWeatherTableViewCell: UITableViewCell {
     
     static let identifier = String(describing: FiveDaysWeatherTableViewCell.self)
     
-    private let squareView = UIView().then {
-        $0.backgroundColor = .white.withAlphaComponent(0.4)
-        $0.layer.cornerRadius = 16
-        $0.clipsToBounds = true
-    }
-    
     private let temperatureDaysOfWeekStackView = UIStackView().then {
         $0.axis = .vertical
-        $0.spacing = 12
+        $0.spacing = 6
     }
     
     private let temperatureLable = UILabel().then {
         $0.font = BagelFatOne.regular.of(size: 40)
-        $0.text = "25°"
     }
     
     private let daysOfWeekLable = UILabel().then {
@@ -50,29 +43,28 @@ class FiveDaysWeatherTableViewCell: UITableViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        contentView.frame = contentView.frame.inset(by: UIEdgeInsets(top: 8, left: 20, bottom: 8, right: 20))
+        contentView.layer.cornerRadius = 16
+    }
+    
     // MARK: - UI
     private func setConstraints() {
-        contentView.backgroundColor = .rainyBackground
-        contentView.addSubview(squareView)
+        self.backgroundColor = .clear
+        contentView.backgroundColor = .white.withAlphaComponent(0.4)
         
         [temperatureDaysOfWeekStackView, weatherImage].forEach {
-            squareView.addSubview($0)
+            contentView.addSubview($0)
         }
         
         [temperatureLable, daysOfWeekLable].forEach {
             temperatureDaysOfWeekStackView.addArrangedSubview($0)
         }
         
-        squareView.snp.makeConstraints {
-            $0.horizontalEdges.equalTo(contentView).inset(20)
-            $0.verticalEdges.equalTo(contentView).inset(8)
-            $0.height.equalTo(110)
-        }
-        
         temperatureDaysOfWeekStackView.snp.makeConstraints {
-            $0.top.equalToSuperview().inset(16)
+            $0.top.equalToSuperview()
             $0.leading.equalToSuperview().inset(20)
-            $0.bottom.equalToSuperview().inset(28)
         }
         
         weatherImage.snp.makeConstraints {
@@ -82,9 +74,9 @@ class FiveDaysWeatherTableViewCell: UITableViewCell {
     }
     
     func configureUI(with weatherData: (day: String, weather: [ForecastItem])) {
-        daysOfWeekLable.text = dayOfWeek(from: weatherData.day)
-        temperatureLable.text = String(averageTemperature(weatherData))
-        weatherImage.image = CurrentWeather.shared.weatherImage(weather: mostWeatherState(weatherData))
+        self.daysOfWeekLable.text = self.dayOfWeek(from: weatherData.day)
+        self.temperatureLable.text = String(self.averageTemperature(weatherData))
+        self.weatherImage.image = CurrentWeather.shared.weatherImage(weather: self.mostWeatherState(weatherData))
     }
     
     private func dayOfWeek(from dateString: String) -> String {
@@ -109,7 +101,7 @@ class FiveDaysWeatherTableViewCell: UITableViewCell {
         var maxCount = 0
         var mostFrequentID: Int = 0
         let countedSet = NSCountedSet()
-
+        
         for id in weatherStateID {
             if let id = id {
                 countedSet.add(id)

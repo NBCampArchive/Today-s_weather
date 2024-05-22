@@ -5,10 +5,13 @@
 //  Created by 예슬 on 5/20/24.
 //
 
+import Combine
 import SnapKit
 import UIKit
 
 class FiveDaysWeatherViewController: UIViewController {
+    private var cancellable = Set<AnyCancellable>()
+    
     var longitude: Double = 0 {
         didSet {
             callAPI()
@@ -17,11 +20,11 @@ class FiveDaysWeatherViewController: UIViewController {
     
     var latitude: Double = 0
     
-    var weatherByDay: [(day: String, weather: [ForecastItem])] = []
+    private var weatherByDay: [(day: String, weather: [ForecastItem])] = []
     
     private let tableView = UITableView(frame: .zero, style: .grouped).then {
         $0.separatorStyle = .none
-        $0.backgroundColor = .rainyBackground
+        $0.showsVerticalScrollIndicator = false
     }
     // MARK: - Life Cycle
     override func viewDidLoad() {
@@ -36,6 +39,15 @@ class FiveDaysWeatherViewController: UIViewController {
             print("Longitude: \(self?.longitude ?? 0)")
         }
         
+        WeatherDataManager.shared.$weatherData
+            .sink { [weak self] weatherData in
+                guard let weatherData = weatherData else { return }
+                CurrentWeather.id = weatherData.weather[0].id
+                    self?.view.backgroundColor = CurrentWeather.shared.weatherColor()
+                    self?.tableView.backgroundColor = CurrentWeather.shared.weatherColor()
+            }
+            .store(in: &cancellable)
+        
         configureUI()
         setConstraints()
     }
@@ -46,20 +58,11 @@ class FiveDaysWeatherViewController: UIViewController {
             switch result{
                 case .success(let data):
                     self.weatherByDay = self.groupAndSortWeatherDataByDay(data)
-                    print("--------------------------------------------")
-                    print("\(self.weatherByDay.count)\(self.weatherByDay)")
                     self.tableView.reloadData()
-                    //                    print("getForecastWeatherData Success : \(data)")
                 case .failure(let error):
                     print("getForecastWeatherData Failure \(error)")
             }
         }
-    }
-    
-    func dayOfWeek(from date: Date) -> String {
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "EEEE"
-        return dateFormatter.string(from: date)
     }
     
     private func groupAndSortWeatherDataByDay(_ forecastResponse: ForecastResponseModel) -> [(String, [ForecastItem])] {
@@ -95,7 +98,6 @@ class FiveDaysWeatherViewController: UIViewController {
     }
     // MARK: - UI 함수
     private func configureUI() {
-        view.backgroundColor = .rainyBackground
         
         tableView.dataSource = self
         tableView.delegate = self
@@ -107,7 +109,7 @@ class FiveDaysWeatherViewController: UIViewController {
     
     private func setConstraints() {
         tableView.snp.makeConstraints {
-            $0.top.equalTo(self.view.safeAreaLayoutGuide).inset(64)
+            $0.top.equalTo(self.view.safeAreaLayoutGuide)
             $0.horizontalEdges.bottom.equalTo(self.view.safeAreaLayoutGuide)
         }
     }
@@ -128,8 +130,16 @@ extension FiveDaysWeatherViewController: UITableViewDataSource, UITableViewDeleg
         guard let cell = tableView.dequeueReusableCell(withIdentifier: FiveDaysWeatherTableViewCell.identifier, for: indexPath) as? FiveDaysWeatherTableViewCell else { return UITableViewCell() }
         
         let data = weatherByDay[indexPath.row]
-        cell.configureUI(with: data)
+        DispatchQueue.main.async {
+            cell.configureUI(with: data)
+        }
+        
+        cell.selectionStyle = .none
         
         return cell
+    }
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 110
     }
 }
