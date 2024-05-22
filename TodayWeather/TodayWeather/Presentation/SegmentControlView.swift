@@ -10,10 +10,10 @@ import SnapKit
 import Then
 
 class SegmentControlView: UIView {
-    private let segmentTitles = ["AQI", "PM10", "PM2.5", "O3", "NO2", "CO", "SO2"]
-    private var buttons: [UIButton] = []
-    private var selectorView: UIView!
-    private var selectedIndex: Int = 0 {
+    let segmentTitles = ["AQI", "PM10", "PM2.5", "O3", "NO2", "CO", "SO2"]
+    var buttons: [UIButton] = []
+    
+    var selectedIndex: Int = 0 {
         didSet {
             updateButtonColors()
         }
@@ -53,9 +53,10 @@ class SegmentControlView: UIView {
             $0.backgroundColor = UIColor(red: 0.95, green: 0.93, blue: 0.91, alpha: 1.0)
             $0.layer.cornerRadius = self.frame.height / 2
             $0.layer.shadowColor = UIColor.black.cgColor
-            $0.layer.shadowOpacity = 0.1
-            $0.layer.shadowOffset = CGSize(width: 0, height: 2)
-            $0.layer.shadowRadius = 4
+            $0.layer.shadowOpacity = 0.12
+            $0.layer.shadowOffset = CGSize(width: 0, height: 0)
+            $0.layer.shadowRadius = 12
+            $0.layer.masksToBounds = false
         }
         
         self.addSubview(stackView)
@@ -69,16 +70,12 @@ class SegmentControlView: UIView {
         segmentTitles.enumerated().forEach { index, title in
             let button = UIButton(type: .system).then {
                 $0.setTitle(title, for: .normal)
-                $0.setTitleColor(.black, for: .normal)
-                $0.backgroundColor = (index == selectedIndex) ? selectedColor : .clear
-                $0.titleLabel?.font = UIFont.systemFont(ofSize: 12)
                 $0.titleLabel?.adjustsFontSizeToFitWidth = true
                 $0.titleLabel?.minimumScaleFactor = 0.5
                 $0.titleLabel?.numberOfLines = 1
                 $0.titleLabel?.lineBreakMode = .byTruncatingTail
                 $0.layer.cornerRadius = 15
                 $0.tag = index
-                $0.addTarget(self, action: #selector(buttonTapped(_:)), for: .touchUpInside)
             }
             
             stackView.addArrangedSubview(button)
@@ -86,15 +83,11 @@ class SegmentControlView: UIView {
         }
     }
     
-    @objc private func buttonTapped(_ sender: UIButton) {
-        selectedIndex = sender.tag
-        print("Selected Index: \(selectedIndex)")
-        updateButtonColors()
-    }
-    
     private func updateButtonColors() {
         buttons.enumerated().forEach { index, button in
             button.backgroundColor = (index == selectedIndex) ? selectedColor : .clear
+            button.titleLabel?.font = (index == selectedIndex) ? Pretendard.medium.of(size: 12) : Pretendard.regular.of(size: 12)
+            button.setTitleColor((index == selectedIndex) ? .black : UIColor(named: "segmentUnselected"), for: .normal)
         }
     }
 }

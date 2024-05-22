@@ -15,18 +15,18 @@ class DetailCardCell: UICollectionViewCell {
     
     private let titleLabel = UILabel().then {
         $0.text = "PM 2.5"
-        $0.font = UIFont.systemFont(ofSize: 14, weight: .regular)
+        $0.font = Gabarito.regular.of(size: 14)
         $0.textColor = .black
     }
     
     private let subtitleLabel = UILabel().then {
         $0.text = "Unhealthy"
-        $0.font = UIFont.systemFont(ofSize: 14, weight: .bold)
+        $0.font = Gabarito.bold.of(size: 14)
         $0.textColor = .black
     }
     
     private let valueLabel = UILabel().then {
-        $0.font = UIFont.systemFont(ofSize: 30, weight: .bold)
+        $0.font = BagelFatOne.regular.of(size: 36)
         $0.textColor = .black
     }
     
@@ -69,7 +69,7 @@ class DetailCardCell: UICollectionViewCell {
         }
         
         circleView.snp.makeConstraints {
-            $0.bottom.equalToSuperview().offset(-12)
+            $0.centerY.equalTo(valueLabel.snp.centerY)
             $0.trailing.equalToSuperview().offset(-12)
             $0.width.height.equalTo(32)
         }
@@ -102,7 +102,7 @@ class DetailCardCell: UICollectionViewCell {
             if value <= 50 {
                 return ("Good", "good")
             } else if value <= 100 {
-                return ("Fine", "normal")
+                return ("Normal", "normal")
             } else {
                 return ("Unhealthy", "bad")
             }
@@ -110,7 +110,7 @@ class DetailCardCell: UICollectionViewCell {
             if value <= 53 {
                 return ("Good", "good")
             } else if value <= 100 {
-                return ("Fine", "normal")
+                return ("Normal", "normal")
             } else {
                 return ("Unhealthy", "bad")
             }
@@ -118,7 +118,7 @@ class DetailCardCell: UICollectionViewCell {
             if value <= 4.4 {
                 return ("Good", "good")
             } else if value <= 9.4 {
-                return ("Fine", "normal")
+                return ("Normal", "normal")
             } else {
                 return ("Unhealthy", "bad")
             }
@@ -126,7 +126,7 @@ class DetailCardCell: UICollectionViewCell {
             if value <= 35 {
                 return ("Good", "good")
             } else if value <= 75 {
-                return ("Fine", "normal")
+                return ("Normal", "normal")
             } else {
                 return ("Unhealthy", "bad")
             }
