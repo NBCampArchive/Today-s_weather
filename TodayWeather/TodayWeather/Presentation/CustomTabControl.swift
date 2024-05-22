@@ -65,12 +65,20 @@ class CustomTabControl: UIViewController {
         setupViews()
         displayCurrentTab(0)
     }
-   
+    private func setUpBlur() {
+        
+        
+    }
     private func setupViews() {
+        let blurEffect = UIBlurEffect(style: .light) // here you can change blur style
+        let blurView = UIVisualEffectView(effect: blurEffect)
+        blurView.autoresizingMask = .flexibleWidth
+        view.addSubview(containerView)
+        view.addSubview(blurView)
         view.addSubview(segmentControl)
         view.addSubview(segmentDivider)
         view.addSubview(segmentBackgroundDivider)
-        view.addSubview(containerView)
+        
         
         segmentControl.addTarget(self, action: #selector(segmentChanged(_:)), for: .valueChanged)
         
@@ -86,7 +94,11 @@ class CustomTabControl: UIViewController {
             $0.width.equalTo(segmentControl).dividedBy(segmentControl.numberOfSegments)
             $0.height.equalTo(2)
         }
-        
+        blurView.snp.makeConstraints {
+            $0.top.equalToSuperview()
+            $0.leading.trailing.equalToSuperview()
+            $0.bottom.equalTo(segmentDivider.snp.bottom)
+        }
         segmentBackgroundDivider.snp.makeConstraints{
             $0.top.equalTo(segmentControl.snp.bottom).offset(2)
             $0.leading.trailing.equalToSuperview()
@@ -94,7 +106,7 @@ class CustomTabControl: UIViewController {
         }
         
         containerView.snp.makeConstraints {
-            $0.top.equalTo(segmentBackgroundDivider.snp.bottom)
+            $0.top.equalToSuperview()
             $0.leading.trailing.bottom.equalToSuperview()
         }
     }

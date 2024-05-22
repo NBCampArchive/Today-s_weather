@@ -40,7 +40,7 @@ class SearchView : UIView {
             $0.top.equalTo(self.safeAreaLayoutGuide.snp.top)
             $0.leading.equalTo(self.safeAreaLayoutGuide.snp.leading)
             $0.trailing.equalTo(self.safeAreaLayoutGuide.snp.trailing).inset(20)
-            $0.bottom.equalTo(self.safeAreaLayoutGuide.snp.bottom)
+            $0.bottom.equalToSuperview()
         }
     }
     //searchbar 클릭시 layout
@@ -82,7 +82,6 @@ class SearchView : UIView {
             textfield.layer.cornerRadius = 16
             textfield.layer.maskedCorners = CACornerMask(arrayLiteral: .layerMinXMaxYCorner, .layerMaxXMaxYCorner, .layerMinXMinYCorner, .layerMaxXMinYCorner)
             border.frame = CGRect(x: -5, y: textfield.frame.size.height, width:  textfield.frame.size.width+10, height: textfield.frame.size.height)
-            
         }
     }
     
