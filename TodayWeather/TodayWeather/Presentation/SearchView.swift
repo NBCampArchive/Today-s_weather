@@ -50,8 +50,6 @@ class SearchView : UIView {
         addSubview(searchTableView)
         searchTableView.contentInset = .zero
         searchTableView.contentInsetAdjustmentBehavior = .never
-        searchBar.layer.cornerRadius = 0 // 모서리를 직각으로 만듭니다.
-        searchBar.layer.masksToBounds = true
         searchTableView.snp.makeConstraints {
             $0.top.equalTo(self.safeAreaLayoutGuide.snp.top).offset(-12)
             $0.leading.equalTo(self.safeAreaLayoutGuide.snp.leading).offset(20)
@@ -81,7 +79,6 @@ class SearchView : UIView {
             textfield.clipsToBounds = true
             textfield.layer.cornerRadius = 16
             textfield.layer.maskedCorners = CACornerMask(arrayLiteral: .layerMinXMaxYCorner, .layerMaxXMaxYCorner, .layerMinXMinYCorner, .layerMaxXMinYCorner)
-            border.frame = CGRect(x: -5, y: textfield.frame.size.height, width:  textfield.frame.size.width+10, height: textfield.frame.size.height)
         }
     }
     
@@ -137,6 +134,7 @@ class SearchView : UIView {
             textfield.backgroundColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1).withAlphaComponent(0.6)
         }
         searchBar.text = ""
+        border.removeFromSuperlayer()
         visualEffectView.removeFromSuperview()
         searchTableView.removeFromSuperview()
         searchBar.resignFirstResponder()

@@ -39,14 +39,18 @@ class CoreDataManager {
         return read
     }
      //코어데이터 삭제
-    func deleteData(num : Int) {
+    func deleteData(title : String) {
         
         guard let context = self.persistent?.viewContext else
         { return }
         let request = Saveweather.fetchRequest()
         guard let loadData = try? context.fetch(request) else {return}
-        
-        let filtered = loadData[num]
+        var filtered = loadData[0]
+        for i in loadData {
+            if title == i.locname {
+                filtered = i
+            }
+        }
         context.delete(filtered)
         try? context.save()
     }

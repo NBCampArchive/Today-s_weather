@@ -237,15 +237,26 @@ extension SearchViewController : UITableViewDelegate, UITableViewDataSource {
         }else {
             if indexPath.section == 0 {
                 if searchResults.isEmpty == false {
-                    return 30.5
+                    if searchRecent.isEmpty == true && searchResults.count - 1 == indexPath.row {
+                        return 34.5
+                    }else {
+                        return 30.5
+                    }
+                }else {
+                    if searchRecent.count - 1 == indexPath.row {
+                        return 34
+                    }else {
+                        return 28
+                    }
+                }
+            }else {
+                if searchRecent.count - 1 == indexPath.row {
+                    return 34
                 }else {
                     return 28
                 }
-            }else {
-                return 28
             }
         }
-        
     }
     
     //셀 선택
@@ -263,6 +274,7 @@ extension SearchViewController : UITableViewDelegate, UITableViewDataSource {
                 }else {
                     search(for: searchResults[indexPath.row])
                     searchView.searchEnd()
+                    searchView.border.removeFromSuperlayer()
                     searchView.visualEffectView.removeFromSuperview()
                     searchView.searchTableView.removeFromSuperview()
                     searchView.searchBar.resignFirstResponder()
@@ -310,8 +322,8 @@ extension SearchViewController : UITableViewDelegate, UITableViewDataSource {
         
         let deleteAction = UIContextualAction(style: .destructive, title: nil) { (_, _, completionHandler) in
             self.selectWeather.remove(at: indexPath.row)
+            self.CDM.deleteData(title: self.localtitle[indexPath.row])
             self.localtitle.remove(at: indexPath.row)
-            self.CDM.deleteData(num: indexPath.row - 1)
             tableView.deleteRows(at: [indexPath], with: .automatic)
             completionHandler(true)
         }
