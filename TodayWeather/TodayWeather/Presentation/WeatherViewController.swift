@@ -213,7 +213,15 @@ class WeatherViewController: UIViewController {
         guard let weatherCondition = weather.weather.first else { return }
         let weatherState = WeatherModel(id: weatherCondition.id)
         
-        self.cityLabel.text = WeatherDataManager.shared.weatherData?.name
+        CurrentWeather.shared.reverseGeocode(latitude: weather.coord.lat, longitude: weather.coord.lon, save: false) { data in
+            switch data {
+            case .success(let name) :
+                self.cityLabel.text = name
+            case .failure(let error) :
+                print("Reverse geocoding error: \(error.localizedDescription)")
+            }
+            
+        }
         self.countryLabel.text = countryName(countryCode: WeatherDataManager.shared.weatherData?.sys.country ?? "")
         
         switch weatherState {
