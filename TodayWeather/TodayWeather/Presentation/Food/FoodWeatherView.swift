@@ -58,33 +58,33 @@ class FoodWeatherView: UIView {
     private func setConstraints() {
         weatherImage.snp.makeConstraints {
             $0.top.equalToSuperview().offset(10)
-            $0.leading.equalToSuperview().inset(16)
+            $0.leading.equalToSuperview().inset(10)
             $0.width.equalTo(262)
             $0.height.equalTo(262)
         }
         
         currentTemperatureLabel.snp.makeConstraints {
-            $0.top.equalToSuperview().offset(25)
+            $0.top.equalToSuperview().inset(100)
             $0.leading.equalToSuperview()
         }
         
-        // 무엇을
+        // OO날씨
         weatherLine1Label.snp.makeConstraints {
-            $0.top.equalToSuperview().offset(250)
+            $0.top.equalToSuperview().inset(250)
             $0.leading.equalToSuperview()
         }
         
         // 현재기온
         weatherLine2Label.snp.makeConstraints {
-            $0.top.equalToSuperview().offset(225)
+            $0.top.equalToSuperview().inset(275)
             $0.leading.equalToSuperview()
         }
         
         // OO날씨
         weatherLine3Label.snp.makeConstraints {
-            $0.top.equalToSuperview().offset(200)
+            $0.top.equalToSuperview().inset(300)
             $0.leading.equalToSuperview()
-            $0.bottom.equalToSuperview().offset(-40)
+//            $0.bottom.equalToSuperview().offset(-20)
         }
     }
     
