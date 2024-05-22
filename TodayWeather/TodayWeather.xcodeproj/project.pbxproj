@@ -10,12 +10,11 @@
 		5432F2422BF5186B00E6BAF9 /* FoodRecommendationModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5432F2412BF5186B00E6BAF9 /* FoodRecommendationModel.swift */; };
 		5432F2442BF518CA00E6BAF9 /* FoodViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5432F2432BF518CA00E6BAF9 /* FoodViewController.swift */; };
 		549280582BFB6C8E00A03850 /* weatherRecommendations.json in Resources */ = {isa = PBXBuildFile; fileRef = 549280562BFB6C8E00A03850 /* weatherRecommendations.json */; };
-		549FC0A42BFD2EE300066AEB /* WeatherAndLocationStackView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 549FC0A32BFD2EE300066AEB /* WeatherAndLocationStackView.swift */; };
-		549FC0A62BFD2EFE00066AEB /* WeatherImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 549FC0A52BFD2EFE00066AEB /* WeatherImageView.swift */; };
-		549FC0A82BFD2F1800066AEB /* CurrentTemperatureLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 549FC0A72BFD2F1800066AEB /* CurrentTemperatureLabel.swift */; };
-		549FC0AA2BFD2F2D00066AEB /* WeatherLines.swift in Sources */ = {isa = PBXBuildFile; fileRef = 549FC0A92BFD2F2D00066AEB /* WeatherLines.swift */; };
-		549FC0AC2BFD2F4500066AEB /* SuggestionsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 549FC0AB2BFD2F4500066AEB /* SuggestionsView.swift */; };
+		549FC0A42BFD2EE300066AEB /* FoodConstraints.swift in Sources */ = {isa = PBXBuildFile; fileRef = 549FC0A32BFD2EE300066AEB /* FoodConstraints.swift */; };
 		54A2D0AF2BFCBCB6004969E7 /* TodayWeather.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 54A2D0AD2BFCBCB6004969E7 /* TodayWeather.xcdatamodeld */; };
+		54B8B6AE2BFDAD3C009CC37A /* FoodSuggestionsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54B8B6AD2BFDAD3C009CC37A /* FoodSuggestionsView.swift */; };
+		54B8B6B02BFDAD56009CC37A /* FoodWeatherView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54B8B6AF2BFDAD56009CC37A /* FoodWeatherView.swift */; };
+		54B8B6B22BFDAD6C009CC37A /* FoodLocationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54B8B6B12BFDAD6C009CC37A /* FoodLocationView.swift */; };
 		856C9B632BF5035800D99A2F /* WeatherViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 856C9B622BF5035800D99A2F /* WeatherViewController.swift */; };
 		856C9B662BF5FE8400D99A2F /* Gabarito-SemiBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 856C9B652BF5FE8400D99A2F /* Gabarito-SemiBold.ttf */; };
 		856C9B682BF5FEE300D99A2F /* Gabarito-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 856C9B672BF5FEE300D99A2F /* Gabarito-Regular.ttf */; };
@@ -85,12 +84,11 @@
 		5432F2412BF5186B00E6BAF9 /* FoodRecommendationModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FoodRecommendationModel.swift; sourceTree = "<group>"; };
 		5432F2432BF518CA00E6BAF9 /* FoodViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FoodViewController.swift; sourceTree = "<group>"; };
 		549280572BFB6C8E00A03850 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.json; name = en; path = en.lproj/weatherRecommendations.json; sourceTree = "<group>"; };
-		549FC0A32BFD2EE300066AEB /* WeatherAndLocationStackView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherAndLocationStackView.swift; sourceTree = "<group>"; };
-		549FC0A52BFD2EFE00066AEB /* WeatherImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherImageView.swift; sourceTree = "<group>"; };
-		549FC0A72BFD2F1800066AEB /* CurrentTemperatureLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrentTemperatureLabel.swift; sourceTree = "<group>"; };
-		549FC0A92BFD2F2D00066AEB /* WeatherLines.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherLines.swift; sourceTree = "<group>"; };
-		549FC0AB2BFD2F4500066AEB /* SuggestionsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SuggestionsView.swift; sourceTree = "<group>"; };
+		549FC0A32BFD2EE300066AEB /* FoodConstraints.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FoodConstraints.swift; sourceTree = "<group>"; };
 		54A2D0AE2BFCBCB6004969E7 /* TodayWeather.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = TodayWeather.xcdatamodel; sourceTree = "<group>"; };
+		54B8B6AD2BFDAD3C009CC37A /* FoodSuggestionsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FoodSuggestionsView.swift; sourceTree = "<group>"; };
+		54B8B6AF2BFDAD56009CC37A /* FoodWeatherView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FoodWeatherView.swift; sourceTree = "<group>"; };
+		54B8B6B12BFDAD6C009CC37A /* FoodLocationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FoodLocationView.swift; sourceTree = "<group>"; };
 		856C9B622BF5035800D99A2F /* WeatherViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherViewController.swift; sourceTree = "<group>"; };
 		856C9B652BF5FE8400D99A2F /* Gabarito-SemiBold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Gabarito-SemiBold.ttf"; sourceTree = "<group>"; };
 		856C9B672BF5FEE300D99A2F /* Gabarito-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Gabarito-Regular.ttf"; sourceTree = "<group>"; };
@@ -160,11 +158,10 @@
 			isa = PBXGroup;
 			children = (
 				5432F2432BF518CA00E6BAF9 /* FoodViewController.swift */,
-				549FC0A32BFD2EE300066AEB /* WeatherAndLocationStackView.swift */,
-				549FC0A52BFD2EFE00066AEB /* WeatherImageView.swift */,
-				549FC0A72BFD2F1800066AEB /* CurrentTemperatureLabel.swift */,
-				549FC0A92BFD2F2D00066AEB /* WeatherLines.swift */,
-				549FC0AB2BFD2F4500066AEB /* SuggestionsView.swift */,
+				549FC0A32BFD2EE300066AEB /* FoodConstraints.swift */,
+				54B8B6AD2BFDAD3C009CC37A /* FoodSuggestionsView.swift */,
+				54B8B6AF2BFDAD56009CC37A /* FoodWeatherView.swift */,
+				54B8B6B12BFDAD6C009CC37A /* FoodLocationView.swift */,
 			);
 			path = Food;
 			sourceTree = "<group>";
@@ -422,7 +419,7 @@
 				B54ABF1A2BF22B4F002E89DC /* ViewController.swift in Sources */,
 				B54ABF542BF33768002E89DC /* DotAnimationView.swift in Sources */,
 				B54ABF492BF307B8002E89DC /* ForecastResponseModel.swift in Sources */,
-				549FC0A42BFD2EE300066AEB /* WeatherAndLocationStackView.swift in Sources */,
+				549FC0A42BFD2EE300066AEB /* FoodConstraints.swift in Sources */,
 				B54ABF692BFB61DA002E89DC /* DetailAqiViewController.swift in Sources */,
 				A71003512BFB8F5B00BF6FD4 /* CoreDataManager.swift in Sources */,
 				54A2D0AF2BFCBCB6004969E7 /* TodayWeather.xcdatamodeld in Sources */,
@@ -435,24 +432,23 @@
 				A7FDF88D2BFC852F0010E860 /* TabBarController.swift in Sources */,
 				B54ABF452BF304D6002E89DC /* TodayWeatherAPI++Bundle.swift in Sources */,
 				5432F2442BF518CA00E6BAF9 /* FoodViewController.swift in Sources */,
+				54B8B6B02BFDAD56009CC37A /* FoodWeatherView.swift in Sources */,
 				B54ABF4B2BF30C3E002E89DC /* DustAPIManager.swift in Sources */,
-				549FC0AC2BFD2F4500066AEB /* SuggestionsView.swift in Sources */,
 				5432F2422BF5186B00E6BAF9 /* FoodRecommendationModel.swift in Sources */,
 				A7DD85912BFA313D00823B92 /* CurrentWeather.swift in Sources */,
 				A7937AC12BF3836E00E9AD04 /* SearchViewController.swift in Sources */,
 				A710034E2BFB35E200BF6FD4 /* SearchView.swift in Sources */,
-				549FC0A62BFD2EFE00066AEB /* WeatherImageView.swift in Sources */,
 				B54ABF522BF314B4002E89DC /* LocationManager.swift in Sources */,
+				54B8B6B22BFDAD6C009CC37A /* FoodLocationView.swift in Sources */,
 				B54ABF562BF33782002E89DC /* DustyViewController.swift in Sources */,
 				B54ABF5A2BF5C0FC002E89DC /* CustomTabControl.swift in Sources */,
 				B54ABF412BF30223002E89DC /* WeatherAPIManager.swift in Sources */,
 				B54ABF602BF75ACD002E89DC /* SegmentControlView.swift in Sources */,
 				B54ABF6D2BFC968B002E89DC /* DetailCardCell.swift in Sources */,
 				B54ABF182BF22B4F002E89DC /* SceneDelegate.swift in Sources */,
+				54B8B6AE2BFDAD3C009CC37A /* FoodSuggestionsView.swift in Sources */,
 				B54ABF6B2BFC9521002E89DC /* DetailChartCell.swift in Sources */,
-				549FC0AA2BFD2F2D00066AEB /* WeatherLines.swift in Sources */,
 				A7894D032BF61AFD003469A5 /* SelectedTableViewCell.swift in Sources */,
-				549FC0A82BFD2F1800066AEB /* CurrentTemperatureLabel.swift in Sources */,
 				856C9B812BF7500F00D99A2F /* WeatherModel.swift in Sources */,
 				856C9B7A2BF6028E00D99A2F /* Fonts.swift in Sources */,
 				856C9B852BFBA20000D99A2F /* FiveDaysWeatherTableViewCell.swift in Sources */,
