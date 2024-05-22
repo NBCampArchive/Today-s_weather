@@ -33,6 +33,7 @@
 		A7937AC12BF3836E00E9AD04 /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7937AC02BF3836E00E9AD04 /* SearchViewController.swift */; };
 		A7DD85912BFA313D00823B92 /* CurrentWeather.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7DD85902BFA313D00823B92 /* CurrentWeather.swift */; };
 		A7FDF88D2BFC852F0010E860 /* TabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7FDF88C2BFC852F0010E860 /* TabBarController.swift */; };
+		A7FDF89B2BFDF1D70010E860 /* DGChartsDynamic in Frameworks */ = {isa = PBXBuildFile; productRef = A7FDF89A2BFDF1D70010E860 /* DGChartsDynamic */; };
 		B54ABF162BF22B4F002E89DC /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B54ABF152BF22B4F002E89DC /* AppDelegate.swift */; };
 		B54ABF182BF22B4F002E89DC /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B54ABF172BF22B4F002E89DC /* SceneDelegate.swift */; };
 		B54ABF1A2BF22B4F002E89DC /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B54ABF192BF22B4F002E89DC /* ViewController.swift */; };
@@ -135,6 +136,7 @@
 				B54ABF3F2BF22EA6002E89DC /* AlamofireDynamic in Frameworks */,
 				B54ABF652BFB608C002E89DC /* DGCharts in Frameworks */,
 				B54ABF372BF22E95002E89DC /* SnapKit in Frameworks */,
+				A7FDF89B2BFDF1D70010E860 /* DGChartsDynamic in Frameworks */,
 				B54ABF3A2BF22E9D002E89DC /* Then in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -308,6 +310,7 @@
 				B54ABF3C2BF22EA6002E89DC /* Alamofire */,
 				B54ABF3E2BF22EA6002E89DC /* AlamofireDynamic */,
 				B54ABF642BFB608C002E89DC /* DGCharts */,
+				A7FDF89A2BFDF1D70010E860 /* DGChartsDynamic */,
 			);
 			productName = TodayWeather;
 			productReference = B54ABF122BF22B4F002E89DC /* TodayWeather.app */;
@@ -657,6 +660,11 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		A7FDF89A2BFDF1D70010E860 /* DGChartsDynamic */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = B54ABF632BFB608C002E89DC /* XCRemoteSwiftPackageReference "Charts" */;
+			productName = DGChartsDynamic;
+		};
 		B54ABF362BF22E95002E89DC /* SnapKit */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = B54ABF352BF22E95002E89DC /* XCRemoteSwiftPackageReference "SnapKit" */;
