@@ -68,7 +68,6 @@ class FoodLocationView: UIView {
         addSubview(weatherAndLocationStackView)
         weatherAndLocationStackView.addArrangedSubview(dateLabel)
         weatherAndLocationStackView.addArrangedSubview(locationStackView)
-//        weatherAndLocationStackView.addArrangedSubview(weatherIconImageView)
         weatherAndLocationStackView.addArrangedSubview(temperatureLabel)
         
         locationStackView.addArrangedSubview(locationMarkImage)

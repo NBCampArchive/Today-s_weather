@@ -178,10 +178,5 @@ class FoodSuggestionsView: UIView {
             $0.height.equalTo(1)
             $0.bottom.equalToSuperview().offset(-10)
         }
-        
-        self.snp.makeConstraints {
-            $0.width.equalTo(0)  // 가로 크기를 0으로 설정
-            $0.height.greaterThanOrEqualTo(0).priority(.low)  // 높이를 콘텐츠에 맞추고, 최소 높이 0으로 설정
-        }
     }
 }

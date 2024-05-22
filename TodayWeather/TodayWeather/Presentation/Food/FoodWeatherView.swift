@@ -59,32 +59,41 @@ class FoodWeatherView: UIView {
     }
     
     private func setConstraints() {
-            weatherImage.snp.makeConstraints {
-                $0.top.equalToSuperview().offset(10)
-                $0.leading.equalToSuperview().inset(16)
-                $0.width.equalTo(262)
-                $0.height.equalTo(262)
-            }
-            
-            currentTemperatureLabel.snp.makeConstraints {
-                $0.top.equalTo(weatherImage.snp.top).offset(10)
-                $0.leading.equalToSuperview().inset(16)
-            }
-            
-            weatherLine1Label.snp.makeConstraints {
-                $0.top.equalTo(currentTemperatureLabel.snp.bottom).offset(20)
-                $0.leading.trailing.equalToSuperview().inset(16)
-            }
-            
-            weatherLine2Label.snp.makeConstraints {
-                $0.top.equalTo(weatherLine1Label.snp.bottom).offset(10)
-                $0.leading.trailing.equalToSuperview().inset(16)
-            }
-            
-            weatherLine3Label.snp.makeConstraints {
-                $0.top.equalTo(weatherLine2Label.snp.bottom).offset(10)
-                $0.leading.trailing.equalToSuperview().inset(16)
-                $0.bottom.equalToSuperview().offset(-20) // 하단 여백 추가
-            }
+        weatherImage.snp.makeConstraints {
+            $0.top.equalToSuperview().offset(10)
+            $0.leading.equalToSuperview().inset(16)
+            $0.width.equalTo(262)
+            $0.height.equalTo(262)
+        }
+        
+        currentTemperatureLabel.snp.makeConstraints {
+            $0.top.equalTo(weatherImage.snp.top).offset(10)
+            $0.leading.equalToSuperview().inset(16)
+        }
+        
+        weatherLine1Label.snp.makeConstraints {
+            $0.top.equalTo(currentTemperatureLabel.snp.bottom).offset(-20)
+            $0.leading.trailing.equalToSuperview().inset(16)
+        }
+        
+        weatherLine2Label.snp.makeConstraints {
+            $0.top.equalTo(weatherLine1Label.snp.bottom).offset(10)
+            $0.leading.trailing.equalToSuperview().inset(16)
+        }
+        
+        weatherLine3Label.snp.makeConstraints {
+            $0.top.equalTo(weatherLine2Label.snp.bottom).offset(10)
+            $0.leading.trailing.equalToSuperview().inset(16)
+            $0.bottom.equalToSuperview().offset(-20) // 하단 여백 추가
         }
     }
+    
+    func updateWeatherConstraints(topOffset: CGFloat, leadingOffset: CGFloat, width: CGFloat, height: CGFloat) {
+        weatherImage.snp.updateConstraints {
+            $0.top.equalToSuperview().offset(topOffset)
+            $0.leading.equalToSuperview().inset(leadingOffset)
+            $0.width.equalTo(width)
+            $0.height.equalTo(height)
+        }
+    }
+}
