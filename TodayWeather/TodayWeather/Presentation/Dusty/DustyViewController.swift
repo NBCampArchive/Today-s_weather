@@ -90,7 +90,6 @@ class DustyViewController: UIViewController{
             print("Longitude: \(self.longitude)")
         }
         
-        
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -149,7 +148,7 @@ class DustyViewController: UIViewController{
                 switch airQuality {
                 case "Good":
                     self.dotAnimationView.dotCount = 5
-                case "Fine":
+                case "Normal":
                     self.dotAnimationView.dotCount = 10
                 case "Unhealthy":
                     self.dotAnimationView.dotCount = 15
@@ -161,9 +160,10 @@ class DustyViewController: UIViewController{
                     self.locationCityLabel.text = WeatherDataManager.shared.weatherData?.name
                     self.locationCountryLabel.text = self.countryName(countryCode: WeatherDataManager.shared.weatherData?.sys.country ?? "")
                     
-                    self.dotAnimationView.aqiValueLabel.text = String(value)
-                    self.dotAnimationView.aqiOptionLabel.text = pollutant
-                    self.dotAnimationView.aqiQualityLabel.text = airQuality
+                    self.updateLabel(self.dotAnimationView.aqiValueLabel, withText: String(value))
+                    self.updateLabel(self.dotAnimationView.aqiOptionLabel, withText: pollutant)
+                    self.updateLabel(self.dotAnimationView.aqiQualityLabel, withText: airQuality)
+                    
                     self.dotAnimationView.backgroundColor = UIColor(named: colorName)
                     
                     self.optionSegment.selectedColor = self.dotAnimationView.backgroundColor
@@ -217,7 +217,7 @@ class DustyViewController: UIViewController{
             if value <= 50 {
                 return ("Good", "good")
             } else if value <= 100 {
-                return ("Fine", "normal")
+                return ("Normal", "normal")
             } else {
                 return ("Unhealthy", "bad")
             }
@@ -225,7 +225,7 @@ class DustyViewController: UIViewController{
             if value <= 50 {
                 return ("Good", "good")
             } else if value <= 100 {
-                return ("Fine", "normal")
+                return ("Normal", "normal")
             } else {
                 return ("Unhealthy", "bad")
             }
@@ -233,7 +233,7 @@ class DustyViewController: UIViewController{
             if value <= 53 {
                 return ("Good", "good")
             } else if value <= 100 {
-                return ("Fine", "normal")
+                return ("Normal", "normal")
             } else {
                 return ("Unhealthy", "bad")
             }
@@ -241,7 +241,7 @@ class DustyViewController: UIViewController{
             if value <= 4.4 {
                 return ("Good", "good")
             } else if value <= 9.4 {
-                return ("Fine", "normal")
+                return ("Normal", "normal")
             } else {
                 return ("Unhealthy", "bad")
             }
@@ -249,7 +249,7 @@ class DustyViewController: UIViewController{
             if value <= 35 {
                 return ("Good", "good")
             } else if value <= 75 {
-                return ("Fine", "normal")
+                return ("Normal", "normal")
             } else {
                 return ("Unhealthy", "bad")
             }
@@ -257,7 +257,7 @@ class DustyViewController: UIViewController{
             if value <= 50 {
                 return ("Good", "good")
             } else if value <= 100 {
-                return ("Fine", "normal")
+                return ("Normal", "normal")
             } else {
                 return ("Unhealthy", "bad")
             }
@@ -265,13 +265,24 @@ class DustyViewController: UIViewController{
             if value <= 25 {
                 return ("Good", "good")
             } else if value <= 50 {
-                return ("Fine", "normal")
+                return ("Normal", "normal")
             } else {
                 return ("Unhealthy", "bad")
             }
         default:
             return ("Unknown", "unknown")
         }
+    }
+    
+    // 텍스트 변경 시 애니메이션을 추가하는 함수
+    private func updateLabel(_ label: UILabel, withText text: String) {
+        let animation = CATransition()
+        animation.type = .push
+        animation.subtype = .fromTop
+        animation.duration = 0.3
+        animation.timingFunction = CAMediaTimingFunction(name: .easeInEaseOut)
+        label.layer.add(animation, forKey: "changeTextTransition")
+        label.text = text
     }
     
 }
