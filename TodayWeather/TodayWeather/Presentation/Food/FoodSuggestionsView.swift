@@ -12,17 +12,17 @@ import Then
 class FoodSuggestionsView: UIView {
     let suggestionsTitleLabel = UILabel().then {
         $0.text = "이런 음식은 어떠세요?"
-        $0.font = UIFont(name: "Pretendard", size: 12)
+        $0.font = Pretendard.medium.of(size: 12)
     }
     
     let koreanFoodLabel = UILabel().then {
         $0.text = "한식"
-        $0.font = UIFont(name: "Pretendard", size: 16)
+        $0.font = Pretendard.bold.of(size: 16)
     }
     
     let koreanMenuLabel = UILabel().then {
         $0.text = "음식 내용 데이터 가져오기"
-        $0.font = UIFont(name: "Pretendard", size: 14)
+        $0.font = Pretendard.medium.of(size: 14)
         $0.textColor = .black
     }
     
@@ -32,12 +32,12 @@ class FoodSuggestionsView: UIView {
     
     let westernFoodLabel = UILabel().then {
         $0.text = "양식"
-        $0.font = UIFont(name: "Pretendard", size: 16)
+        $0.font = Pretendard.bold.of(size: 16)
     }
     
     let westernMenuLabel = UILabel().then {
         $0.text = "음식 내용 데이터 가져오기"
-        $0.font = UIFont(name: "Pretendard", size: 14)
+        $0.font = Pretendard.medium.of(size: 14)
         $0.textColor = .black
     }
     
@@ -47,12 +47,12 @@ class FoodSuggestionsView: UIView {
     
     let chineseFoodLabel = UILabel().then {
         $0.text = "중식"
-        $0.font = UIFont(name: "Pretendard", size: 16)
+        $0.font = Pretendard.bold.of(size: 16)
     }
     
     let chineseMenuLabel = UILabel().then {
         $0.text = "음식 내용 데이터 가져오기"
-        $0.font = UIFont(name: "Pretendard", size: 14)
+        $0.font = Pretendard.medium.of(size: 14)
         $0.textColor = .black
     }
     
@@ -62,12 +62,12 @@ class FoodSuggestionsView: UIView {
     
     let japaneseFoodLabel = UILabel().then {
         $0.text = "일식"
-        $0.font = UIFont(name: "Pretendard", size: 16)
+        $0.font = Pretendard.bold.of(size: 16)
     }
     
     let japaneseMenuLabel = UILabel().then {
         $0.text = "음식 내용 데이터 가져오기"
-        $0.font = UIFont(name: "Pretendard", size: 14)
+        $0.font = Pretendard.medium.of(size: 14)
         $0.textColor = .black
     }
     
@@ -159,9 +159,9 @@ class FoodSuggestionsView: UIView {
         
         japaneseSeparator.snp.makeConstraints {
             $0.top.equalTo(japaneseFoodLabel.snp.bottom).offset(8)
-            $0.width.equalToSuperview()
+            $0.leading.trailing.equalToSuperview()
             $0.height.equalTo(1)
-            $0.bottom.equalToSuperview().offset(-10)
+            $0.bottom.equalToSuperview().offset(-80)
         }
     }
 }

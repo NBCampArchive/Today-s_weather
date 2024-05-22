@@ -51,11 +51,8 @@ class FoodWeatherView: UIView {
     }
     
     private func setupView() {
-        addSubview(weatherImage)
-        addSubview(currentTemperatureLabel)
-        addSubview(weatherLine1Label)
-        addSubview(weatherLine2Label)
-        addSubview(weatherLine3Label)
+        addSubviews(weatherImage, currentTemperatureLabel, weatherLine1Label, weatherLine2Label, weatherLine3Label)
+
     }
     
     private func setConstraints() {
@@ -67,24 +64,27 @@ class FoodWeatherView: UIView {
         }
         
         currentTemperatureLabel.snp.makeConstraints {
-            $0.top.equalTo(weatherImage.snp.top).offset(-25)
-            $0.leading.equalToSuperview().inset(16)
+            $0.top.equalToSuperview().offset(25)
+            $0.leading.equalToSuperview()
         }
         
+        // 무엇을
         weatherLine1Label.snp.makeConstraints {
-            $0.top.equalTo(currentTemperatureLabel.snp.bottom).offset(-20)
-            $0.leading.trailing.equalToSuperview().inset(16)
+            $0.top.equalToSuperview().offset(250)
+            $0.leading.equalToSuperview()
         }
         
+        // 현재기온
         weatherLine2Label.snp.makeConstraints {
-            $0.top.equalTo(weatherLine1Label.snp.bottom).offset(10)
-            $0.leading.trailing.equalToSuperview().inset(16)
+            $0.top.equalToSuperview().offset(225)
+            $0.leading.equalToSuperview()
         }
         
+        // OO날씨
         weatherLine3Label.snp.makeConstraints {
-            $0.top.equalTo(weatherLine2Label.snp.bottom).offset(10)
-            $0.leading.trailing.equalToSuperview().inset(16)
-            $0.bottom.equalToSuperview().offset(-20) // 하단 여백 추가
+            $0.top.equalToSuperview().offset(200)
+            $0.leading.equalToSuperview()
+            $0.bottom.equalToSuperview().offset(-40)
         }
     }
     

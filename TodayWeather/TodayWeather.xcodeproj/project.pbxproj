@@ -157,9 +157,9 @@
 			isa = PBXGroup;
 			children = (
 				5432F2432BF518CA00E6BAF9 /* FoodViewController.swift */,
-				54B8B6AD2BFDAD3C009CC37A /* FoodSuggestionsView.swift */,
-				54B8B6AF2BFDAD56009CC37A /* FoodWeatherView.swift */,
 				54B8B6B12BFDAD6C009CC37A /* FoodLocationView.swift */,
+				54B8B6AF2BFDAD56009CC37A /* FoodWeatherView.swift */,
+				54B8B6AD2BFDAD3C009CC37A /* FoodSuggestionsView.swift */,
 			);
 			path = Food;
 			sourceTree = "<group>";

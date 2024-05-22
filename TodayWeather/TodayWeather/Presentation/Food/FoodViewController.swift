@@ -10,45 +10,8 @@ class FoodViewController: UIViewController {
     var cancellable = Set<AnyCancellable>()
     
     // UI 요소들
-    let scrollView = UIScrollView().then { $0.showsVerticalScrollIndicator = false }
     let contentsView = UIView()
-    
-    let weatherAndLocationStackView = UIStackView().then {
-        $0.axis = .vertical
-        $0.spacing = 4
-    }
-    
-    let locationStackView = UIStackView().then {
-        $0.axis = .horizontal
-        $0.spacing = 4
-    }
-    
-    let locationLabelStackView = UIStackView().then {
-        $0.axis = .horizontal
-        $0.spacing = 4
-        $0.alignment = .firstBaseline
-    }
-    
-    lazy var dateLabel = UILabel().then {
-        $0.font = Gabarito.bold.of(size: 17)
-        $0.text = configureDate()
-    }
-    
-    let locationMarkImage = UIImageView().then {
-        $0.contentMode = .scaleAspectFit
-        $0.image = UIImage(named: "locationMark")
-    }
-    
-    lazy var cityLabel = UILabel().then {
-        $0.font = Gabarito.bold.of(size: 32)
-        $0.text = "Cupertino"
-    }
-    
-    lazy var countryLabel = UILabel().then {
-        $0.font = Gabarito.bold.of(size: 15)
-        $0.text = "United States"
-    }
-    
+    let foodLocationView = FoodLocationView()
     let foodWeatherView = FoodWeatherView()
     let foodSuggestionsView = FoodSuggestionsView()
 
@@ -57,8 +20,9 @@ class FoodViewController: UIViewController {
         super.viewDidLoad()
         view.backgroundColor = UIColor(named: "fewCloudyBackground")
         
+        foodLocationView.dateLabel.text = configureDate()
         configureUI()
-        setConstraints() // 제약 조건 설정
+        setConstraints()
         
         WeatherDataManager.shared.$weatherData
             .sink { [weak self] weatherData in
@@ -69,8 +33,8 @@ class FoodViewController: UIViewController {
                     switch data {
                     case .success(let name) :
                         
-                        self?.cityLabel.text = name
-                        self?.countryLabel.text = self?.countryName(countryCode: weatherData.sys.country ?? "")
+                        self?.foodLocationView.cityLabel.text = name
+                        self?.foodLocationView.countryLabel.text = self?.countryName(countryCode: weatherData.sys.country ?? "")
                         self?.updateUI(with: weatherData)
                     case .failure(let error) :
                         print("Reverse geocoding error: \(error.localizedDescription)")
@@ -92,19 +56,6 @@ class FoodViewController: UIViewController {
             print("Error decoding JSON: \(error)")
             return nil
         }
-    }
-    
-    // UI 구성 함수
-    private func configureUI() {
-        view.addSubviews(scrollView)
-        scrollView.addSubviews(contentsView)
-        contentsView.addSubviews(
-            weatherAndLocationStackView, foodWeatherView, foodSuggestionsView
-        )
-        
-        weatherAndLocationStackView.addArrangedSubviews(dateLabel, locationStackView)
-        locationStackView.addArrangedSubviews(locationMarkImage, locationLabelStackView)
-        locationLabelStackView.addArrangedSubviews(cityLabel, countryLabel)
     }
     
     // 현재 날짜 설정 함수
@@ -170,7 +121,8 @@ class FoodViewController: UIViewController {
     }
     
     private func updateFoodRecommendations(for weather: String, with recommendations: WeatherRecommendations?) {
-        guard let recommendations = recommendations else { return }
+        guard let recommendations = recommendations else { return
+        }
         if let food = recommendations.weatherRecommendations[weather] {
             foodSuggestionsView.koreanMenuLabel.text = food.korean.joined(separator: ", ")
             foodSuggestionsView.westernMenuLabel.text = food.western.joined(separator: ", ")
@@ -178,33 +130,32 @@ class FoodViewController: UIViewController {
             foodSuggestionsView.japaneseMenuLabel.text = food.japanese.joined(separator: ", ")
         }
     }
-
+    
+    // UI 구성 함수
+    private func configureUI() {
+        view.addSubview(foodLocationView)
+        view.addSubview(foodWeatherView)
+        view.addSubview(foodSuggestionsView)
+        
+    }
+    
     // 제약 조건 설정 함수
     private func setConstraints() {
-        scrollView.snp.makeConstraints {
-            $0.edges.equalToSuperview()
-        }
-        
-        contentsView.snp.makeConstraints {
-            $0.edges.equalTo(scrollView.contentLayoutGuide)
-            $0.width.equalTo(scrollView.frameLayoutGuide)
-            $0.height.equalTo(1000)
-        }
-        
-        weatherAndLocationStackView.snp.makeConstraints {
-            $0.top.equalToSuperview().inset(78)
-            $0.leading.equalToSuperview().inset(20)
-            $0.trailing.equalToSuperview().inset(20)
+        foodLocationView.snp.makeConstraints {
+            $0.top.equalTo(view.safeAreaLayoutGuide).offset(78)
+            $0.width.equalToSuperview().offset(20)
         }
         
         foodWeatherView.snp.makeConstraints {
-            $0.top.equalTo(weatherAndLocationStackView.snp.bottom).offset(16)
-            $0.leading.trailing.equalToSuperview().inset(16)
+            $0.top.equalTo(foodLocationView.snp.bottom).offset(16)
+            $0.leading.equalToSuperview().inset(16)
         }
         
         foodSuggestionsView.snp.makeConstraints {
-            $0.top.equalTo(foodWeatherView.snp.bottom).offset(16)
-            $0.leading.trailing.equalToSuperview().inset(16)
+//            $0.top.equalTo(foodWeatherView.snp.bottom).offset(16)
+            $0.leading.equalToSuperview()
+            $0.trailing.equalToSuperview()
+            $0.bottom.equalToSuperview().offset(-20)
         }
     }
 }

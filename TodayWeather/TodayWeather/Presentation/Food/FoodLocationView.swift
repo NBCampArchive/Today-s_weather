@@ -13,7 +13,6 @@ class FoodLocationView: UIView {
         $0.axis = .vertical
         $0.spacing = 4
         $0.alignment = .leading
-        $0.distribution = .fill
     }
     
     let locationStackView = UIStackView().then {
@@ -32,6 +31,7 @@ class FoodLocationView: UIView {
     
     let dateLabel = UILabel().then {
         $0.font = Gabarito.bold.of(size: 17)
+        $0.text = "ian"
     }
     
     let locationMarkImage = UIImageView().then {
@@ -79,16 +79,12 @@ class FoodLocationView: UIView {
     
     private func setConstraints() {
         weatherAndLocationStackView.snp.makeConstraints {
-            $0.edges.equalToSuperview().inset(16)
+            $0.top.equalToSuperview()
+            $0.leading.equalToSuperview().offset(20)
         }
         
         locationMarkImage.snp.makeConstraints {
             $0.width.height.equalTo(24)
-        }
-        
-        dateLabel.snp.makeConstraints {
-            $0.leading.equalToSuperview()
-            $0.height.greaterThanOrEqualTo(20)
         }
         
         locationLabelStackView.snp.makeConstraints {
