@@ -51,6 +51,39 @@ class SearchTableViewCell: UITableViewCell {
         }
     }
     
+    func configureRecentUI(title : String, row : Int, count : Int){
+        self.cancelBtn.isHidden = false
+        self.locLbl.text = title
+        self.locLbl.textColor = #colorLiteral(red: 0.3882352941, green: 0.3882352941, blue: 0.3882352941, alpha: 1)
+        self.backgroundColor =  #colorLiteral(red: 1, green: 0.9999999404, blue: 1, alpha: 1).withAlphaComponent(0.8)
+        self.selectionStyle = .none
+        self.clipsToBounds = true
+        if row == count {
+            self.layer.cornerRadius = 16
+            self.layer.maskedCorners = CACornerMask(arrayLiteral: .layerMinXMaxYCorner, .layerMaxXMaxYCorner)
+        }else {
+            self.layer.cornerRadius = 0
+        }
+    }
+    
+    func configureResultUI(title : String, row : Int, count : Int, Recent : Bool) {
+        self.cancelBtn.isHidden = true
+        self.locLbl.text = title
+        self.backgroundColor =  #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1).withAlphaComponent(0.8)
+        self.selectionStyle = .none
+        self.clipsToBounds = true
+        if Recent == true {
+            if row == count{
+                self.layer.cornerRadius = 16
+                self.layer.maskedCorners = CACornerMask(arrayLiteral: .layerMinXMaxYCorner, .layerMaxXMaxYCorner)
+            }else {
+                self.layer.cornerRadius = 0
+            }
+        }else {
+            self.layer.cornerRadius = 0
+        }
+    }
+    
     @objc func setBtnTap(_ sender: UIButton) {
         if let delegate = delegate {
             delegate.delDelegate(row: delRow)

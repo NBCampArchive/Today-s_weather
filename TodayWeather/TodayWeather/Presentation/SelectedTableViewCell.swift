@@ -68,4 +68,10 @@ class SelectedTableViewCell: UITableViewCell {
         }
     }
 
+    func configureUI(weather : CurrentResponseModel, title : String) {
+        self.selectionStyle = .none
+        self.tempLbl.text = String(Int(weather.main.temp)) + "°C"
+        self.locLbl.text = title
+        self.weatherImage.image = CurrentWeather.shared.weatherImage(weather: weather.weather[0].id)
+    }
 }
