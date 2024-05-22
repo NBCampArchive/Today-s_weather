@@ -144,8 +144,15 @@ extension SearchViewController : UISearchBarDelegate {
             guard let place = response?.mapItems[0] else { return }
             self?.latitude = Double(place.placemark.coordinate.latitude)
             self?.longitude = Double(place.placemark.coordinate.longitude)
-//            self?.localtitle.append(place.name ?? "")
-            self?.reverseGeocode(latitude: self?.latitude ?? 0, longitude: self?.longitude ?? 0)
+            // 지역명 받아오는 api?
+            CurrentWeather.shared.reverseGeocode(latitude: self!.latitude , longitude: self!.longitude, save: true) { data in
+                switch data {
+                case .success(let name) :
+                    self?.callAPIs(locName: name)
+                case .failure(let error) :
+                    print("Reverse geocoding error: \(error.localizedDescription)")
+                }
+            }
         }
     }
 }
@@ -264,7 +271,9 @@ extension SearchViewController : UITableViewDelegate, UITableViewDataSource {
         if tableView == searchView.selectTableView {
             tableView.deselectRow(at: indexPath, animated: true)
             WeatherDataManager.shared.weatherData = selectWeather[indexPath.row]
-            
+            if let tabBarController = self.tabBarController {
+                    tabBarController.selectedIndex = 0 // 두 번째 탭 선택
+            }
         }else {
             //검색중 셀선택시
             if indexPath.section == 0 {
@@ -374,29 +383,3 @@ extension SearchViewController : delDelegate{
         searchView.searchTableView.reloadData()
     }
 }
-//MARK: - CLLocationManagerDelegate
-extension SearchViewController: CLLocationManagerDelegate {
-    func reverseGeocode(latitude: Double, longitude: Double) {
-           let location = CLLocation(latitude: latitude, longitude: longitude)
-            let geocoder: CLGeocoder = CLGeocoder()
-            let local: Locale = Locale(identifier: "en-US")
-           geocoder.reverseGeocodeLocation(location, preferredLocale: local) { (placemarks, error) in
-               if let error = error {
-                   print("Reverse geocoding error: \(error.localizedDescription)")
-                   return
-               }
-               
-               guard let placemark = placemarks?.first else {
-                   print("No placemark found")
-                   return
-               }
-               
-               let name = (placemark.locality ?? "") + ", " + (placemark.country ?? "")
-               
-               // 주소 정보 가져오기
-               self.CDM.saveData(Data: locationData(latitude: latitude, longitude: longitude, locName: name))
-               self.callAPIs(locName: name)
-           }
-       }
-}
-

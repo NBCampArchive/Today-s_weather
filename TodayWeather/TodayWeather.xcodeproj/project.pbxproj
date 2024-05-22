@@ -32,7 +32,8 @@
 		A7937AC12BF3836E00E9AD04 /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7937AC02BF3836E00E9AD04 /* SearchViewController.swift */; };
 		A7DD85912BFA313D00823B92 /* CurrentWeather.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7DD85902BFA313D00823B92 /* CurrentWeather.swift */; };
 		A7FDF88D2BFC852F0010E860 /* TabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7FDF88C2BFC852F0010E860 /* TabBarController.swift */; };
-		A7FDF89B2BFDF1D70010E860 /* DGChartsDynamic in Frameworks */ = {isa = PBXBuildFile; productRef = A7FDF89A2BFDF1D70010E860 /* DGChartsDynamic */; };
+		A7FDF8A22BFE13ED0010E860 /* TodayWeather.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = A7FDF8A02BFE13ED0010E860 /* TodayWeather.xcdatamodeld */; };
+		A7FDF8A72BFE3A290010E860 /* DGChartsDynamic in Frameworks */ = {isa = PBXBuildFile; productRef = A7FDF8A62BFE3A290010E860 /* DGChartsDynamic */; };
 		B54ABF162BF22B4F002E89DC /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B54ABF152BF22B4F002E89DC /* AppDelegate.swift */; };
 		B54ABF182BF22B4F002E89DC /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B54ABF172BF22B4F002E89DC /* SceneDelegate.swift */; };
 		B54ABF1A2BF22B4F002E89DC /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B54ABF192BF22B4F002E89DC /* ViewController.swift */; };
@@ -59,7 +60,6 @@
 		B54ABF692BFB61DA002E89DC /* DetailAqiViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B54ABF682BFB61DA002E89DC /* DetailAqiViewController.swift */; };
 		B54ABF6B2BFC9521002E89DC /* DetailChartCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B54ABF6A2BFC9521002E89DC /* DetailChartCell.swift */; };
 		B54ABF6D2BFC968B002E89DC /* DetailCardCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B54ABF6C2BFC968B002E89DC /* DetailCardCell.swift */; };
-		B54ABF712BFCC054002E89DC /* TodayWeather.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = B54ABF6F2BFCC054002E89DC /* TodayWeather.xcdatamodeld */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -101,6 +101,7 @@
 		A7937AC02BF3836E00E9AD04 /* SearchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewController.swift; sourceTree = "<group>"; };
 		A7DD85902BFA313D00823B92 /* CurrentWeather.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrentWeather.swift; sourceTree = "<group>"; };
 		A7FDF88C2BFC852F0010E860 /* TabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarController.swift; sourceTree = "<group>"; };
+		A7FDF8A12BFE13ED0010E860 /* TodayWeather.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = TodayWeather.xcdatamodel; sourceTree = "<group>"; };
 		B54ABF122BF22B4F002E89DC /* TodayWeather.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TodayWeather.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B54ABF152BF22B4F002E89DC /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		B54ABF172BF22B4F002E89DC /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -124,7 +125,6 @@
 		B54ABF682BFB61DA002E89DC /* DetailAqiViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailAqiViewController.swift; sourceTree = "<group>"; };
 		B54ABF6A2BFC9521002E89DC /* DetailChartCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailChartCell.swift; sourceTree = "<group>"; };
 		B54ABF6C2BFC968B002E89DC /* DetailCardCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailCardCell.swift; sourceTree = "<group>"; };
-		B54ABF702BFCC054002E89DC /* TodayWeather.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = TodayWeather.xcdatamodel; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -136,7 +136,7 @@
 				B54ABF3F2BF22EA6002E89DC /* AlamofireDynamic in Frameworks */,
 				B54ABF652BFB608C002E89DC /* DGCharts in Frameworks */,
 				B54ABF372BF22E95002E89DC /* SnapKit in Frameworks */,
-				A7FDF89B2BFDF1D70010E860 /* DGChartsDynamic in Frameworks */,
+				A7FDF8A72BFE3A290010E860 /* DGChartsDynamic in Frameworks */,
 				B54ABF3A2BF22E9D002E89DC /* Then in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -196,7 +196,7 @@
 		B54ABF142BF22B4F002E89DC /* TodayWeather */ = {
 			isa = PBXGroup;
 			children = (
-				B54ABF6F2BFCC054002E89DC /* TodayWeather.xcdatamodeld */,
+				A7FDF8A02BFE13ED0010E860 /* TodayWeather.xcdatamodeld */,
 				B54ABF2D2BF22C38002E89DC /* Application */,
 				B54ABF2F2BF22C60002E89DC /* Network */,
 				B54ABF302BF22C68002E89DC /* Model */,
@@ -310,7 +310,7 @@
 				B54ABF3C2BF22EA6002E89DC /* Alamofire */,
 				B54ABF3E2BF22EA6002E89DC /* AlamofireDynamic */,
 				B54ABF642BFB608C002E89DC /* DGCharts */,
-				A7FDF89A2BFDF1D70010E860 /* DGChartsDynamic */,
+				A7FDF8A62BFE3A290010E860 /* DGChartsDynamic */,
 			);
 			productName = TodayWeather;
 			productReference = B54ABF122BF22B4F002E89DC /* TodayWeather.app */;
@@ -384,13 +384,13 @@
 			files = (
 				B54ABF472BF30645002E89DC /* CurrentResponseModel.swift in Sources */,
 				B54ABF342BF22D9A002E89DC /* Network.swift in Sources */,
-				B54ABF712BFCC054002E89DC /* TodayWeather.xcdatamodeld in Sources */,
 				B54ABF1A2BF22B4F002E89DC /* ViewController.swift in Sources */,
 				B54ABF542BF33768002E89DC /* DotAnimationView.swift in Sources */,
 				B54ABF492BF307B8002E89DC /* ForecastResponseModel.swift in Sources */,
 				B54ABF692BFB61DA002E89DC /* DetailAqiViewController.swift in Sources */,
 				A71003512BFB8F5B00BF6FD4 /* CoreDataManager.swift in Sources */,
 				B54ABF492BF307B8002E89DC /* ForecastResponseModel.swift in Sources */,
+				A7FDF8A22BFE13ED0010E860 /* TodayWeather.xcdatamodeld in Sources */,
 				856C9B892BFC666100D99A2F /* WeatherDataManager.swift in Sources */,
 				856C9B632BF5035800D99A2F /* WeatherViewController.swift in Sources */,
 				856C9B7E2BF6F4A800D99A2F /* UIViewExtension.swift in Sources */,
@@ -417,7 +417,6 @@
 				B54ABF322BF22D82002E89DC /* Model.swift in Sources */,
 				856C9B872BFC2AC900D99A2F /* WeatherTableViewHeaderView.swift in Sources */,
 				856C9B832BFB921400D99A2F /* FiveDaysWeatherViewController.swift in Sources */,
-				A71A553A2BFC2BAA00D59F01 /* TodayWeather.xcdatamodeld in Sources */,
 				A7894CFF2BF5A98C003469A5 /* SearchTableViewCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -661,7 +660,7 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		A7FDF89A2BFDF1D70010E860 /* DGChartsDynamic */ = {
+		A7FDF8A62BFE3A290010E860 /* DGChartsDynamic */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = B54ABF632BFB608C002E89DC /* XCRemoteSwiftPackageReference "Charts" */;
 			productName = DGChartsDynamic;
@@ -694,14 +693,14 @@
 /* End XCSwiftPackageProductDependency section */
 
 /* Begin XCVersionGroup section */
-		B54ABF6F2BFCC054002E89DC /* TodayWeather.xcdatamodeld */ = {
+		A7FDF8A02BFE13ED0010E860 /* TodayWeather.xcdatamodeld */ = {
 			isa = XCVersionGroup;
 			children = (
-				B54ABF702BFCC054002E89DC /* TodayWeather.xcdatamodel */,
+				A7FDF8A12BFE13ED0010E860 /* TodayWeather.xcdatamodel */,
 			);
-			currentVersion = B54ABF702BFCC054002E89DC /* TodayWeather.xcdatamodel */;
+			currentVersion = A7FDF8A12BFE13ED0010E860 /* TodayWeather.xcdatamodel */;
 			name = TodayWeather.xcdatamodeld;
-			path = /Users/ryeol/Desktop/TodaysWeather/TodayWeather/TodayWeather/TodayWeather.xcdatamodeld;
+			path = "/Users/songjeonghun/Documents/github/Today-s_weather/TodayWeather/TodayWeather/TodayWeather.xcdatamodeld";
 			sourceTree = "<group>";
 			versionGroupType = wrapper.xcdatamodel;
 		};
