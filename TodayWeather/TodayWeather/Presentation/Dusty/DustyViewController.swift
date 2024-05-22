@@ -17,6 +17,11 @@ class DustyViewController: UIViewController{
         $0.layer.masksToBounds = true
     }
     
+    let dayAndLocationStackView = UIStackView().then {
+        $0.axis = .vertical
+        $0.spacing = 4
+    }
+    
     let dayLabel = UILabel().then {
         $0.text = WeatherViewController().configureDate()
         $0.font = Gabarito.bold.of(size: 17)
@@ -44,7 +49,6 @@ class DustyViewController: UIViewController{
     let locationStackView = UIStackView().then {
         $0.axis = .horizontal
         $0.spacing = 4
-        $0.alignment = .center
     }
     
     let locationLabelStackView = UIStackView().then {
@@ -99,27 +103,20 @@ class DustyViewController: UIViewController{
     
     func setupLayout() {
         view.addSubview(dotAnimationView)
-        view.addSubview(dayLabel)
-        view.addSubview(locationStackView)
+        view.addSubview(dayAndLocationStackView)
+        dayAndLocationStackView.addArrangedSubview(dayLabel)
+        dayAndLocationStackView.addArrangedSubview(locationStackView)
+
         locationStackView.addArrangedSubview(locationImageView)
         locationStackView.addArrangedSubview(locationLabelStackView)
+        
         locationLabelStackView.addArrangedSubview(locationCityLabel)
         locationLabelStackView.addArrangedSubview(locationCountryLabel)
         view.addSubview(optionSegment)
         
-        dayLabel.snp.makeConstraints{
+        dayAndLocationStackView.snp.makeConstraints{
             $0.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(72)
             $0.leading.equalToSuperview().offset(20)
-        }
-        
-        locationStackView.snp.makeConstraints{
-            $0.top.equalTo(dayLabel.snp.bottom).offset(4)
-            $0.leading.equalTo(dayLabel)
-        }
-        
-        locationImageView.snp.makeConstraints{
-            $0.centerY.equalToSuperview()
-            $0.width.height.equalTo(28)
         }
         
         dotAnimationView.snp.makeConstraints{
