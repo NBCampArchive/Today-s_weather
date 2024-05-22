@@ -77,10 +77,10 @@ class DetailAqiViewController: UIViewController {
             case .success(let data):
                 print(data.data.iaqi)
                 self?.iaqiData = [
-                    data.data.iaqi.o3,//오존
-                    data.data.iaqi.no2,//이산화질소
-                    data.data.iaqi.co,//일산화탄소
-                    data.data.iaqi.so2//아황산가스
+                    data.data.iaqi.o3 ?? AQIValue(v: 0.0),//오존
+                    data.data.iaqi.no2 ?? AQIValue(v: 0.0),//이산화질소
+                    data.data.iaqi.co ?? AQIValue(v: 0.0),//일산화탄소
+                    data.data.iaqi.so2 ?? AQIValue(v: 0.0)//아황산가스
                 ]
                 
                 self?.pm10PollutantData = data.data.forecast.daily.pm10
