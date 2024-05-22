@@ -197,7 +197,7 @@ class DetailChartCell: UICollectionViewCell {
             }
         }
         dataSet.lineWidth = 1
-        dataSet.setColor(.lightGray)
+        dataSet.setColor(UIColor(named: "graph") ?? .lightGray)
         dataSet.fillColor = .clear
         dataSet.drawFilledEnabled = true
         
