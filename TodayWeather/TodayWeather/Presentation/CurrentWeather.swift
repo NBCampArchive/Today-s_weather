@@ -55,11 +55,17 @@ class CurrentWeather {
                    print("No placemark found")
                    return
                }
-               let name = (placemark.locality ?? "") + ", " + (placemark.country ?? "")
+               
                if save == true {
+                   let name = (placemark.locality ?? "") + ", " + (placemark.country ?? "")
                    self?.CDM.saveData(Data: locationData(latitude: latitude, longitude: longitude, locName: name))
+                   
+                   completion(.success(name))
+               }else {
+                   let name = (placemark.locality ?? "")
+                   completion(.success(name))
                }
-               completion(.success(name))
+               
            }
        }
 }
