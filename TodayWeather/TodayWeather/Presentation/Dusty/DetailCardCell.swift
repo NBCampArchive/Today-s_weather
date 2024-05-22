@@ -78,7 +78,61 @@ class DetailCardCell: UICollectionViewCell {
     func configure(with iaqi: AQIValue, title: String) {
         print(iaqi)
         titleLabel.text = title
-        valueLabel.text = "\(iaqi.v)"
+        if iaqi.v == 0.0{
+            subtitleLabel.text = "N/A"
+            valueLabel.isHidden = true
+            circleView.isHidden = true
+        } else{
+            valueLabel.isHidden = false
+            circleView.isHidden = false
+            valueLabel.text = "\(iaqi.v)"
+            
+            // 오염물질별 농도 기준에 따른 대기질 단계 및 색상 설정
+            let (airQuality, colorName) = determineAirQualityAndColor(for: iaqi.v, pollutant: title)
+            
+            subtitleLabel.text = airQuality
+            circleView.backgroundColor = UIColor(named: colorName)
+            
+        }
+    }
+    
+    func determineAirQualityAndColor(for value: Double, pollutant: String) -> (String, String) {
+        switch pollutant {
+        case "O3":
+            if value <= 50 {
+                return ("Good", "good")
+            } else if value <= 100 {
+                return ("Fine", "normal")
+            } else {
+                return ("Unhealthy", "bad")
+            }
+        case "NO2":
+            if value <= 53 {
+                return ("Good", "good")
+            } else if value <= 100 {
+                return ("Fine", "normal")
+            } else {
+                return ("Unhealthy", "bad")
+            }
+        case "CO":
+            if value <= 4.4 {
+                return ("Good", "good")
+            } else if value <= 9.4 {
+                return ("Fine", "normal")
+            } else {
+                return ("Unhealthy", "bad")
+            }
+        case "SO2":
+            if value <= 35 {
+                return ("Good", "good")
+            } else if value <= 75 {
+                return ("Fine", "normal")
+            } else {
+                return ("Unhealthy", "bad")
+            }
+        default:
+            return ("N/A", "N/A")
+        }
     }
 }
 
