@@ -30,7 +30,7 @@ class SearchViewController : UIViewController{
     private var selectWeather = [CurrentResponseModel]()
     lazy var longitude : Double = WeatherDataManager.shared.weatherData?.coord.lon ?? 126.978
     lazy var latitude : Double = WeatherDataManager.shared.weatherData?.coord.lat ?? 37.5665
-    var localtitle : [String] = ["s"]
+    var localtitle : [String] = []
     // MARK: - Life Cycle
     override func loadView() {
         view = searchView
@@ -44,12 +44,11 @@ class SearchViewController : UIViewController{
                 self?.view.backgroundColor = CurrentWeather.shared.weatherColor()
             }
             .store(in: &cancellable)
-        callAPIs()
+        callAPIs(locName: "My Location")
         for i in CDM.readData() {
             longitude = i.longitude
             latitude = i.latitude
-            localtitle.append(i.locName)
-            callAPIs()
+            callAPIs(locName: i.locName)
         }
         self.navigationItem.titleView = searchView.searchBar
         navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
@@ -66,11 +65,10 @@ class SearchViewController : UIViewController{
         searchView.selectTableView.register(SelectedTableViewCell.self, forCellReuseIdentifier: SelectedTableViewCell.Identifier)
         setupSearchCompleter()
         searchView.setupSearch()
-        
     }
     
     // MARK: - 금일 날씨 API 호출, view background 설정
-    func callAPIs(){
+    func callAPIs(locName : String) {
         WeatherAPIManager.shared.getCurrentWeatherData(latitude: self.latitude, longitude: self.longitude)
             .receive(on: DispatchQueue.main)
             .sink(receiveCompletion: { completion in
@@ -82,6 +80,7 @@ class SearchViewController : UIViewController{
                 }
             }, receiveValue: { data in
                 self.selectWeather.append(data)
+                self.localtitle.append(locName)
                 DispatchQueue.main.async {
                     self.searchView.selectTableView.reloadData()
                 }
@@ -210,47 +209,18 @@ extension SearchViewController : UITableViewDelegate, UITableViewDataSource {
         if tableView == searchView.selectTableView {
             guard let cell = tableView.dequeueReusableCell(withIdentifier: SelectedTableViewCell.Identifier, for: indexPath) as? SelectedTableViewCell
             else { return UITableViewCell() }
-            cell.selectionStyle = .none
-            cell.tempLbl.text = String(Int(selectWeather[indexPath.row].main.temp)) + "°C"
-            cell.locLbl.text = localtitle[indexPath.row]
-            print(selectWeather[indexPath.row].weather[0].id)
-            cell.weatherImage.image = CurrentWeather.shared.weatherImage(weather: selectWeather[indexPath.row].weather[0].id)
+            cell.configureUI(weather: selectWeather[indexPath.row], title: localtitle[indexPath.row])
             return cell
         }else {
             guard let cell = tableView.dequeueReusableCell(withIdentifier: SearchTableViewCell.Identifier, for: indexPath) as? SearchTableViewCell
             else { return UITableViewCell() }
             cell.locLbl.attributedText = nil
+            cell.delegate = self
             if searchResults.isEmpty == true || indexPath.section == 1{
-                cell.delegate = self
-                cell.cancelBtn.isHidden = false
-                cell.locLbl.text = searchRecent[indexPath.row]
-                cell.locLbl.textColor = #colorLiteral(red: 0.3882352941, green: 0.3882352941, blue: 0.3882352941, alpha: 1)
-                cell.backgroundColor =  #colorLiteral(red: 1, green: 0.9999999404, blue: 1, alpha: 1).withAlphaComponent(0.8)
-                cell.selectionStyle = .none
-                cell.clipsToBounds = true
-                if indexPath.row == searchRecent.count - 1{
-                    cell.layer.cornerRadius = 16
-                    cell.layer.maskedCorners = CACornerMask(arrayLiteral: .layerMinXMaxYCorner, .layerMaxXMaxYCorner)
-                }else {
-                    cell.layer.cornerRadius = 0
-                }
+                cell.configureRecentUI(title: searchRecent[indexPath.row], row: indexPath.row, count: searchRecent.count - 1)
                 searchView.searchChanging()
             }else {
-                cell.cancelBtn.isHidden = true
-                cell.locLbl.text = searchResults[indexPath.row].title
-                cell.backgroundColor =  #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1).withAlphaComponent(0.8)
-                cell.selectionStyle = .none
-                cell.clipsToBounds = true
-                if searchRecent.isEmpty == true {
-                    if indexPath.row == searchResults.count - 1{
-                        cell.layer.cornerRadius = 16
-                        cell.layer.maskedCorners = CACornerMask(arrayLiteral: .layerMinXMaxYCorner, .layerMaxXMaxYCorner)
-                    }else {
-                        cell.layer.cornerRadius = 0
-                    }
-                }else {
-                    cell.layer.cornerRadius = 0
-                }
+                cell.configureResultUI(title: searchResults[indexPath.row].title, row: indexPath.row, count: searchResults.count - 1, Recent: searchRecent.isEmpty)
                 if let highlightText = searchView.searchBar.text {
                     cell.locLbl.setHighlighted(searchResults[indexPath.row].title, with: highlightText)
                 }
@@ -267,15 +237,26 @@ extension SearchViewController : UITableViewDelegate, UITableViewDataSource {
         }else {
             if indexPath.section == 0 {
                 if searchResults.isEmpty == false {
-                    return 30.5
+                    if searchRecent.isEmpty == true && searchResults.count - 1 == indexPath.row {
+                        return 34.5
+                    }else {
+                        return 30.5
+                    }
+                }else {
+                    if searchRecent.count - 1 == indexPath.row {
+                        return 34
+                    }else {
+                        return 28
+                    }
+                }
+            }else {
+                if searchRecent.count - 1 == indexPath.row {
+                    return 34
                 }else {
                     return 28
                 }
-            }else {
-                return 28
             }
         }
-        
     }
     
     //셀 선택
@@ -293,6 +274,7 @@ extension SearchViewController : UITableViewDelegate, UITableViewDataSource {
                 }else {
                     search(for: searchResults[indexPath.row])
                     searchView.searchEnd()
+                    searchView.border.removeFromSuperlayer()
                     searchView.visualEffectView.removeFromSuperview()
                     searchView.searchTableView.removeFromSuperview()
                     searchView.searchBar.resignFirstResponder()
@@ -340,8 +322,8 @@ extension SearchViewController : UITableViewDelegate, UITableViewDataSource {
         
         let deleteAction = UIContextualAction(style: .destructive, title: nil) { (_, _, completionHandler) in
             self.selectWeather.remove(at: indexPath.row)
+            self.CDM.deleteData(title: self.localtitle[indexPath.row])
             self.localtitle.remove(at: indexPath.row)
-            self.CDM.deleteData(num: indexPath.row - 1)
             tableView.deleteRows(at: [indexPath], with: .automatic)
             completionHandler(true)
         }
@@ -412,9 +394,8 @@ extension SearchViewController: CLLocationManagerDelegate {
                let name = (placemark.locality ?? "") + ", " + (placemark.country ?? "")
                
                // 주소 정보 가져오기
-               self.localtitle.append(name)
                self.CDM.saveData(Data: locationData(latitude: latitude, longitude: longitude, locName: name))
-               self.callAPIs()
+               self.callAPIs(locName: name)
            }
        }
 }
