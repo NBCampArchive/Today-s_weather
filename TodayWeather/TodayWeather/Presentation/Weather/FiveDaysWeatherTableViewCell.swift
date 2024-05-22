@@ -81,4 +81,17 @@ class FiveDaysWeatherTableViewCell: UITableViewCell {
         }
     }
     
+    func configureUI(with weatherData: (day: String, weather: [ForecastItem])) {
+        daysOfWeekLable.text = dayOfWeek(from: weatherData.day)
+    }
+    
+    private func dayOfWeek(from dateString: String) -> String {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyy-MM-dd"
+        if let date = dateFormatter.date(from: dateString) {
+            dateFormatter.dateFormat = "EEEE"
+            return dateFormatter.string(from: date)
+        }
+        return "--"
+    }
 }

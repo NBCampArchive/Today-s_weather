@@ -77,7 +77,7 @@ class WeatherTableViewHeaderView: UITableViewHeaderFooterView {
         }
         
         dateLocationStacview.snp.makeConstraints {
-            $0.verticalEdges.equalToSuperview().inset(24)
+            $0.verticalEdges.equalToSuperview().inset(24).priority(.high)
             $0.leading.equalToSuperview().inset(20)
         }
     }
