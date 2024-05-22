@@ -152,7 +152,6 @@ class FoodViewController: UIViewController {
         }
         
         foodSuggestionsView.snp.makeConstraints {
-//            $0.top.equalTo(foodWeatherView.snp.bottom).offset(16)
             $0.leading.equalToSuperview()
             $0.trailing.equalToSuperview()
             $0.bottom.equalToSuperview().offset(-20)
