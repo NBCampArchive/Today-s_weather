@@ -83,7 +83,8 @@ class FiveDaysWeatherTableViewCell: UITableViewCell {
     
     func configureUI(with weatherData: (day: String, weather: [ForecastItem])) {
         daysOfWeekLable.text = dayOfWeek(from: weatherData.day)
-        temperatureLable.text = String(averageTemperature(weatherData: weatherData))
+        temperatureLable.text = String(averageTemperature(weatherData))
+        weatherImage.image = CurrentWeather.shared.weatherImage(weather: mostWeatherState(weatherData))
     }
     
     private func dayOfWeek(from dateString: String) -> String {
@@ -96,10 +97,35 @@ class FiveDaysWeatherTableViewCell: UITableViewCell {
         return "--"
     }
     
-    private func averageTemperature(weatherData: (day: String, weather: [ForecastItem])) -> Int {
+    private func averageTemperature(_ weatherData: (day: String, weather: [ForecastItem])) -> Int {
         let temps = weatherData.weather.map { $0.main.temp }
         let averageTemp = Int(temps.reduce(0, +) / Double(temps.count))
         
         return averageTemp
+    }
+    
+    private func mostWeatherState(_ weatherData: (day: String, weather: [ForecastItem])) -> Int {
+        let weatherStateID = weatherData.weather.map { $0.weather.first?.id }
+        var maxCount = 0
+        var mostFrequentID: Int = 0
+        let countedSet = NSCountedSet()
+
+        for id in weatherStateID {
+            if let id = id {
+                countedSet.add(id)
+            }
+        }
+        
+        for id in countedSet {
+            if let id = id as? Int {
+                let count = countedSet.count(for: id)
+                if count > maxCount {
+                    maxCount = count
+                    mostFrequentID = id
+                }
+            }
+        }
+        
+        return mostFrequentID
     }
 }
