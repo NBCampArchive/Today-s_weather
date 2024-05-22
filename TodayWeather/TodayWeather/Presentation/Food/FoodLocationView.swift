@@ -31,7 +31,7 @@ class FoodLocationView: UIView {
     }
     
     let dateLabel = UILabel().then {
-        $0.font = UIFont(name: "Gabarito-Bold", size:17)
+        $0.font = Gabarito.bold.of(size: 17)
     }
     
     let locationMarkImage = UIImageView().then {
@@ -40,16 +40,15 @@ class FoodLocationView: UIView {
     }
     
     let cityLabel = UILabel().then {
-        $0.font = UIFont(name: "Gabarito-Bold", size: 32)
+        $0.font = Gabarito.bold.of(size: 32)
         }
     
     let countryLabel = UILabel().then {
-        $0.font = UIFont(name: "Gabarito-Bold", size: 15)
+        $0.font = Gabarito.bold.of(size: 15)
     }
 
-    
     let temperatureLabel = UILabel().then {
-        $0.font = UIFont.systemFont(ofSize: 32)
+        $0.font = BagelFatOne.regular.of(size: 32)
     }
     
     override init(frame: CGRect) {
@@ -76,15 +75,11 @@ class FoodLocationView: UIView {
         locationLabelStackView.addArrangedSubview(cityLabel)
         locationLabelStackView.addArrangedSubview(countryLabel)
         
-        configureDate()
     }
     
     private func setConstraints() {
         weatherAndLocationStackView.snp.makeConstraints {
-            $0.top.equalToSuperview().offset(16)
-            $0.leading.equalToSuperview().offset(16)
-            $0.trailing.equalToSuperview().offset(-16)
-            $0.bottom.equalToSuperview().offset(-16)
+            $0.edges.equalToSuperview().inset(16)
         }
         
         locationMarkImage.snp.makeConstraints {
@@ -99,15 +94,5 @@ class FoodLocationView: UIView {
         locationLabelStackView.snp.makeConstraints {
             $0.trailing.equalToSuperview()
         }
-        
-    }
-
-    // 날짜 설정 메서드
-    func configureDate() {
-        let nowDate = Date()
-        let dateFormatter = DateFormatter()
-        dateFormatter.timeZone = TimeZone.current
-        dateFormatter.dateFormat = "eeee MMMM d"
-        dateLabel.text = dateFormatter.string(from: nowDate)
     }
 }

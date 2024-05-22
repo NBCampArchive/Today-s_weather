@@ -88,93 +88,78 @@ class FoodSuggestionsView: UIView {
     }
     
     private func setupView() {
-        addSubview(suggestionsTitleLabel)
-        addSubview(koreanFoodLabel)
-        addSubview(koreanMenuLabel)
-        addSubview(koreanSeparator)
-        addSubview(westernFoodLabel)
-        addSubview(westernMenuLabel)
-        addSubview(westernSeparator)
-        addSubview(chineseFoodLabel)
-        addSubview(chineseMenuLabel)
-        addSubview(chineseSeparator)
-        addSubview(japaneseFoodLabel)
-        addSubview(japaneseMenuLabel)
-        addSubview(japaneseSeparator)
+        self.addSubviews(suggestionsTitleLabel, koreanFoodLabel, koreanMenuLabel, koreanMenuLabel, koreanSeparator, westernFoodLabel, westernMenuLabel, westernSeparator, chineseFoodLabel, chineseMenuLabel, chineseSeparator, japaneseFoodLabel, japaneseMenuLabel, japaneseSeparator)
     }
     
     private func setConstraints() {
         suggestionsTitleLabel.snp.makeConstraints {
             $0.top.equalToSuperview().offset(16)
-            $0.leading.equalToSuperview().offset(16)
-            $0.trailing.equalToSuperview().offset(-16)
+            $0.leading.equalToSuperview()
         }
         
         koreanFoodLabel.snp.makeConstraints {
             $0.top.equalTo(suggestionsTitleLabel.snp.bottom).offset(10)
-            $0.leading.equalToSuperview().offset(16)
+            $0.leading.equalToSuperview()
         }
         
         koreanMenuLabel.snp.makeConstraints {
             $0.centerY.equalTo(koreanFoodLabel.snp.centerY)
-            $0.trailing.equalToSuperview().offset(-16)
+            $0.trailing.equalToSuperview()
         }
         
         koreanSeparator.snp.makeConstraints {
             $0.top.equalTo(koreanFoodLabel.snp.bottom).offset(8)
-            $0.leading.equalToSuperview().offset(16)
-            $0.trailing.equalToSuperview().offset(-16)
+            
+            $0.leading.trailing.equalToSuperview()
+            
             $0.height.equalTo(1)
         }
         
         westernFoodLabel.snp.makeConstraints {
             $0.top.equalTo(koreanSeparator.snp.bottom).offset(20)
-            $0.leading.equalToSuperview().offset(16)
+            $0.leading.equalToSuperview()
         }
         
         westernMenuLabel.snp.makeConstraints {
             $0.centerY.equalTo(westernFoodLabel.snp.centerY)
-            $0.trailing.equalToSuperview().offset(-16)
+            $0.trailing.equalToSuperview()
         }
         
         westernSeparator.snp.makeConstraints {
             $0.top.equalTo(westernFoodLabel.snp.bottom).offset(8)
-            $0.leading.equalToSuperview().offset(16)
-            $0.trailing.equalToSuperview().offset(-16)
+            $0.width.equalToSuperview()
             $0.height.equalTo(1)
         }
         
         chineseFoodLabel.snp.makeConstraints {
             $0.top.equalTo(westernSeparator.snp.bottom).offset(20)
-            $0.leading.equalToSuperview().offset(16)
+            $0.leading.equalToSuperview()
         }
         
         chineseMenuLabel.snp.makeConstraints {
             $0.centerY.equalTo(chineseFoodLabel.snp.centerY)
-            $0.trailing.equalToSuperview().offset(-16)
+            $0.trailing.equalToSuperview()
         }
         
         chineseSeparator.snp.makeConstraints {
             $0.top.equalTo(chineseFoodLabel.snp.bottom).offset(8)
-            $0.leading.equalToSuperview().offset(16)
-            $0.trailing.equalToSuperview().offset(-16)
+            $0.width.equalToSuperview()
             $0.height.equalTo(1)
         }
         
         japaneseFoodLabel.snp.makeConstraints {
             $0.top.equalTo(chineseSeparator.snp.bottom).offset(20)
-            $0.leading.equalToSuperview().offset(16)
+            $0.leading.equalToSuperview()
         }
         
         japaneseMenuLabel.snp.makeConstraints {
             $0.centerY.equalTo(japaneseFoodLabel.snp.centerY)
-            $0.trailing.equalToSuperview().offset(-16)
+            $0.trailing.equalToSuperview()
         }
         
         japaneseSeparator.snp.makeConstraints {
             $0.top.equalTo(japaneseFoodLabel.snp.bottom).offset(8)
-            $0.leading.equalToSuperview().offset(16)
-            $0.trailing.equalToSuperview().offset(-16)
+            $0.width.equalToSuperview()
             $0.height.equalTo(1)
             $0.bottom.equalToSuperview().offset(-10)
         }

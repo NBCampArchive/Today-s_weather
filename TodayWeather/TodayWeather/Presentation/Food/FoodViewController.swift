@@ -7,66 +7,50 @@ import UIKit
 class FoodViewController: UIViewController {
     
     // Combine 관련 프로퍼티
-    internal var cancellable = Set<AnyCancellable>()
-    
-    // 위치 정보
-    var longitude: Double = 0 {
-        didSet {
-            callAPIs()
-        }
-    }
-    
-    var latitude: Double = 0
-    
-    // 날씨 데이터
-    var weatherData: CurrentResponseModel? {
-        didSet {
-            configureLabel()
-        }
-    }
+    var cancellable = Set<AnyCancellable>()
     
     // UI 요소들
-    internal let scrollView = UIScrollView().then { $0.showsVerticalScrollIndicator = false }
-    internal let contentsView = UIView()
+    let scrollView = UIScrollView().then { $0.showsVerticalScrollIndicator = false }
+    let contentsView = UIView()
     
-    internal let weatherAndLocationStackView = UIStackView().then {
+    let weatherAndLocationStackView = UIStackView().then {
         $0.axis = .vertical
         $0.spacing = 4
     }
     
-    internal let locationStackView = UIStackView().then {
+    let locationStackView = UIStackView().then {
         $0.axis = .horizontal
         $0.spacing = 4
     }
     
-    internal let locationLabelStackView = UIStackView().then {
+    let locationLabelStackView = UIStackView().then {
         $0.axis = .horizontal
         $0.spacing = 4
         $0.alignment = .firstBaseline
     }
     
-    internal lazy var dateLabel = UILabel().then {
+    lazy var dateLabel = UILabel().then {
         $0.font = Gabarito.bold.of(size: 17)
         $0.text = configureDate()
     }
     
-    internal let locationMarkImage = UIImageView().then {
+    let locationMarkImage = UIImageView().then {
         $0.contentMode = .scaleAspectFit
         $0.image = UIImage(named: "locationMark")
     }
     
-    internal lazy var cityLabel = UILabel().then {
+    lazy var cityLabel = UILabel().then {
         $0.font = Gabarito.bold.of(size: 32)
-        $0.text = weatherData?.name ?? "Cupertino"
+        $0.text = "Cupertino"
     }
     
-    internal lazy var countryLabel = UILabel().then {
+    lazy var countryLabel = UILabel().then {
         $0.font = Gabarito.bold.of(size: 15)
-        $0.text = weatherData?.sys.country ?? "United States"
+        $0.text = "United States"
     }
     
-    internal let foodWeatherView = FoodWeatherView()
-    internal let foodSuggestionsView = FoodSuggestionsView()
+    let foodWeatherView = FoodWeatherView()
+    let foodSuggestionsView = FoodSuggestionsView()
 
     // View Life Cycle
     override func viewDidLoad() {
@@ -76,46 +60,24 @@ class FoodViewController: UIViewController {
         configureUI()
         setConstraints() // 제약 조건 설정
         
-        callAPIs()
-        
-        LocationManager.shared.requestLocation { [weak self] location in
-            guard let location = location else { return }
-            self?.latitude = location.coordinate.latitude
-            self?.longitude = location.coordinate.longitude
-            print("Latitude: \(self?.latitude ?? 0)")
-            print("Longitude: \(self?.longitude ?? 0)")
-        }
-    }
-    
-    // API 호출 함수
-    private func callAPIs() {
-        print("Calling APIs with latitude: \(self.latitude) and longitude: \(self.longitude)")
-        WeatherAPIManager.shared.getCurrentWeatherData(latitude: self.latitude, longitude: self.longitude)
-            .receive(on: DispatchQueue.main)
-            .sink(receiveCompletion: { completion in
-                switch completion {
-                case .finished:
-                    print("API call finished")
-                case .failure(let error):
-                    print("GetCurrentWeatherData Failure: \(error)")
-                    if let afError = error as? AFError, case .responseSerializationFailed(let reason) = afError {
-                        switch reason {
-                        case .decodingFailed(let decodingError):
-                            print("Decoding error: \(decodingError)")
-                            if let data = afError.underlyingError as? Data, let json = String(data: data, encoding: .utf8) {
-                                print("Received data: \(json)")
-                            }
-                        default:
-                            print("Other serialization error")
-                        }
+        WeatherDataManager.shared.$weatherData
+            .sink { [weak self] weatherData in
+                guard let weatherData = weatherData else { return }
+                CurrentWeather.id = weatherData.weather[0].id
+                self?.view.backgroundColor = CurrentWeather.shared.weatherColor()
+                CurrentWeather.shared.reverseGeocode(latitude: weatherData.coord.lat, longitude: weatherData.coord.lon, save: false) { data in
+                    switch data {
+                    case .success(let name) :
+                        
+                        self?.cityLabel.text = name
+                        self?.countryLabel.text = self?.countryName(countryCode: weatherData.sys.country ?? "")
+                        self?.updateUI(with: weatherData)
+                    case .failure(let error) :
+                        print("Reverse geocoding error: \(error.localizedDescription)")
                     }
+                    
                 }
-            }, receiveValue: { data in
-                print("Received data: \(data)")
-                self.weatherData = data
-                self.updateUI(with: data)
-                print("GetCurrentWeatherData Success: \(data)")
-            })
+            }
             .store(in: &cancellable)
     }
     
@@ -143,12 +105,6 @@ class FoodViewController: UIViewController {
         weatherAndLocationStackView.addArrangedSubviews(dateLabel, locationStackView)
         locationStackView.addArrangedSubviews(locationMarkImage, locationLabelStackView)
         locationLabelStackView.addArrangedSubviews(cityLabel, countryLabel)
-    }
-    
-    // 라벨 설정 함수
-    private func configureLabel() {
-        self.cityLabel.text = weatherData?.name
-        self.countryLabel.text = countryName(countryCode: weatherData?.sys.country ?? "")
     }
     
     // 현재 날짜 설정 함수
@@ -226,29 +182,29 @@ class FoodViewController: UIViewController {
     // 제약 조건 설정 함수
     private func setConstraints() {
         scrollView.snp.makeConstraints {
-            $0.edges.equalTo(view.safeAreaLayoutGuide)
+            $0.edges.equalToSuperview()
         }
-        scrollView.contentLayoutGuide.snp.makeConstraints {
-            $0.edges.equalTo(contentsView)
-            $0.width.equalTo(scrollView.frameLayoutGuide)
-        }
+        
         contentsView.snp.makeConstraints {
+            $0.edges.equalTo(scrollView.contentLayoutGuide)
             $0.width.equalTo(scrollView.frameLayoutGuide)
+            $0.height.equalTo(1000)
         }
         
         weatherAndLocationStackView.snp.makeConstraints {
-            $0.top.equalToSuperview().inset(54)
+            $0.top.equalToSuperview().inset(78)
             $0.leading.equalToSuperview().inset(20)
+            $0.trailing.equalToSuperview().inset(20)
         }
         
         foodWeatherView.snp.makeConstraints {
             $0.top.equalTo(weatherAndLocationStackView.snp.bottom).offset(16)
-            $0.leading.trailing.equalToSuperview()
+            $0.leading.trailing.equalToSuperview().inset(16)
         }
         
         foodSuggestionsView.snp.makeConstraints {
             $0.top.equalTo(foodWeatherView.snp.bottom).offset(16)
-            $0.leading.trailing.equalToSuperview()
+            $0.leading.trailing.equalToSuperview().inset(16)
         }
     }
 }

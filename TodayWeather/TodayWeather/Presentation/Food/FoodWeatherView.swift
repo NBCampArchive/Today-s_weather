@@ -67,7 +67,7 @@ class FoodWeatherView: UIView {
         }
         
         currentTemperatureLabel.snp.makeConstraints {
-            $0.top.equalTo(weatherImage.snp.top).offset(10)
+            $0.top.equalTo(weatherImage.snp.top).offset(-25)
             $0.leading.equalToSuperview().inset(16)
         }
         

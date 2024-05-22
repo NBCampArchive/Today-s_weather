@@ -10,7 +10,7 @@
 		5432F2422BF5186B00E6BAF9 /* FoodRecommendationModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5432F2412BF5186B00E6BAF9 /* FoodRecommendationModel.swift */; };
 		5432F2442BF518CA00E6BAF9 /* FoodViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5432F2432BF518CA00E6BAF9 /* FoodViewController.swift */; };
 		549280582BFB6C8E00A03850 /* weatherRecommendations.json in Resources */ = {isa = PBXBuildFile; fileRef = 549280562BFB6C8E00A03850 /* weatherRecommendations.json */; };
-		54A2D0AF2BFCBCB6004969E7 /* TodayWeather.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 54A2D0AD2BFCBCB6004969E7 /* TodayWeather.xcdatamodeld */; };
+		54A2D0AF2BFCBCB6004969E7 /* (null) in Sources */ = {isa = PBXBuildFile; };
 		54B8B6AE2BFDAD3C009CC37A /* FoodSuggestionsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54B8B6AD2BFDAD3C009CC37A /* FoodSuggestionsView.swift */; };
 		54B8B6B02BFDAD56009CC37A /* FoodWeatherView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54B8B6AF2BFDAD56009CC37A /* FoodWeatherView.swift */; };
 		54B8B6B22BFDAD6C009CC37A /* FoodLocationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54B8B6B12BFDAD6C009CC37A /* FoodLocationView.swift */; };
@@ -39,6 +39,7 @@
 		A7937AC12BF3836E00E9AD04 /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7937AC02BF3836E00E9AD04 /* SearchViewController.swift */; };
 		A7DD85912BFA313D00823B92 /* CurrentWeather.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7DD85902BFA313D00823B92 /* CurrentWeather.swift */; };
 		A7FDF88D2BFC852F0010E860 /* TabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7FDF88C2BFC852F0010E860 /* TabBarController.swift */; };
+		A7FDF8A22BFE13ED0010E860 /* TodayWeather.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = A7FDF8A02BFE13ED0010E860 /* TodayWeather.xcdatamodeld */; };
 		B54ABF162BF22B4F002E89DC /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B54ABF152BF22B4F002E89DC /* AppDelegate.swift */; };
 		B54ABF182BF22B4F002E89DC /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B54ABF172BF22B4F002E89DC /* SceneDelegate.swift */; };
 		B54ABF1A2BF22B4F002E89DC /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B54ABF192BF22B4F002E89DC /* ViewController.swift */; };
@@ -83,7 +84,6 @@
 		5432F2412BF5186B00E6BAF9 /* FoodRecommendationModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FoodRecommendationModel.swift; sourceTree = "<group>"; };
 		5432F2432BF518CA00E6BAF9 /* FoodViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FoodViewController.swift; sourceTree = "<group>"; };
 		549280572BFB6C8E00A03850 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.json; name = en; path = en.lproj/weatherRecommendations.json; sourceTree = "<group>"; };
-		54A2D0AE2BFCBCB6004969E7 /* TodayWeather.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = TodayWeather.xcdatamodel; sourceTree = "<group>"; };
 		54B8B6AD2BFDAD3C009CC37A /* FoodSuggestionsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FoodSuggestionsView.swift; sourceTree = "<group>"; };
 		54B8B6AF2BFDAD56009CC37A /* FoodWeatherView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FoodWeatherView.swift; sourceTree = "<group>"; };
 		54B8B6B12BFDAD6C009CC37A /* FoodLocationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FoodLocationView.swift; sourceTree = "<group>"; };
@@ -112,6 +112,7 @@
 		A7937AC02BF3836E00E9AD04 /* SearchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewController.swift; sourceTree = "<group>"; };
 		A7DD85902BFA313D00823B92 /* CurrentWeather.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrentWeather.swift; sourceTree = "<group>"; };
 		A7FDF88C2BFC852F0010E860 /* TabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarController.swift; sourceTree = "<group>"; };
+		A7FDF8A12BFE13ED0010E860 /* TodayWeather.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = TodayWeather.xcdatamodel; sourceTree = "<group>"; };
 		B54ABF122BF22B4F002E89DC /* TodayWeather.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TodayWeather.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B54ABF152BF22B4F002E89DC /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		B54ABF172BF22B4F002E89DC /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -224,7 +225,7 @@
 		B54ABF142BF22B4F002E89DC /* TodayWeather */ = {
 			isa = PBXGroup;
 			children = (
-				54A2D0AD2BFCBCB6004969E7 /* TodayWeather.xcdatamodeld */,
+				A7FDF8A02BFE13ED0010E860 /* TodayWeather.xcdatamodeld */,
 				B54ABF2D2BF22C38002E89DC /* Application */,
 				B54ABF2F2BF22C60002E89DC /* Network */,
 				B54ABF302BF22C68002E89DC /* Model */,
@@ -418,8 +419,9 @@
 				B54ABF492BF307B8002E89DC /* ForecastResponseModel.swift in Sources */,
 				B54ABF692BFB61DA002E89DC /* DetailAqiViewController.swift in Sources */,
 				A71003512BFB8F5B00BF6FD4 /* CoreDataManager.swift in Sources */,
-				54A2D0AF2BFCBCB6004969E7 /* TodayWeather.xcdatamodeld in Sources */,
+				54A2D0AF2BFCBCB6004969E7 /* (null) in Sources */,
 				B54ABF492BF307B8002E89DC /* ForecastResponseModel.swift in Sources */,
+				A7FDF8A22BFE13ED0010E860 /* TodayWeather.xcdatamodeld in Sources */,
 				856C9B892BFC666100D99A2F /* WeatherDataManager.swift in Sources */,
 				856C9B632BF5035800D99A2F /* WeatherViewController.swift in Sources */,
 				856C9B7E2BF6F4A800D99A2F /* UIViewExtension.swift in Sources */,
@@ -728,12 +730,12 @@
 /* End XCSwiftPackageProductDependency section */
 
 /* Begin XCVersionGroup section */
-		54A2D0AD2BFCBCB6004969E7 /* TodayWeather.xcdatamodeld */ = {
+		A7FDF8A02BFE13ED0010E860 /* TodayWeather.xcdatamodeld */ = {
 			isa = XCVersionGroup;
 			children = (
-				54A2D0AE2BFCBCB6004969E7 /* TodayWeather.xcdatamodel */,
+				A7FDF8A12BFE13ED0010E860 /* TodayWeather.xcdatamodel */,
 			);
-			currentVersion = 54A2D0AE2BFCBCB6004969E7 /* TodayWeather.xcdatamodel */;
+			currentVersion = A7FDF8A12BFE13ED0010E860 /* TodayWeather.xcdatamodel */;
 			name = TodayWeather.xcdatamodeld;
 			path = "/Users/developer_p/Desktop/nbc/Today-s_weather/TodayWeather/TodayWeather/TodayWeather.xcdatamodeld";
 			sourceTree = "<group>";
