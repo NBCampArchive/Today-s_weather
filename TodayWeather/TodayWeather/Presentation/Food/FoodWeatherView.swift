@@ -62,7 +62,8 @@ class FoodWeatherView: UIView {
             weatherImage.snp.makeConstraints {
                 $0.top.equalToSuperview().offset(10)
                 $0.leading.equalToSuperview().inset(16)
-                $0.width.height.equalTo(262)
+                $0.width.equalTo(262)
+                $0.height.equalTo(262)
             }
             
             currentTemperatureLabel.snp.makeConstraints {

@@ -18,73 +18,61 @@ class FoodSuggestionsView: UIView {
     let koreanFoodLabel = UILabel().then {
         $0.text = "한식"
         $0.font = UIFont(name: "Pretendard", size: 16)
-        $0.translatesAutoresizingMaskIntoConstraints = false
     }
     
     let koreanMenuLabel = UILabel().then {
         $0.text = "음식 내용 데이터 가져오기"
         $0.font = UIFont(name: "Pretendard", size: 14)
         $0.textColor = .black
-        $0.translatesAutoresizingMaskIntoConstraints = false
     }
     
     let koreanSeparator = UIView().then {
         $0.backgroundColor = .black
-        $0.translatesAutoresizingMaskIntoConstraints = false
     }
     
     let westernFoodLabel = UILabel().then {
         $0.text = "양식"
         $0.font = UIFont(name: "Pretendard", size: 16)
-        $0.translatesAutoresizingMaskIntoConstraints = false
     }
     
     let westernMenuLabel = UILabel().then {
         $0.text = "음식 내용 데이터 가져오기"
         $0.font = UIFont(name: "Pretendard", size: 14)
         $0.textColor = .black
-        $0.translatesAutoresizingMaskIntoConstraints = false
     }
     
     let westernSeparator = UIView().then {
         $0.backgroundColor = .black
-        $0.translatesAutoresizingMaskIntoConstraints = false
     }
     
     let chineseFoodLabel = UILabel().then {
         $0.text = "중식"
         $0.font = UIFont(name: "Pretendard", size: 16)
-        $0.translatesAutoresizingMaskIntoConstraints = false
     }
     
     let chineseMenuLabel = UILabel().then {
         $0.text = "음식 내용 데이터 가져오기"
         $0.font = UIFont(name: "Pretendard", size: 14)
         $0.textColor = .black
-        $0.translatesAutoresizingMaskIntoConstraints = false
     }
     
     let chineseSeparator = UIView().then {
         $0.backgroundColor = .black
-        $0.translatesAutoresizingMaskIntoConstraints = false
     }
     
     let japaneseFoodLabel = UILabel().then {
         $0.text = "일식"
         $0.font = UIFont(name: "Pretendard", size: 16)
-        $0.translatesAutoresizingMaskIntoConstraints = false
     }
     
     let japaneseMenuLabel = UILabel().then {
         $0.text = "음식 내용 데이터 가져오기"
         $0.font = UIFont(name: "Pretendard", size: 14)
         $0.textColor = .black
-        $0.translatesAutoresizingMaskIntoConstraints = false
     }
     
     let japaneseSeparator = UIView().then {
         $0.backgroundColor = .black
-        $0.translatesAutoresizingMaskIntoConstraints = false
     }
     
     override init(frame: CGRect) {
@@ -117,72 +105,83 @@ class FoodSuggestionsView: UIView {
     
     private func setConstraints() {
         suggestionsTitleLabel.snp.makeConstraints {
-            $0.top.leading.trailing.equalToSuperview().inset(16)
+            $0.top.equalToSuperview().offset(16)
+            $0.leading.equalToSuperview().offset(16)
+            $0.trailing.equalToSuperview().offset(-16)
         }
         
         koreanFoodLabel.snp.makeConstraints {
             $0.top.equalTo(suggestionsTitleLabel.snp.bottom).offset(10)
-            $0.leading.equalToSuperview()
+            $0.leading.equalToSuperview().offset(16)
         }
         
         koreanMenuLabel.snp.makeConstraints {
             $0.centerY.equalTo(koreanFoodLabel.snp.centerY)
-            $0.trailing.equalToSuperview()
+            $0.trailing.equalToSuperview().offset(-16)
         }
         
         koreanSeparator.snp.makeConstraints {
             $0.top.equalTo(koreanFoodLabel.snp.bottom).offset(8)
-            $0.leading.trailing.equalToSuperview()
+            $0.leading.equalToSuperview().offset(16)
+            $0.trailing.equalToSuperview().offset(-16)
             $0.height.equalTo(1)
         }
         
         westernFoodLabel.snp.makeConstraints {
             $0.top.equalTo(koreanSeparator.snp.bottom).offset(20)
-            $0.leading.equalToSuperview()
+            $0.leading.equalToSuperview().offset(16)
         }
         
         westernMenuLabel.snp.makeConstraints {
             $0.centerY.equalTo(westernFoodLabel.snp.centerY)
-            $0.trailing.equalToSuperview()
+            $0.trailing.equalToSuperview().offset(-16)
         }
         
         westernSeparator.snp.makeConstraints {
             $0.top.equalTo(westernFoodLabel.snp.bottom).offset(8)
-            $0.leading.trailing.equalToSuperview()
+            $0.leading.equalToSuperview().offset(16)
+            $0.trailing.equalToSuperview().offset(-16)
             $0.height.equalTo(1)
         }
         
         chineseFoodLabel.snp.makeConstraints {
             $0.top.equalTo(westernSeparator.snp.bottom).offset(20)
-            $0.leading.equalToSuperview()
+            $0.leading.equalToSuperview().offset(16)
         }
         
         chineseMenuLabel.snp.makeConstraints {
             $0.centerY.equalTo(chineseFoodLabel.snp.centerY)
-            $0.trailing.equalToSuperview()
+            $0.trailing.equalToSuperview().offset(-16)
         }
         
         chineseSeparator.snp.makeConstraints {
             $0.top.equalTo(chineseFoodLabel.snp.bottom).offset(8)
-            $0.leading.trailing.equalToSuperview()
+            $0.leading.equalToSuperview().offset(16)
+            $0.trailing.equalToSuperview().offset(-16)
             $0.height.equalTo(1)
         }
         
         japaneseFoodLabel.snp.makeConstraints {
             $0.top.equalTo(chineseSeparator.snp.bottom).offset(20)
-            $0.leading.equalToSuperview()
+            $0.leading.equalToSuperview().offset(16)
         }
         
         japaneseMenuLabel.snp.makeConstraints {
             $0.centerY.equalTo(japaneseFoodLabel.snp.centerY)
-            $0.trailing.equalToSuperview()
+            $0.trailing.equalToSuperview().offset(-16)
         }
         
         japaneseSeparator.snp.makeConstraints {
             $0.top.equalTo(japaneseFoodLabel.snp.bottom).offset(8)
-            $0.leading.trailing.equalToSuperview()
+            $0.leading.equalToSuperview().offset(16)
+            $0.trailing.equalToSuperview().offset(-16)
             $0.height.equalTo(1)
             $0.bottom.equalToSuperview().offset(-10)
+        }
+        
+        self.snp.makeConstraints {
+            $0.width.equalTo(0)  // 가로 크기를 0으로 설정
+            $0.height.greaterThanOrEqualTo(0).priority(.low)  // 높이를 콘텐츠에 맞추고, 최소 높이 0으로 설정
         }
     }
 }
