@@ -144,10 +144,10 @@ class DustyViewController: UIViewController{
             case .success(let data):
                 print("getDustData Success: \(data.data.city.name)")
                 let city = data.data.city.name.components(separatedBy: ", ")
-                print("City : \(city[1])")
+                print("City : \(city[0])")
                 DispatchQueue.main.async{
                     self.dayLabel.text = data.data.time.s.components(separatedBy: " ")[0]
-                    self.locationCityLabel.text = city[1]
+                    self.locationCityLabel.text = city[0]
                     self.locationCountryLabel.text = city[0]
                     self.dotAnimationView.aqiLabel.text = String(data.data.aqi)
                 }
