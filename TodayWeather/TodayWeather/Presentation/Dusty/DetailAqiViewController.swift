@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import Combine
 
 class DetailAqiViewController: UIViewController {
     
@@ -14,10 +15,21 @@ class DetailAqiViewController: UIViewController {
     var pm10PollutantData: [Pollutant] = []
     var pm25PollutantData: [Pollutant] = []
     
+    var cancellable = Set<AnyCancellable>()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         configureCollectionView()
         fetchData()
+        
+        WeatherDataManager.shared.$weatherData
+            .sink { [weak self] weatherData in
+                guard let weatherData = weatherData else { return }
+                CurrentWeather.id = weatherData.weather[0].id
+                self?.view.backgroundColor = CurrentWeather.shared.weatherColor()
+                self?.collectionView.backgroundColor = CurrentWeather.shared.weatherColor()
+            }
+            .store(in: &cancellable)
     }
     
     private func configureCollectionView() {
@@ -33,6 +45,8 @@ class DetailAqiViewController: UIViewController {
         collectionView.register(DetailChartCell.self, forCellWithReuseIdentifier: DetailChartCell.reuseIdentifier)
         
         view.addSubview(collectionView)
+        
+        collectionView.contentInset = UIEdgeInsets(top: 72, left: 0, bottom: 16, right: 0)
     }
     
     private func createCompositionalLayout() -> UICollectionViewLayout {
