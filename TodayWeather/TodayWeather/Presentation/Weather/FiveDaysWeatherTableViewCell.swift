@@ -83,6 +83,7 @@ class FiveDaysWeatherTableViewCell: UITableViewCell {
     
     func configureUI(with weatherData: (day: String, weather: [ForecastItem])) {
         daysOfWeekLable.text = dayOfWeek(from: weatherData.day)
+        temperatureLable.text = String(averageTemperature(weatherData: weatherData))
     }
     
     private func dayOfWeek(from dateString: String) -> String {
@@ -93,5 +94,12 @@ class FiveDaysWeatherTableViewCell: UITableViewCell {
             return dateFormatter.string(from: date)
         }
         return "--"
+    }
+    
+    private func averageTemperature(weatherData: (day: String, weather: [ForecastItem])) -> Int {
+        let temps = weatherData.weather.map { $0.main.temp }
+        let averageTemp = Int(temps.reduce(0, +) / Double(temps.count))
+        
+        return averageTemp
     }
 }
