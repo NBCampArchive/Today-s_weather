@@ -48,6 +48,7 @@ class DetailChartCell: UICollectionViewCell {
         $0.xAxis.labelTextColor = .black
         $0.xAxis.labelFont = UIFont.systemFont(ofSize: 14)
         $0.extraLeftOffset = 18
+        $0.extraRightOffset = 18
         $0.extraTopOffset = 18
     }
     
@@ -117,6 +118,33 @@ class DetailChartCell: UICollectionViewCell {
         // 예제 데이터를 설정합니다.
         valueLabel.text = "\(pollutant[0].avg)"
         
+        if title == "PM10" {
+            titleLabel.text = "PM 10"
+            if pollutant[0].avg <= 30 {
+                valueBackgroundView.backgroundColor = UIColor(named: "good") ?? .systemGreen
+                subtitleLabel.text = "Good"
+            } else if pollutant[0].avg <= 50 {
+                valueBackgroundView.backgroundColor = UIColor(named: "normal") ?? .systemBlue
+                subtitleLabel.text = "Fine"
+            } else {
+                valueBackgroundView.backgroundColor = UIColor(named: "bad") ?? .systemRed
+                subtitleLabel.text = "Unhealthy"
+            }
+            
+        } else {
+            titleLabel.text = "PM 2.5"
+            if pollutant[0].avg <= 20 {
+                valueBackgroundView.backgroundColor = UIColor(named: "good") ?? .systemGreen
+                subtitleLabel.text = "Good"
+            } else if pollutant[0].avg <= 25 {
+                valueBackgroundView.backgroundColor = UIColor(named: "normal") ?? .systemBlue
+                subtitleLabel.text = "Fine"
+            } else {
+                valueBackgroundView.backgroundColor = UIColor(named: "bad") ?? .systemRed
+                subtitleLabel.text = "Unhealthy"
+            }
+        }
+        
         let entries = (0..<7).map { i -> ChartDataEntry in
             return ChartDataEntry(x: Double(i), y: Double(pollutant[i].avg))
         }
@@ -127,12 +155,22 @@ class DetailChartCell: UICollectionViewCell {
         dataSet.circleRadius = 4
         // 데이터 포인트별로 색상을 다르게 설정
         dataSet.circleColors = entries.map { entry -> NSUIColor in
-            if entry.y <= 30 {
-                return .green
-            } else if entry.y <= 80 {
-                return .blue
+            if title == "PM10" {
+                if entry.y <= 30 {
+                    return UIColor(named: "good") ?? .systemGreen
+                } else if entry.y <= 50 {
+                    return UIColor(named: "normal") ?? .systemBlue
+                } else {
+                    return UIColor(named: "bad") ?? .systemRed
+                }
             } else {
-                return .red
+                if entry.y <= 20 {
+                    return UIColor(named: "good") ?? .systemGreen
+                } else if entry.y <= 25 {
+                    return UIColor(named: "normal") ?? .systemBlue
+                } else {
+                    return UIColor(named: "bad") ?? .systemRed
+                }
             }
         }
         dataSet.lineWidth = 1
