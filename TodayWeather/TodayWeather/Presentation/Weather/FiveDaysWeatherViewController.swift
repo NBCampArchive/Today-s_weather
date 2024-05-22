@@ -24,14 +24,14 @@ class FiveDaysWeatherViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        LocationManager.shared.requestLocation { [weak self] location in
-            guard let location = location else { return }
-            self?.latitude = location.coordinate.latitude
-            self?.longitude = location.coordinate.longitude
-            
-            print("Latitude: \(self?.latitude ?? 0)")
-            print("Longitude: \(self?.longitude ?? 0)")
-        }
+//        LocationManager.shared.requestLocation { [weak self] location in
+//            guard let location = location else { return }
+//            self?.latitude = location.coordinate.latitude
+//            self?.longitude = location.coordinate.longitude
+//            
+//            print("Latitude: \(self?.latitude ?? 0)")
+//            print("Longitude: \(self?.longitude ?? 0)")
+//        }
         
         tableView.dataSource = self
         tableView.delegate = self

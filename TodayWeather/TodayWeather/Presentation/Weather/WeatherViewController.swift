@@ -166,18 +166,17 @@ class WeatherViewController: UIViewController {
         }
         
         contentsView.snp.makeConstraints {
-            //$0.width.equalTo(self.scrollView.frameLayoutGuide)
-            $0.edges.equalTo(scrollView.contentLayoutGuide)
+            //$0.edges.equalTo(scrollView.contentLayoutGuide)
             $0.width.equalTo(scrollView.frameLayoutGuide)
         }
         
         weatherAndLocationStackView.snp.makeConstraints {
-            $0.top.equalToSuperview().inset(54)
+            $0.top.equalToSuperview().inset(94)
             $0.leading.equalToSuperview().inset(20)
         }
         // Sunny label
         weatherStateLabel.snp.makeConstraints {
-            $0.top.equalTo(contentsView.snp.top).inset(124)
+            $0.top.equalTo(contentsView.snp.top).inset(164)
             $0.trailing.equalToSuperview().inset(-80)
         }
         // Sunny image
@@ -235,7 +234,7 @@ class WeatherViewController: UIViewController {
         self.weatherImage.image = UIImage(named: "largeSunny")
         self.currentTemperatureLabel.text = String(Int(WeatherDataManager.shared.weatherData?.main.temp ?? 0)) + "°"
         self.weatherStateLabel.snp.updateConstraints {
-            $0.top.equalTo(contentsView.snp.top).inset(124)
+            $0.top.equalTo(contentsView.snp.top).inset(164)
             $0.trailing.equalToSuperview().inset(-80)
         }
         self.weatherImage.snp.updateConstraints {
@@ -253,7 +252,7 @@ class WeatherViewController: UIViewController {
         self.weatherImage.image = UIImage(named: "largeRainy")
         self.currentTemperatureLabel.text = String(Int(WeatherDataManager.shared.weatherData?.main.temp ?? 0)) + "°"
         self.weatherStateLabel.snp.updateConstraints {
-            $0.top.equalTo(contentsView.snp.top).inset(105)
+            $0.top.equalTo(contentsView.snp.top).inset(145)
             $0.trailing.equalToSuperview().inset(-60)
         }
         self.weatherImage.snp.updateConstraints {
@@ -271,7 +270,7 @@ class WeatherViewController: UIViewController {
         self.weatherImage.image = UIImage(named: "largeFewCloudy")
         self.currentTemperatureLabel.text = String(Int(WeatherDataManager.shared.weatherData?.main.temp ?? 0)) + "°"
         self.weatherStateLabel.snp.updateConstraints {
-            $0.top.equalTo(contentsView.snp.top).inset(130)
+            $0.top.equalTo(contentsView.snp.top).inset(170)
             $0.trailing.equalToSuperview().inset(-90)
         }
         self.weatherImage.snp.updateConstraints {
@@ -289,7 +288,7 @@ class WeatherViewController: UIViewController {
         self.weatherImage.image = UIImage(named: "largeCloudy")
         self.currentTemperatureLabel.text = String(Int(WeatherDataManager.shared.weatherData?.main.temp ?? 0)) + "°"
         self.weatherStateLabel.snp.updateConstraints {
-            $0.top.equalTo(contentsView.snp.top).inset(130)
+            $0.top.equalTo(contentsView.snp.top).inset(170)
             $0.trailing.equalToSuperview().inset(-90)
         }
         self.weatherImage.snp.updateConstraints {
