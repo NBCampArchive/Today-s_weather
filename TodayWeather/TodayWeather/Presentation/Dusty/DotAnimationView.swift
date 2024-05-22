@@ -13,18 +13,33 @@ class DotAnimationView: UIView {
     var dots: [CALayer] = []
     
     let dotColor = UIColor.white.cgColor.copy(alpha: 0.5)
-    let dotCount = 10
+    var dotCount = 10 {
+        didSet {
+            updateDots()
+        }
+    }
     
-    let aqiLabel = UILabel().then{
+    let aqiValueLabel = UILabel().then {
         $0.text = "127"
-        $0.font = .systemFont(ofSize: 96, weight: .regular)
-        $0.textColor = .white
-        $0.backgroundColor = .clear
+        $0.font = BagelFatOne.regular.of(size: 96)
+        $0.textColor = .black
+    }
+    
+    let aqiOptionLabel = UILabel().then {
+        $0.text = "AQI"
+        $0.font = Gabarito.medium.of(size: 14)
+        $0.textColor = .black
+    }
+    
+    let aqiQualityLabel = UILabel().then {
+        $0.text = "Good"
+        $0.font = BagelFatOne.regular.of(size: 17)
+        $0.textColor = .black
     }
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        self.backgroundColor =  .white
+        self.backgroundColor = .white
         createDots()
         startAnimatingDots()
         setupLayout()
@@ -37,9 +52,23 @@ class DotAnimationView: UIView {
     }
     
     func setupLayout() {
-        self.addSubview(aqiLabel)
-        aqiLabel.snp.makeConstraints{
-            $0.center.equalToSuperview()
+        self.addSubview(aqiValueLabel)
+        self.addSubview(aqiOptionLabel)
+        self.addSubview(aqiQualityLabel)
+        
+        aqiValueLabel.snp.makeConstraints {
+            $0.centerX.equalToSuperview()
+            $0.centerY.equalToSuperview().offset(-10)
+        }
+        
+        aqiOptionLabel.snp.makeConstraints{
+            $0.centerX.equalToSuperview()
+            $0.top.equalTo(aqiValueLabel.snp.bottom).offset(4)
+        }
+        
+        aqiQualityLabel.snp.makeConstraints{
+            $0.centerX.equalToSuperview()
+            $0.top.equalTo(aqiOptionLabel.snp.bottom)
         }
     }
     
@@ -78,6 +107,14 @@ class DotAnimationView: UIView {
     func stopAnimatingDots() {
         for dot in dots {
             dot.removeAnimation(forKey: "position")
+            dot.removeFromSuperlayer()
         }
+        dots.removeAll()
+    }
+    
+    func updateDots() {
+        stopAnimatingDots()
+        createDots()
+        startAnimatingDots()
     }
 }
