@@ -53,7 +53,7 @@ class SegmentControlView: UIView {
             $0.backgroundColor = UIColor(red: 0.95, green: 0.93, blue: 0.91, alpha: 1.0)
             $0.layer.cornerRadius = self.frame.height / 2
             $0.layer.shadowColor = UIColor.black.cgColor
-            $0.layer.shadowOpacity = 0.12 // 12% 투명도
+            $0.layer.shadowOpacity = 0.12
             $0.layer.shadowOffset = CGSize(width: 0, height: 0)
             $0.layer.shadowRadius = 12
             $0.layer.masksToBounds = false
