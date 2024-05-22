@@ -125,7 +125,7 @@ class DetailChartCell: UICollectionViewCell {
                 subtitleLabel.text = "Good"
             } else if pollutant[0].avg <= 50 {
                 valueBackgroundView.backgroundColor = UIColor(named: "normal") ?? .systemBlue
-                subtitleLabel.text = "Fine"
+                subtitleLabel.text = "Normal"
             } else {
                 valueBackgroundView.backgroundColor = UIColor(named: "bad") ?? .systemRed
                 subtitleLabel.text = "Unhealthy"
@@ -138,7 +138,7 @@ class DetailChartCell: UICollectionViewCell {
                 subtitleLabel.text = "Good"
             } else if pollutant[0].avg <= 25 {
                 valueBackgroundView.backgroundColor = UIColor(named: "normal") ?? .systemBlue
-                subtitleLabel.text = "Fine"
+                subtitleLabel.text = "Normal"
             } else {
                 valueBackgroundView.backgroundColor = UIColor(named: "bad") ?? .systemRed
                 subtitleLabel.text = "Unhealthy"

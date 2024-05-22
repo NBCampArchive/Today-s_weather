@@ -102,7 +102,7 @@ class DetailCardCell: UICollectionViewCell {
             if value <= 50 {
                 return ("Good", "good")
             } else if value <= 100 {
-                return ("Fine", "normal")
+                return ("Normal", "normal")
             } else {
                 return ("Unhealthy", "bad")
             }
@@ -110,7 +110,7 @@ class DetailCardCell: UICollectionViewCell {
             if value <= 53 {
                 return ("Good", "good")
             } else if value <= 100 {
-                return ("Fine", "normal")
+                return ("Normal", "normal")
             } else {
                 return ("Unhealthy", "bad")
             }
@@ -118,7 +118,7 @@ class DetailCardCell: UICollectionViewCell {
             if value <= 4.4 {
                 return ("Good", "good")
             } else if value <= 9.4 {
-                return ("Fine", "normal")
+                return ("Normal", "normal")
             } else {
                 return ("Unhealthy", "bad")
             }
@@ -126,7 +126,7 @@ class DetailCardCell: UICollectionViewCell {
             if value <= 35 {
                 return ("Good", "good")
             } else if value <= 75 {
-                return ("Fine", "normal")
+                return ("Normal", "normal")
             } else {
                 return ("Unhealthy", "bad")
             }
