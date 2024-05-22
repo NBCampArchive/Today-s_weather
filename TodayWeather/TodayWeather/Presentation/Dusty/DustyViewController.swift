@@ -8,10 +8,9 @@
 import UIKit
 import SnapKit
 import Then
+import Combine
 
 class DustyViewController: UIViewController{
-    
-    var backgroundColor: UIColor?
     
     let dotAnimationView = DotAnimationView().then{
         $0.layer.cornerRadius = 140
@@ -19,39 +18,38 @@ class DustyViewController: UIViewController{
     }
     
     let dayLabel = UILabel().then {
-        $0.text = "August 8 . Friday"
-        $0.font = .systemFont(ofSize: 17, weight: .bold)
+        $0.text = WeatherViewController().configureDate()
+        $0.font = Gabarito.bold.of(size: 17)
         $0.textColor = .black
     }
     
     let locationCityLabel = UILabel().then {
         $0.text = "Seoul"
-        $0.font = .systemFont(ofSize: 32, weight: .bold)
+        $0.font = Gabarito.bold.of(size: 32)
         $0.textColor = .black
         $0.backgroundColor = .clear
     }
     
     let locationCountryLabel = UILabel().then {
         $0.text = "Korea"
-        $0.font = .systemFont(ofSize: 15, weight: .semibold)
+        $0.font = Gabarito.bold.of(size: 15)
         $0.textColor = .black
     }
     
     let locationImageView = UIImageView().then {
-        $0.image = UIImage(systemName: "location.circle.fill")
-        $0.tintColor = .black
+        $0.image = UIImage(named: "locationMark")
         $0.contentMode = .scaleAspectFit
     }
     
     let locationStackView = UIStackView().then {
         $0.axis = .horizontal
-        $0.spacing = 8
+        $0.spacing = 4
         $0.alignment = .center
     }
     
     let locationLabelStackView = UIStackView().then {
         $0.axis = .horizontal
-        $0.spacing = 8
+        $0.spacing = 4
         $0.alignment = .firstBaseline
     }
     
@@ -61,43 +59,43 @@ class DustyViewController: UIViewController{
     
     var latitude: Double = 0.0
     
+    var cancellable = Set<AnyCancellable>()
     
     override func viewDidLoad() {
         super.viewDidLoad()
-//        view.backgroundColor = UIColor(named: "sunBackground")
-//        self.backgroundColor = UIColor(named: "dustFineColor")
+        
+        WeatherDataManager.shared.$weatherData
+            .sink { [weak self] weatherData in
+                guard let weatherData = weatherData else { return }
+                CurrentWeather.id = weatherData.weather[0].id
+                self?.view.backgroundColor = CurrentWeather.shared.weatherColor()
+                self?.optionSegment.backgroundColor = CurrentWeather.shared.weatherColor()
+            }
+            .store(in: &cancellable)
+        
+        optionSegment.buttons.forEach { button in
+            button.addTarget(self, action: #selector(segmentButtonTapped(_:)), for: .touchUpInside)
+        }
+        
         setupLayout()
-        startDotAnimation()
+        
         LocationManager.shared.requestLocation { location in
             guard let location = location else { return }
             self.latitude = location.coordinate.latitude
             self.longitude = location.coordinate.longitude
             DispatchQueue.main.async {
-                self.fetchDustyData()
+                self.fetchDustyData(for: 0)
             }
             print("Latitude: \(self.latitude)")
             print("Longitude: \(self.longitude)")
         }
         
-        optionSegment.selectedColor = dotAnimationView.backgroundColor
+        
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        startDotAnimation()
-    }
-    
-    override func viewDidDisappear(_ animated: Bool) {
-        super.viewDidDisappear(animated)
-        stopDotAnimation()
-    }
-    
-    private func startDotAnimation() {
         dotAnimationView.startAnimatingDots()
-    }
-    
-    private func stopDotAnimation() {
-        dotAnimationView.stopAnimatingDots()
     }
     
     func setupLayout() {
@@ -111,7 +109,7 @@ class DustyViewController: UIViewController{
         view.addSubview(optionSegment)
         
         dayLabel.snp.makeConstraints{
-            $0.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(32)
+            $0.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(72)
             $0.leading.equalToSuperview().offset(20)
         }
         
@@ -119,7 +117,7 @@ class DustyViewController: UIViewController{
             $0.top.equalTo(dayLabel.snp.bottom).offset(4)
             $0.leading.equalTo(dayLabel)
         }
-
+        
         locationImageView.snp.makeConstraints{
             $0.centerY.equalToSuperview()
             $0.width.height.equalTo(28)
@@ -138,22 +136,141 @@ class DustyViewController: UIViewController{
         }
     }
     
-    func fetchDustyData() {
+    func fetchDustyData(for index: Int) {
         DustAPIManager.shared.getDustData(latitude: self.latitude, longitude: self.longitude) { result in
-            switch result{
+            switch result {
             case .success(let data):
-                print("getDustData Success: \(data.data.city.name)")
-                let city = data.data.city.name.components(separatedBy: ", ")
-                print("City : \(city[0])")
-                DispatchQueue.main.async{
-                    self.dayLabel.text = data.data.time.s.components(separatedBy: " ")[0]
-                    self.locationCityLabel.text = city[0]
-                    self.locationCountryLabel.text = city[0]
-                    self.dotAnimationView.aqiLabel.text = String(data.data.aqi)
+                
+                let pollutant = self.optionSegment.segmentTitles[index]
+                let value = self.getPollutantValue(for: pollutant, from: data)
+                let (airQuality, colorName) = self.determineAirQualityAndColor(for: value, pollutant: pollutant)
+                
+                // Update dotCount based on airQuality
+                switch airQuality {
+                case "Good":
+                    self.dotAnimationView.dotCount = 5
+                case "Fine":
+                    self.dotAnimationView.dotCount = 10
+                case "Unhealthy":
+                    self.dotAnimationView.dotCount = 15
+                default:
+                    self.dotAnimationView.dotCount = 0
+                }
+                
+                DispatchQueue.main.async {
+                    self.locationCityLabel.text = WeatherDataManager.shared.weatherData?.name
+                    self.locationCountryLabel.text = self.countryName(countryCode: WeatherDataManager.shared.weatherData?.sys.country ?? "")
+                    
+                    self.dotAnimationView.aqiValueLabel.text = String(value)
+                    self.dotAnimationView.aqiOptionLabel.text = pollutant
+                    self.dotAnimationView.aqiQualityLabel.text = airQuality
+                    self.dotAnimationView.backgroundColor = UIColor(named: colorName)
+                    
+                    self.optionSegment.selectedColor = self.dotAnimationView.backgroundColor
                 }
             case .failure(let error):
                 print("getDustData Failure \(error)")
             }
+        }
+    }
+    
+    @objc private func segmentButtonTapped(_ sender: UIButton) {
+        let selectedIndex = sender.tag
+        optionSegment.selectedIndex = selectedIndex
+        print("Selected Index: \(selectedIndex)")
+        updateDustData(for: selectedIndex)
+    }
+    
+    private func countryName(countryCode: String) -> String? {
+        let current = Locale(identifier: "en_US")
+        return current.localizedString(forRegionCode: countryCode)
+    }
+    
+    private func updateDustData(for index: Int) {
+        fetchDustyData(for: index)
+    }
+    
+    private func getPollutantValue(for pollutant: String, from data: DustResponseModel) -> Double {
+        switch pollutant {
+        case "AQI":
+            return Double(data.data.aqi)
+        case "PM10":
+            return data.data.iaqi.pm10?.v ?? 0.0
+        case "PM2.5":
+            return data.data.iaqi.pm25?.v ?? 0.0
+        case "O3":
+            return data.data.iaqi.o3?.v ?? 0.0
+        case "NO2":
+            return data.data.iaqi.no2?.v ?? 0.0
+        case "CO":
+            return data.data.iaqi.co?.v ?? 0.0
+        case "SO2":
+            return data.data.iaqi.so2?.v ?? 0.0
+        default:
+            return 0.0
+        }
+    }
+    
+    func determineAirQualityAndColor(for value: Double, pollutant: String) -> (String, String) {
+        switch pollutant {
+        case "AQI":
+            if value <= 50 {
+                return ("Good", "good")
+            } else if value <= 100 {
+                return ("Fine", "normal")
+            } else {
+                return ("Unhealthy", "bad")
+            }
+        case "O3":
+            if value <= 50 {
+                return ("Good", "good")
+            } else if value <= 100 {
+                return ("Fine", "normal")
+            } else {
+                return ("Unhealthy", "bad")
+            }
+        case "NO2":
+            if value <= 53 {
+                return ("Good", "good")
+            } else if value <= 100 {
+                return ("Fine", "normal")
+            } else {
+                return ("Unhealthy", "bad")
+            }
+        case "CO":
+            if value <= 4.4 {
+                return ("Good", "good")
+            } else if value <= 9.4 {
+                return ("Fine", "normal")
+            } else {
+                return ("Unhealthy", "bad")
+            }
+        case "SO2":
+            if value <= 35 {
+                return ("Good", "good")
+            } else if value <= 75 {
+                return ("Fine", "normal")
+            } else {
+                return ("Unhealthy", "bad")
+            }
+        case "PM10":
+            if value <= 50 {
+                return ("Good", "good")
+            } else if value <= 100 {
+                return ("Fine", "normal")
+            } else {
+                return ("Unhealthy", "bad")
+            }
+        case "PM2.5":
+            if value <= 25 {
+                return ("Good", "good")
+            } else if value <= 50 {
+                return ("Fine", "normal")
+            } else {
+                return ("Unhealthy", "bad")
+            }
+        default:
+            return ("Unknown", "unknown")
         }
     }
     
