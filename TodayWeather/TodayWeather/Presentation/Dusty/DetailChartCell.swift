@@ -91,7 +91,7 @@ class DetailChartCell: UICollectionViewCell {
         for i in days {
             let label = UILabel().then {
                 $0.text = i
-                $0.font = i == "Today" ? Gabarito.bold.of(size: 14) : Gabarito.regular.of(size: 14)
+                $0.font = i == "Today" ? Gabarito.medium.of(size: 14) : Gabarito.regular.of(size: 14)
                 $0.textColor = i == "Today" ? .black : .black.withAlphaComponent(0.4)
                 $0.textAlignment = .center
             }
@@ -202,6 +202,7 @@ class DetailChartCell: UICollectionViewCell {
         dataSet.drawFilledEnabled = true
         
         dataSet.drawValuesEnabled = true  // 데이터 포인트 값 표시
+        dataSet.valueFormatter = IntegerValueFormatter()
         dataSet.valueFont = GlacialIndifference.regular.of(size: 12)  // 데이터 포인트 값의 폰트 크기 설정
         dataSet.valueTextColor = .black  // 데이터 포인트 값의 텍스트 색상 설정
         
@@ -228,5 +229,11 @@ class DetailChartCell: UICollectionViewCell {
         }
         
         return days
+    }
+}
+
+class IntegerValueFormatter: ValueFormatter {
+    func stringForValue(_ value: Double, entry: ChartDataEntry, dataSetIndex: Int, viewPortHandler: ViewPortHandler?) -> String {
+        return String(format: "%.0f", value)
     }
 }
