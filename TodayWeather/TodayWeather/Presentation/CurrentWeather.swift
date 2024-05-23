@@ -12,6 +12,7 @@ class CurrentWeather {
     static let shared = CurrentWeather()
     static var id = 0
     private let CDM = CoreDataManager()
+    static var currentLocation = ""
     
     func weatherImage(weather : Int) -> UIImage {
         let weatherState = WeatherModel(id: weather)
