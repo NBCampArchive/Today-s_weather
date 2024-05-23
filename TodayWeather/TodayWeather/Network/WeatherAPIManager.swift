@@ -5,8 +5,9 @@
 //  Created by 박현렬 on 5/14/24.
 //
 
-import Foundation
 import Alamofire
+import Combine
+import Foundation
 
 class WeatherAPIManager{
     
@@ -20,7 +21,7 @@ class WeatherAPIManager{
     // MARK: - Get Current Weather Data
     
     // 금일 날씨 불러오는 API
-    func getCurrentWeatherData(latitude: Double, longitude: Double, completion: @escaping (Result<CurrentResponseModel, Error>) -> Void){
+    func getCurrentWeatherData(latitude: Double, longitude: Double) -> AnyPublisher<CurrentResponseModel, Error> {
         let parameters: [String: Any] = [
             "lat": latitude,
             "lon": longitude,
@@ -28,15 +29,21 @@ class WeatherAPIManager{
             "units": "metric",
         ]
         
-        AF.request(baseURL, parameters: parameters).validate().responseDecodable(of: CurrentResponseModel.self) { response in
-            switch response.result {
-            case .success(let data):
-                completion(.success(data))
-            case .failure(let error):
-                completion(.failure(error))
-            }
+        return Future<CurrentResponseModel, Error> { promise in
+            AF.request(self.baseURL, parameters: parameters)
+                .validate()
+                .responseDecodable(of: CurrentResponseModel.self) { response in
+                    switch response.result {
+                        case .success(let data):
+                            promise(.success(data))
+                        case .failure(let error):
+                            promise(.failure(error))
+                    }
+                }
         }
+        .eraseToAnyPublisher()
     }
+    
     
     // 주간 날씨 불러오는 API
     func getForecastWeatherData(latitude: Double, longitude: Double, completion: @escaping (Result<ForecastResponseModel, Error>) -> Void){
@@ -46,17 +53,17 @@ class WeatherAPIManager{
         let parameters: [String: Any] = [
             "lat": latitude,
             "lon": longitude,
-//            "cnt": 7, // 7일치 데이터
+            //            "cnt": 7, // 7일치 데이터
             "appid": apiKey,
             "units": "metric",
         ]
         
         AF.request(url, parameters: parameters).validate().responseDecodable(of: ForecastResponseModel.self) { response in
             switch response.result {
-            case .success(let data):
-                completion(.success(data))
-            case .failure(let error):
-                completion(.failure(error))
+                case .success(let data):
+                    completion(.success(data))
+                case .failure(let error):
+                    completion(.failure(error))
             }
         }
     }

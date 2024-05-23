@@ -5,6 +5,7 @@
 //  Created by 박현렬 on 5/13/24.
 //
 
+import Combine
 import UIKit
 import Then
 import SnapKit
@@ -12,6 +13,12 @@ import SnapKit
 // ⚠️ 폴더 삭제 방지용 뷰컨트롤러 파일입니다.
 // 개인작업은 각 폴더 생성 후 진행해주세요.(Model, Network 동일!)
 // !!!!!!!!!! API KEY는 Resource/TodayWeatherAPIKey.plist 에 추가하고 사용해주세요 (해당 파일 커밋 금지) !!!!!!!!!!!!!
+
+//Custom Tab 사용하는법
+//let tabTitles = ["Today", "Detail"]
+//let viewControllers = [DustyViewController(), DustyViewController()]
+//let viewController = CustomTabControl(titles: tabTitles, viewControllers: viewControllers)
+
 class ViewController: UIViewController {
     
     var longitude: Double = 0 {
@@ -25,6 +32,8 @@ class ViewController: UIViewController {
             callAPIs()
         }
     }
+    
+    var cancellable = Set<AnyCancellable>()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -51,35 +60,40 @@ class ViewController: UIViewController {
             print("Longitude: \(self.longitude)")
         }
     }
-
+    
     func callAPIs(){
         // MARK: - 금일 날씨 API 호출
-        WeatherAPIManager.shared.getCurrentWeatherData(latitude: self.latitude, longitude: self.longitude) { result in
-            switch result{
-            case .success(let data):
-                print("GetCurrentWeatherData Success : \(data)")
-            case .failure(let error):
-                print("GetCurrentWeatherData Failure \(error)")
-            }
-        }
+        WeatherAPIManager.shared.getCurrentWeatherData(latitude: self.latitude, longitude: self.longitude)
+            .receive(on: DispatchQueue.main)
+            .sink(receiveCompletion: { completion in
+                switch completion {
+                    case .finished:
+                        break
+                    case .failure(let error):
+                        print("GetCurrentWeatherData Failure: \(error)")
+                }
+            }, receiveValue: { data in
+                print("GetCurrentWeatherData Success: \(data)")
+            })
+            .store(in: &cancellable)
         
         // MARK: - 주간 날씨 API 호출
         WeatherAPIManager.shared.getForecastWeatherData(latitude: self.latitude, longitude: self.longitude) { result in
             switch result{
-            case .success(let data):
-                print("getForecastWeatherData Success : \(data)")
-            case .failure(let error):
-                print("getForecastWeatherData Failure \(error)")
+                case .success(let data):
+                    print("getForecastWeatherData Success : \(data)")
+                case .failure(let error):
+                    print("getForecastWeatherData Failure \(error)")
             }
         }
         
         // MARK: - 미세먼지 API 호출
         DustAPIManager.shared.getDustData(latitude: self.latitude, longitude: self.longitude) { result in
             switch result{
-            case .success(let data):
-                print("getDustData Success : \(data)")
-            case .failure(let error):
-                print("getDustData Failure \(error)")
+                case .success(let data):
+                    print("getDustData Success : \(data)")
+                case .failure(let error):
+                    print("getDustData Failure \(error)")
             }
         }
     }

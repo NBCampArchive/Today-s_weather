@@ -5,11 +5,13 @@
 //  Created by 예슬 on 5/15/24.
 //
 
+import Combine
 import SnapKit
 import Then
 import UIKit
 
 class WeatherViewController: UIViewController {
+    private var cancellable = Set<AnyCancellable>()
     
     var longitude: Double = 0 {
         didSet {
@@ -18,12 +20,6 @@ class WeatherViewController: UIViewController {
     }
     
     var latitude: Double = 0
-    
-    var weatherData: CurrentResponseModel? {
-        didSet {
-            configureLabel()
-        }
-    }
     
     private let scrollView = UIScrollView().then {
         $0.showsVerticalScrollIndicator = false
@@ -62,12 +58,12 @@ class WeatherViewController: UIViewController {
     
     private lazy var cityLabel = UILabel().then {
         $0.font = Gabarito.bold.of(size: 32)
-        $0.text = weatherData?.name ?? "Cupertino"
+        $0.text = WeatherDataManager.shared.weatherData?.name ?? "Cupertino"
     }
     
     private lazy var countryLabel = UILabel().then {
         $0.font = Gabarito.bold.of(size: 15)
-        $0.text = weatherData?.sys.country ?? "United States"
+        $0.text = WeatherDataManager.shared.weatherData?.sys.country ?? "United States"
     }
     
     private lazy var weatherStateLabel = UILabel().then {
@@ -84,41 +80,50 @@ class WeatherViewController: UIViewController {
     
     private lazy var currentTemperatureLabel = UILabel().then {
         $0.font = BagelFatOne.regular.of(size: 96)
-        $0.text = String(Int(weatherData?.main.temp ?? 0)) + "°"
+        $0.text = String(Int(WeatherDataManager.shared.weatherData?.main.temp ?? 0)) + "°"
     }
     // MARK: - View Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        LocationManager.shared.requestLocation { [weak self] location in
+            guard let location = location else { return }
+            self?.latitude = location.coordinate.latitude
+            self?.longitude = location.coordinate.longitude
+            
+            print("Latitude: \(self?.latitude ?? 0)")
+            print("Longitude: \(self?.longitude ?? 0)")
+        }
         configureUI()
         setConstraints()
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        LocationManager.shared.requestLocation { location in
-            guard let location = location else { return }
-            self.latitude = location.coordinate.latitude
-            self.longitude = location.coordinate.longitude
-            
-            print("Latitude: \(self.latitude)")
-            print("Longitude: \(self.longitude)")
-        }
+        WeatherDataManager.shared.$weatherData
+            .sink { [weak self] weatherData in
+                guard let weatherData = weatherData else { return }
+                self?.updateUI(with: weatherData)
+            }
+            .store(in: &cancellable)
+        
     }
     // MARK: - API 관련 함수
     // 금일 날씨 API 호출
     private func callAPIs(){
-        WeatherAPIManager.shared.getCurrentWeatherData(latitude: self.latitude, longitude: self.longitude) { result in
-            switch result {
-                case .success(let data):
-                    self.weatherData = data
-                    DispatchQueue.main.async {
-                        self.updateUI(with: data)
-                    }
-                    print("GetCurrentWeatherData Success : \(data)")
-                case .failure(let error):
-                    print("GetCurrentWeatherData Failure \(error)")
-            }
-        }
+        WeatherAPIManager.shared.getCurrentWeatherData(latitude: self.latitude, longitude: self.longitude)
+            .receive(on: DispatchQueue.main)
+            .sink(receiveCompletion: { completion in
+                switch completion {
+                    case .finished:
+                        break
+                    case .failure(let error):
+                        print("GetCurrentWeatherData Failure: \(error)")
+                }
+            }, receiveValue: { data in
+                WeatherDataManager.shared.weatherData = data
+                self.updateUI(with: data)
+                print("GetCurrentWeatherData Success: \(data)")
+            })
+            .store(in: &cancellable)
     }
     // MARK: - UI 관련 함수
     private func configureUI() {
@@ -131,7 +136,7 @@ class WeatherViewController: UIViewController {
          weatherImage,
          weatherStateLabel,
          currentTemperatureLabel
-         ].forEach {
+        ].forEach {
             contentsView.addSubview($0)
         }
         
@@ -161,7 +166,9 @@ class WeatherViewController: UIViewController {
         }
         
         contentsView.snp.makeConstraints {
-            $0.width.equalTo(self.scrollView.frameLayoutGuide)
+            //$0.width.equalTo(self.scrollView.frameLayoutGuide)
+            $0.edges.equalTo(scrollView.contentLayoutGuide)
+            $0.width.equalTo(scrollView.frameLayoutGuide)
         }
         
         weatherAndLocationStackView.snp.makeConstraints {
@@ -187,12 +194,7 @@ class WeatherViewController: UIViewController {
         }
     }
     
-    private func configureLabel() {
-        self.cityLabel.text = weatherData?.name
-        self.countryLabel.text = countryName(countryCode: weatherData?.sys.country ?? "")
-    }
-    
-    private func configureDate() -> String {
+    func configureDate() -> String {
         let nowDate = Date()
         let dateFormatter = DateFormatter()
         dateFormatter.timeZone = TimeZone.current
@@ -211,6 +213,17 @@ class WeatherViewController: UIViewController {
         guard let weatherCondition = weather.weather.first else { return }
         let weatherState = WeatherModel(id: weatherCondition.id)
         
+        CurrentWeather.shared.reverseGeocode(latitude: weather.coord.lat, longitude: weather.coord.lon, save: false) { data in
+            switch data {
+            case .success(let name) :
+                self.cityLabel.text = name
+            case .failure(let error) :
+                print("Reverse geocoding error: \(error.localizedDescription)")
+            }
+            
+        }
+        self.countryLabel.text = countryName(countryCode: WeatherDataManager.shared.weatherData?.sys.country ?? "")
+        
         switch weatherState {
             case .sunny:
                 updateSunny()
@@ -228,7 +241,7 @@ class WeatherViewController: UIViewController {
         self.weatherStateLabel.text = "Sunny"
         self.weatherStateLabel.textColor = .sunnyText
         self.weatherImage.image = UIImage(named: "largeSunny")
-        self.currentTemperatureLabel.text = String(Int(weatherData?.main.temp ?? 0)) + "°"
+        self.currentTemperatureLabel.text = String(Int(WeatherDataManager.shared.weatherData?.main.temp ?? 0)) + "°"
         self.weatherStateLabel.snp.updateConstraints {
             $0.top.equalTo(contentsView.snp.top).inset(124)
             $0.trailing.equalToSuperview().inset(-80)
@@ -246,7 +259,7 @@ class WeatherViewController: UIViewController {
         self.weatherStateLabel.text = "Rainy"
         self.weatherStateLabel.textColor = .rainyText
         self.weatherImage.image = UIImage(named: "largeRainy")
-        self.currentTemperatureLabel.text = String(Int(weatherData?.main.temp ?? 0)) + "°"
+        self.currentTemperatureLabel.text = String(Int(WeatherDataManager.shared.weatherData?.main.temp ?? 0)) + "°"
         self.weatherStateLabel.snp.updateConstraints {
             $0.top.equalTo(contentsView.snp.top).inset(105)
             $0.trailing.equalToSuperview().inset(-60)
@@ -264,7 +277,7 @@ class WeatherViewController: UIViewController {
         self.weatherStateLabel.text = "Cloudy"
         self.weatherStateLabel.textColor = .fewCloudytext
         self.weatherImage.image = UIImage(named: "largeFewCloudy")
-        self.currentTemperatureLabel.text = String(Int(weatherData?.main.temp ?? 0)) + "°"
+        self.currentTemperatureLabel.text = String(Int(WeatherDataManager.shared.weatherData?.main.temp ?? 0)) + "°"
         self.weatherStateLabel.snp.updateConstraints {
             $0.top.equalTo(contentsView.snp.top).inset(130)
             $0.trailing.equalToSuperview().inset(-90)
@@ -282,7 +295,7 @@ class WeatherViewController: UIViewController {
         self.weatherStateLabel.text = "Cloudy"
         self.weatherStateLabel.textColor = .white
         self.weatherImage.image = UIImage(named: "largeCloudy")
-        self.currentTemperatureLabel.text = String(Int(weatherData?.main.temp ?? 0)) + "°"
+        self.currentTemperatureLabel.text = String(Int(WeatherDataManager.shared.weatherData?.main.temp ?? 0)) + "°"
         self.weatherStateLabel.snp.updateConstraints {
             $0.top.equalTo(contentsView.snp.top).inset(130)
             $0.trailing.equalToSuperview().inset(-90)
