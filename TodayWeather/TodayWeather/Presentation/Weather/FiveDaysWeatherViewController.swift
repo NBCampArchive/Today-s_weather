@@ -58,7 +58,6 @@ class FiveDaysWeatherViewController: UIViewController {
             switch result{
                 case .success(let data):
                     self.weatherByDay = self.groupAndSortWeatherDataByDay(data)
-                    print(self.weatherByDay)
                     self.tableView.reloadData()
                 case .failure(let error):
                     print("getForecastWeatherData Failure \(error)")
@@ -71,7 +70,7 @@ class FiveDaysWeatherViewController: UIViewController {
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "yyyy-MM-dd"
         
-        // 그룹화 "2024-05-28 03:00:00"
+        // 그룹화
         for forecastItem in forecastResponse.list {
             let dateString = forecastItem.dtTxt.components(separatedBy: " ").first ?? ""
             if let existingItems = weatherByDay[dateString] {
