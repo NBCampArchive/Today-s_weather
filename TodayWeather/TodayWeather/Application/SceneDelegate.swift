@@ -26,10 +26,6 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         
         window?.rootViewController = fashionViewController
 
-//        let weatherViewController = WeatherViewController()
-//        
-//        window?.rootViewController = weatherViewController
-
         window?.makeKeyAndVisible()
     }
 
