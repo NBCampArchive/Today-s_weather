@@ -16,18 +16,18 @@ class DetailChartCell: UICollectionViewCell {
     
     private let titleLabel = UILabel().then {
         $0.text = "PM 2.5"
-        $0.font = UIFont.systemFont(ofSize: 14, weight: .regular)
+        $0.font = Gabarito.regular.of(size: 14)
         $0.textColor = .black
     }
     
     private let subtitleLabel = UILabel().then {
         $0.text = "Unhealthy"
-        $0.font = UIFont.systemFont(ofSize: 14, weight: .bold)
+        $0.font = Gabarito.bold.of(size: 14)
         $0.textColor = .black
     }
     
     private let valueLabel = UILabel().then {
-        $0.font = UIFont.systemFont(ofSize: 20, weight: .regular)
+        $0.font = BagelFatOne.regular.of(size: 20)
         $0.textColor = .black
         $0.textAlignment = .center
     }
@@ -48,7 +48,14 @@ class DetailChartCell: UICollectionViewCell {
         $0.xAxis.labelTextColor = .black
         $0.xAxis.labelFont = UIFont.systemFont(ofSize: 14)
         $0.extraLeftOffset = 18
+        $0.extraRightOffset = 18
         $0.extraTopOffset = 18
+    }
+    
+    private let labelStackView = UIStackView().then {
+        $0.axis = .horizontal
+        $0.spacing = 5
+        $0.distribution = .fillEqually
     }
     
     private let separator = UIView().then {
@@ -78,6 +85,18 @@ class DetailChartCell: UICollectionViewCell {
         valueBackgroundView.addSubview(valueLabel)
         contentView.addSubview(chartView)
         contentView.addSubview(separator)
+        contentView.addSubview(labelStackView)
+        
+        let days = getDaysOfWeek()
+        for i in days {
+            let label = UILabel().then {
+                $0.text = i
+                $0.font = i == "Today" ? Gabarito.medium.of(size: 14) : Gabarito.regular.of(size: 14)
+                $0.textColor = i == "Today" ? .black : .black.withAlphaComponent(0.4)
+                $0.textAlignment = .center
+            }
+            labelStackView.addArrangedSubview(label)
+        }
         
         titleLabel.snp.makeConstraints {
             $0.top.equalToSuperview().offset(18)
@@ -108,6 +127,11 @@ class DetailChartCell: UICollectionViewCell {
         chartView.snp.makeConstraints {
             $0.top.equalTo(separator.snp.bottom).offset(26)
             $0.leading.trailing.equalToSuperview().inset(18)
+        }
+        
+        labelStackView.snp.makeConstraints {
+            $0.top.equalTo(chartView.snp.bottom).offset(10)
+            $0.leading.trailing.equalToSuperview().inset(18)
             $0.bottom.equalToSuperview().offset(-18)
         }
     }
@@ -116,6 +140,33 @@ class DetailChartCell: UICollectionViewCell {
         print(pollutant)
         // 예제 데이터를 설정합니다.
         valueLabel.text = "\(pollutant[0].avg)"
+        
+        if title == "PM10" {
+            titleLabel.text = "PM 10"
+            if pollutant[0].avg <= 30 {
+                valueBackgroundView.backgroundColor = UIColor(named: "good") ?? .systemGreen
+                subtitleLabel.text = "Good"
+            } else if pollutant[0].avg <= 50 {
+                valueBackgroundView.backgroundColor = UIColor(named: "normal") ?? .systemBlue
+                subtitleLabel.text = "Normal"
+            } else {
+                valueBackgroundView.backgroundColor = UIColor(named: "bad") ?? .systemRed
+                subtitleLabel.text = "Unhealthy"
+            }
+            
+        } else {
+            titleLabel.text = "PM 2.5"
+            if pollutant[0].avg <= 20 {
+                valueBackgroundView.backgroundColor = UIColor(named: "good") ?? .systemGreen
+                subtitleLabel.text = "Good"
+            } else if pollutant[0].avg <= 25 {
+                valueBackgroundView.backgroundColor = UIColor(named: "normal") ?? .systemBlue
+                subtitleLabel.text = "Normal"
+            } else {
+                valueBackgroundView.backgroundColor = UIColor(named: "bad") ?? .systemRed
+                subtitleLabel.text = "Unhealthy"
+            }
+        }
         
         let entries = (0..<7).map { i -> ChartDataEntry in
             return ChartDataEntry(x: Double(i), y: Double(pollutant[i].avg))
@@ -127,28 +178,62 @@ class DetailChartCell: UICollectionViewCell {
         dataSet.circleRadius = 4
         // 데이터 포인트별로 색상을 다르게 설정
         dataSet.circleColors = entries.map { entry -> NSUIColor in
-            if entry.y <= 30 {
-                return .green
-            } else if entry.y <= 80 {
-                return .blue
+            if title == "PM10" {
+                if entry.y <= 30 {
+                    return UIColor(named: "good") ?? .systemGreen
+                } else if entry.y <= 50 {
+                    return UIColor(named: "normal") ?? .systemBlue
+                } else {
+                    return UIColor(named: "bad") ?? .systemRed
+                }
             } else {
-                return .red
+                if entry.y <= 20 {
+                    return UIColor(named: "good") ?? .systemGreen
+                } else if entry.y <= 25 {
+                    return UIColor(named: "normal") ?? .systemBlue
+                } else {
+                    return UIColor(named: "bad") ?? .systemRed
+                }
             }
         }
         dataSet.lineWidth = 1
-        dataSet.setColor(.lightGray)
+        dataSet.setColor(UIColor(named: "graph") ?? .lightGray)
         dataSet.fillColor = .clear
         dataSet.drawFilledEnabled = true
         
         dataSet.drawValuesEnabled = true  // 데이터 포인트 값 표시
-        dataSet.valueFont = UIFont.systemFont(ofSize: 12)  // 데이터 포인트 값의 폰트 크기 설정
+        dataSet.valueFormatter = IntegerValueFormatter()
+        dataSet.valueFont = GlacialIndifference.regular.of(size: 12)  // 데이터 포인트 값의 폰트 크기 설정
         dataSet.valueTextColor = .black  // 데이터 포인트 값의 텍스트 색상 설정
         
         chartView.data = LineChartData(dataSet: dataSet)
-        
         // xAxis에 요일 레이블 설정
-        let days = ["Today", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"]
-        chartView.xAxis.valueFormatter = IndexAxisValueFormatter(values: days)
-        chartView.xAxis.granularity = 1
+        chartView.xAxis.drawLabelsEnabled = false
+    }
+    
+    private func getDaysOfWeek() -> [String] {
+        let formatter = DateFormatter()
+        formatter.locale = Locale(identifier: "en_US_POSIX")
+        formatter.dateFormat = "E"
+        
+        let today = Date()
+        var days = [String]()
+        
+        for i in 0..<7 {
+            if i == 0 {
+                days.append("Today")
+            } else {
+                let day = Calendar.current.date(byAdding: .day, value: i, to: today)!
+                days.append(formatter.string(from: day))
+            }
+        }
+        
+        return days
+    }
+}
+
+class IntegerValueFormatter: ValueFormatter {
+    func stringForValue(_ value: Double, entry: ChartDataEntry, dataSetIndex: Int, viewPortHandler: ViewPortHandler?) -> String {
+        return String(format: "%.0f", value)
     }
 }

@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+
+		2B3EB4022BF625010077E4FD /* FashionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B3EB4012BF625010077E4FD /* FashionViewController.swift */; };
+		2B3EB4042BF6250B0077E4FD /* FashionTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B3EB4032BF6250B0077E4FD /* FashionTableViewCell.swift */; };
 		856C9B632BF5035800D99A2F /* WeatherViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 856C9B622BF5035800D99A2F /* WeatherViewController.swift */; };
 		856C9B662BF5FE8400D99A2F /* Gabarito-SemiBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 856C9B652BF5FE8400D99A2F /* Gabarito-SemiBold.ttf */; };
 		856C9B682BF5FEE300D99A2F /* Gabarito-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 856C9B672BF5FEE300D99A2F /* Gabarito-Regular.ttf */; };
@@ -33,7 +36,8 @@
 		A7937AC12BF3836E00E9AD04 /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7937AC02BF3836E00E9AD04 /* SearchViewController.swift */; };
 		A7DD85912BFA313D00823B92 /* CurrentWeather.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7DD85902BFA313D00823B92 /* CurrentWeather.swift */; };
 		A7FDF88D2BFC852F0010E860 /* TabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7FDF88C2BFC852F0010E860 /* TabBarController.swift */; };
-		A7FDF8912BFD215A0010E860 /* DGChartsDynamic in Frameworks */ = {isa = PBXBuildFile; productRef = A7FDF8902BFD215A0010E860 /* DGChartsDynamic */; };
+		A7FDF8A22BFE13ED0010E860 /* TodayWeather.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = A7FDF8A02BFE13ED0010E860 /* TodayWeather.xcdatamodeld */; };
+		A7FDF8AA2BFE40840010E860 /* DGChartsDynamic in Frameworks */ = {isa = PBXBuildFile; productRef = A7FDF8A92BFE40840010E860 /* DGChartsDynamic */; };
 		B54ABF162BF22B4F002E89DC /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B54ABF152BF22B4F002E89DC /* AppDelegate.swift */; };
 		B54ABF182BF22B4F002E89DC /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B54ABF172BF22B4F002E89DC /* SceneDelegate.swift */; };
 		B54ABF1A2BF22B4F002E89DC /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B54ABF192BF22B4F002E89DC /* ViewController.swift */; };
@@ -76,6 +80,8 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		2B3EB4012BF625010077E4FD /* FashionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FashionViewController.swift; sourceTree = "<group>"; };
+		2B3EB4032BF6250B0077E4FD /* FashionTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FashionTableViewCell.swift; sourceTree = "<group>"; };
 		856C9B622BF5035800D99A2F /* WeatherViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherViewController.swift; sourceTree = "<group>"; };
 		856C9B652BF5FE8400D99A2F /* Gabarito-SemiBold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Gabarito-SemiBold.ttf"; sourceTree = "<group>"; };
 		856C9B672BF5FEE300D99A2F /* Gabarito-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Gabarito-Regular.ttf"; sourceTree = "<group>"; };
@@ -102,6 +108,7 @@
 		A7937AC02BF3836E00E9AD04 /* SearchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewController.swift; sourceTree = "<group>"; };
 		A7DD85902BFA313D00823B92 /* CurrentWeather.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrentWeather.swift; sourceTree = "<group>"; };
 		A7FDF88C2BFC852F0010E860 /* TabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarController.swift; sourceTree = "<group>"; };
+		A7FDF8A12BFE13ED0010E860 /* TodayWeather.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = TodayWeather.xcdatamodel; sourceTree = "<group>"; };
 		B54ABF122BF22B4F002E89DC /* TodayWeather.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TodayWeather.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B54ABF152BF22B4F002E89DC /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		B54ABF172BF22B4F002E89DC /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -136,7 +143,7 @@
 				B54ABF3F2BF22EA6002E89DC /* AlamofireDynamic in Frameworks */,
 				B54ABF652BFB608C002E89DC /* DGCharts in Frameworks */,
 				B54ABF372BF22E95002E89DC /* SnapKit in Frameworks */,
-				A7FDF8912BFD215A0010E860 /* DGChartsDynamic in Frameworks */,
+				A7FDF8AA2BFE40840010E860 /* DGChartsDynamic in Frameworks */,
 				B54ABF3A2BF22E9D002E89DC /* Then in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -207,7 +214,7 @@
 		B54ABF142BF22B4F002E89DC /* TodayWeather */ = {
 			isa = PBXGroup;
 			children = (
-				857073BE2BFDB3AC00109A2E /* TodayWeather.xcdatamodeld */,
+				A7FDF8A02BFE13ED0010E860 /* TodayWeather.xcdatamodeld */,
 				B54ABF2D2BF22C38002E89DC /* Application */,
 				B54ABF2F2BF22C60002E89DC /* Network */,
 				B54ABF302BF22C68002E89DC /* Model */,
@@ -247,6 +254,8 @@
 				857073C12BFDB3F800109A2E /* Weather */,
 				B54ABF6E2BFCAFCC002E89DC /* Dusty */,
 				B54ABF192BF22B4F002E89DC /* ViewController.swift */,
+				2B3EB4012BF625010077E4FD /* FashionViewController.swift */,
+				2B3EB4032BF6250B0077E4FD /* FashionTableViewCell.swift */,
 				B54ABF592BF5C0FC002E89DC /* CustomTabControl.swift */,
 				B54ABF5F2BF75ACD002E89DC /* SegmentControlView.swift */,
 				A7937AC02BF3836E00E9AD04 /* SearchViewController.swift */,
@@ -318,7 +327,7 @@
 				B54ABF3C2BF22EA6002E89DC /* Alamofire */,
 				B54ABF3E2BF22EA6002E89DC /* AlamofireDynamic */,
 				B54ABF642BFB608C002E89DC /* DGCharts */,
-				A7FDF8902BFD215A0010E860 /* DGChartsDynamic */,
+				A7FDF8A92BFE40840010E860 /* DGChartsDynamic */,
 			);
 			productName = TodayWeather;
 			productReference = B54ABF122BF22B4F002E89DC /* TodayWeather.app */;
@@ -398,6 +407,7 @@
 				B54ABF692BFB61DA002E89DC /* DetailAqiViewController.swift in Sources */,
 				A71003512BFB8F5B00BF6FD4 /* CoreDataManager.swift in Sources */,
 				B54ABF492BF307B8002E89DC /* ForecastResponseModel.swift in Sources */,
+				A7FDF8A22BFE13ED0010E860 /* TodayWeather.xcdatamodeld in Sources */,
 				856C9B892BFC666100D99A2F /* WeatherDataManager.swift in Sources */,
 				857073C02BFDB3AC00109A2E /* TodayWeather.xcdatamodeld in Sources */,
 				856C9B632BF5035800D99A2F /* WeatherViewController.swift in Sources */,
@@ -421,6 +431,9 @@
 				A7894D032BF61AFD003469A5 /* SelectedTableViewCell.swift in Sources */,
 				856C9B812BF7500F00D99A2F /* WeatherModel.swift in Sources */,
 				856C9B7A2BF6028E00D99A2F /* Fonts.swift in Sources */,
+				2B3EB4042BF6250B0077E4FD /* FashionTableViewCell.swift in Sources */,
+				B54ABF322BF22D82002E89DC /* Model.swift in Sources */,
+				2B3EB4022BF625010077E4FD /* FashionViewController.swift in Sources */,
 				856C9B852BFBA20000D99A2F /* FiveDaysWeatherTableViewCell.swift in Sources */,
 				B54ABF322BF22D82002E89DC /* Model.swift in Sources */,
 				856C9B872BFC2AC900D99A2F /* WeatherTableViewHeaderView.swift in Sources */,
@@ -668,7 +681,7 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		A7FDF8902BFD215A0010E860 /* DGChartsDynamic */ = {
+		A7FDF8A92BFE40840010E860 /* DGChartsDynamic */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = B54ABF632BFB608C002E89DC /* XCRemoteSwiftPackageReference "Charts" */;
 			productName = DGChartsDynamic;
@@ -701,12 +714,12 @@
 /* End XCSwiftPackageProductDependency section */
 
 /* Begin XCVersionGroup section */
-		857073BE2BFDB3AC00109A2E /* TodayWeather.xcdatamodeld */ = {
+		A7FDF8A02BFE13ED0010E860 /* TodayWeather.xcdatamodeld */ = {
 			isa = XCVersionGroup;
 			children = (
-				857073BF2BFDB3AC00109A2E /* TodayWeather.xcdatamodel */,
+				A7FDF8A12BFE13ED0010E860 /* TodayWeather.xcdatamodel */,
 			);
-			currentVersion = 857073BF2BFDB3AC00109A2E /* TodayWeather.xcdatamodel */;
+			currentVersion = A7FDF8A12BFE13ED0010E860 /* TodayWeather.xcdatamodel */;
 			name = TodayWeather.xcdatamodeld;
 			path = "/Users/yeseul/SpartaTeamProjects/Today-s_weather/TodayWeather/TodayWeather/TodayWeather.xcdatamodeld";
 			sourceTree = "<group>";
