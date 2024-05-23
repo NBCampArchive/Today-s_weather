@@ -104,7 +104,6 @@ class WeatherViewController: UIViewController {
                 self?.updateUI(with: weatherData)
             }
             .store(in: &cancellable)
-        
     }
     // MARK: - API 관련 함수
     // 금일 날씨 API 호출

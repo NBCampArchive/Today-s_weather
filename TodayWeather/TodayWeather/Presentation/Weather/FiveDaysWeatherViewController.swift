@@ -43,8 +43,8 @@ class FiveDaysWeatherViewController: UIViewController {
             .sink { [weak self] weatherData in
                 guard let weatherData = weatherData else { return }
                 CurrentWeather.id = weatherData.weather[0].id
-                    self?.view.backgroundColor = CurrentWeather.shared.weatherColor()
-                    self?.tableView.backgroundColor = CurrentWeather.shared.weatherColor()
+                self?.view.backgroundColor = CurrentWeather.shared.weatherColor()
+                self?.tableView.backgroundColor = CurrentWeather.shared.weatherColor()
             }
             .store(in: &cancellable)
         

@@ -88,7 +88,7 @@ class SearchViewController : UIViewController{
                 print("GetCurrentWeatherData Success: \(data)")
             })
             .store(in: &cancellable)
-        }
+    }
 }
 
 // MARK: - searchbar
@@ -145,7 +145,7 @@ extension SearchViewController : UISearchBarDelegate {
             guard let place = response?.mapItems[0] else { return }
             self?.latitude = Double(place.placemark.coordinate.latitude)
             self?.longitude = Double(place.placemark.coordinate.longitude)
-//            self?.localtitle.append(place.name ?? "")
+            //            self?.localtitle.append(place.name ?? "")
             self?.reverseGeocode(latitude: self?.latitude ?? 0, longitude: self?.longitude ?? 0)
         }
     }
@@ -157,13 +157,14 @@ extension SearchViewController : UITableViewDelegate, UITableViewDataSource {
     func numberOfSections(in tableView: UITableView) -> Int {
         if tableView == searchView.selectTableView {
             return 1
-        }else {
+        } else {
             if searchRecent.isEmpty == true || searchResults.isEmpty == true{
                 return 1
             }
             return 2
         }
     }
+    
     func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
         if tableView == searchView.searchTableView {
             if section == 0 && searchRecent.isEmpty == false && searchResults.isEmpty == false{
@@ -186,8 +187,8 @@ extension SearchViewController : UITableViewDelegate, UITableViewDataSource {
         }
         return UIView()
     }
-        
-        // 섹션 푸터 높이 설정
+    
+    // 섹션 푸터 높이 설정
     func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
         return 0.5 // 원하는 높이로 설정
     }
@@ -195,7 +196,7 @@ extension SearchViewController : UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if tableView == searchView.selectTableView {
             return selectWeather.count
-        }else {
+        } else {
             if searchResults.isEmpty == true || section == 1{
                 return searchRecent.count
             } else {
@@ -216,7 +217,7 @@ extension SearchViewController : UITableViewDelegate, UITableViewDataSource {
             print(selectWeather[indexPath.row].weather[0].id)
             cell.weatherImage.image = CurrentWeather.shared.weatherImage(weather: selectWeather[indexPath.row].weather[0].id)
             return cell
-        }else {
+        } else {
             guard let cell = tableView.dequeueReusableCell(withIdentifier: SearchTableViewCell.Identifier, for: indexPath) as? SearchTableViewCell
             else { return UITableViewCell() }
             cell.locLbl.attributedText = nil
@@ -231,11 +232,11 @@ extension SearchViewController : UITableViewDelegate, UITableViewDataSource {
                 if indexPath.row == searchRecent.count - 1{
                     cell.layer.cornerRadius = 16
                     cell.layer.maskedCorners = CACornerMask(arrayLiteral: .layerMinXMaxYCorner, .layerMaxXMaxYCorner)
-                }else {
+                } else {
                     cell.layer.cornerRadius = 0
                 }
                 searchView.searchChanging()
-            }else {
+            } else {
                 cell.cancelBtn.isHidden = true
                 cell.locLbl.text = searchResults[indexPath.row].title
                 cell.backgroundColor =  #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1).withAlphaComponent(0.8)
@@ -245,10 +246,10 @@ extension SearchViewController : UITableViewDelegate, UITableViewDataSource {
                     if indexPath.row == searchResults.count - 1{
                         cell.layer.cornerRadius = 16
                         cell.layer.maskedCorners = CACornerMask(arrayLiteral: .layerMinXMaxYCorner, .layerMaxXMaxYCorner)
-                    }else {
+                    } else {
                         cell.layer.cornerRadius = 0
                     }
-                }else {
+                } else {
                     cell.layer.cornerRadius = 0
                 }
                 if let highlightText = searchView.searchBar.text {
@@ -264,14 +265,14 @@ extension SearchViewController : UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         if tableView == searchView.selectTableView {
             return 115
-        }else {
+        } else {
             if indexPath.section == 0 {
                 if searchResults.isEmpty == false {
                     return 30.5
-                }else {
+                } else {
                     return 28
                 }
-            }else {
+            } else {
                 return 28
             }
         }
@@ -284,13 +285,13 @@ extension SearchViewController : UITableViewDelegate, UITableViewDataSource {
             tableView.deselectRow(at: indexPath, animated: true)
             WeatherDataManager.shared.weatherData = selectWeather[indexPath.row]
             
-        }else {
+        } else {
             //검색중 셀선택시
             if indexPath.section == 0 {
                 if searchResults.isEmpty == true {
                     searchView.searchBar.text = searchRecent[indexPath.row]
                     searchCompleter.queryFragment = searchRecent[indexPath.row]
-                }else {
+                } else {
                     search(for: searchResults[indexPath.row])
                     searchView.searchEnd()
                     searchView.visualEffectView.removeFromSuperview()
@@ -303,20 +304,21 @@ extension SearchViewController : UITableViewDelegate, UITableViewDataSource {
                     }
                     searchView.searchBar.text = ""
                 }
-            }else {
+            } else {
                 searchView.searchBar.text = searchRecent[indexPath.row]
                 searchCompleter.queryFragment = searchRecent[indexPath.row]
             }
         }
     }
+    
     func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
         if tableView == searchView.selectTableView {
             if indexPath.row == 0 {
                 return false
-            }else {
+            } else {
                 return true
             }
-        }else {
+        } else {
             return false
         }
     }
@@ -328,11 +330,11 @@ extension SearchViewController : UITableViewDelegate, UITableViewDataSource {
         customView.backgroundColor = .red
         customView.bounds = CGRect(x: 0, y: 0, width: 80, height: 123)
         customView.layer.cornerRadius = 16// 높이를 조정
-
-                // 커스텀 뷰에 라벨 추가
+        
+        // 커스텀 뷰에 라벨 추가
         if let trashImage = UIImage(systemName: "trash.fill") {
             let imageView = UIImageView(image: trashImage)
-                    imageView.tintColor = .white
+            imageView.tintColor = .white
             let iconSize = 30
             imageView.frame = CGRect(x: (Int(customView.frame.width) - iconSize) / 2, y: (Int(customView.frame.height) - iconSize) / 2, width: iconSize, height: iconSize)
             customView.addSubview(imageView)
@@ -347,9 +349,9 @@ extension SearchViewController : UITableViewDelegate, UITableViewDataSource {
         }
         deleteAction.backgroundColor = view.backgroundColor
         deleteAction.image = UIGraphicsImageRenderer(size: customView.bounds.size).image { _ in
-                    customView.layer.render(in: UIGraphicsGetCurrentContext()!)
+            customView.layer.render(in: UIGraphicsGetCurrentContext()!)
         }
-
+        
         let configuration = UISwipeActionsConfiguration(actions: [deleteAction])
         configuration.performsFirstActionWithFullSwipe = false
         return configuration
@@ -370,7 +372,7 @@ extension SearchViewController : MKLocalSearchCompleterDelegate {
         searchResults = completer.results
         if searchResults.count == 0 {
             searchView.searchEnd()
-        }else {
+        } else {
             searchView.searchChanging()
         }
         searchView.searchTableView.reloadData()
@@ -395,27 +397,27 @@ extension SearchViewController : delDelegate{
 //MARK: - CLLocationManagerDelegate
 extension SearchViewController: CLLocationManagerDelegate {
     func reverseGeocode(latitude: Double, longitude: Double) {
-           let location = CLLocation(latitude: latitude, longitude: longitude)
-            let geocoder: CLGeocoder = CLGeocoder()
-            let local: Locale = Locale(identifier: "en-US")
-           geocoder.reverseGeocodeLocation(location, preferredLocale: local) { (placemarks, error) in
-               if let error = error {
-                   print("Reverse geocoding error: \(error.localizedDescription)")
-                   return
-               }
-               
-               guard let placemark = placemarks?.first else {
-                   print("No placemark found")
-                   return
-               }
-               
-               let name = (placemark.locality ?? "") + ", " + (placemark.country ?? "")
-               
-               // 주소 정보 가져오기
-               self.localtitle.append(name)
-               self.CDM.saveData(Data: locationData(latitude: latitude, longitude: longitude, locName: name))
-               self.callAPIs()
-           }
-       }
+        let location = CLLocation(latitude: latitude, longitude: longitude)
+        let geocoder: CLGeocoder = CLGeocoder()
+        let local: Locale = Locale(identifier: "en-US")
+        geocoder.reverseGeocodeLocation(location, preferredLocale: local) { (placemarks, error) in
+            if let error = error {
+                print("Reverse geocoding error: \(error.localizedDescription)")
+                return
+            }
+            
+            guard let placemark = placemarks?.first else {
+                print("No placemark found")
+                return
+            }
+            
+            let name = (placemark.locality ?? "") + ", " + (placemark.country ?? "")
+            
+            // 주소 정보 가져오기
+            self.localtitle.append(name)
+            self.CDM.saveData(Data: locationData(latitude: latitude, longitude: longitude, locName: name))
+            self.callAPIs()
+        }
+    }
 }
 
