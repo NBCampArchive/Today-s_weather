@@ -48,7 +48,7 @@ class DustyViewController: UIViewController{
     
     let locationStackView = UIStackView().then {
         $0.axis = .horizontal
-        $0.spacing = 4
+        $0.spacing = 10
     }
     
     let locationLabelStackView = UIStackView().then {
@@ -110,7 +110,7 @@ class DustyViewController: UIViewController{
         view.addSubview(optionSegment)
         
         dayAndLocationStackView.snp.makeConstraints{
-            $0.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(72)
+            $0.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(77)
             $0.leading.equalToSuperview().offset(20)
         }
         

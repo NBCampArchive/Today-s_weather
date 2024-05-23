@@ -36,7 +36,7 @@ class WeatherViewController: UIViewController {
     // 위치 정보(locationMark + 위치 레이블) StackView
     private let locationStackView = UIStackView().then {
         $0.axis = .horizontal
-        $0.spacing = 4
+        $0.spacing = 10
     }
     
     // 위치 레이블(도시, 나라) StackView

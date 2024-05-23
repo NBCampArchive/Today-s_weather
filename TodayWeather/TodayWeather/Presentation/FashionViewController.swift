@@ -12,7 +12,9 @@ import Combine
 
 class FashionViewController: UIViewController {
     var cancellable = Set<AnyCancellable>()
-    let scrollView = UIScrollView()
+    let scrollView = UIScrollView().then{
+        $0.showsVerticalScrollIndicator = false
+    }
     let containerView = UIView()
     var weatherFashion = [Int]()
     var time = [String]()
@@ -59,7 +61,7 @@ class FashionViewController: UIViewController {
     
     let locationStackView = UIStackView().then {
         $0.axis = .horizontal
-        $0.spacing = 4
+        $0.spacing = 10
     }
     
     let locationLabelStackView = UIStackView().then {
@@ -78,7 +80,6 @@ class FashionViewController: UIViewController {
     var weather : WeatherModel = .sunny
     
     override func viewDidLoad() {
-        
         super.viewDidLoad()
         view.addSubview(scrollView)
         self.scrollView.addSubview(containerView)
@@ -93,7 +94,7 @@ class FashionViewController: UIViewController {
         tableView.delegate = self
         tableView.register(FashionTableViewCell.self, forCellReuseIdentifier: FashionTableViewCell.identifier)
         WeatherDataManager.shared.$weatherData.sink { [weak self] weatherData in
-                guard let weatherData = weatherData else { return }
+            guard let weatherData = weatherData else { return }
             CurrentWeather.id = weatherData.weather[0].id
             self?.view.backgroundColor = CurrentWeather.shared.weatherColor()
             self?.tempImageView.image = CurrentWeather.shared.weatherImage()
@@ -105,13 +106,13 @@ class FashionViewController: UIViewController {
         }.store(in: &cancellable)
         
     }
-   
+    
     func configureUI() {
         
         tmpView.addSubview(dayAndLocationStackView)
         dayAndLocationStackView.addArrangedSubview(dayLabel)
         dayAndLocationStackView.addArrangedSubview(locationStackView)
-
+        
         locationStackView.addArrangedSubview(locationImageView)
         locationStackView.addArrangedSubview(locationLabelStackView)
         
@@ -122,7 +123,8 @@ class FashionViewController: UIViewController {
             $0.top.equalTo(tmpView.snp.top)
             $0.leading.equalTo(tmpView.snp.leading).offset(20)
         }
-}
+    }
+    
     func setupConstraints() {
         scrollView.snp.makeConstraints {
             $0.edges.equalToSuperview()
@@ -132,7 +134,6 @@ class FashionViewController: UIViewController {
             $0.height.equalTo(880)
             $0.width.equalTo(scrollView.snp.width)
         }
-        
         tmpView.snp.makeConstraints {
             $0.top.equalTo(containerView.snp.top).inset(90)
             $0.height.equalTo(292)
@@ -156,62 +157,35 @@ class FashionViewController: UIViewController {
         
         CurrentWeather.shared.reverseGeocode(latitude: weather.coord.lat, longitude: weather.coord.lon, save: false) { data in
             switch data {
-            case .success(let name) :
-                self.locationCityLabel.text = name[0]
-                self.locationCountryLabel.text = name[1]
-            case .failure(let error) :
-                print("Reverse geocoding error: \(error.localizedDescription)")
+                case .success(let name) :
+                    self.locationCityLabel.text = name[0]
+                    self.locationCountryLabel.text = name[1]
+                case .failure(let error) :
+                    print("Reverse geocoding error: \(error.localizedDescription)")
             }
             
         }
+        
         switch weatherState {
             case .sunny:
-                updateSunny()
+                updateWeatherPart(top: 4, leading: 181, width: 288)
             case .rainy:
-                updateRainy()
+                updateWeatherPart(top: 2, leading: 181, width: 276)
             case .cloudy:
-                updateCloudy()
+                updateWeatherPart(top: -10, leading: 181, width: 288)
             case .fewCloudy:
-                updateFewCloudy()
+                updateWeatherPart(top: 0, leading: 181, width: 345)
         }
     }
     
-    private func updateSunny() {
+    private func updateWeatherPart(top: Int, leading: Int, width: Int) {
         self.tempImageView.snp.updateConstraints {
-            $0.top.equalTo(tmpView.snp.top).inset(4)
-            $0.leading.equalTo(tmpView.snp.leading).inset(181)
-            $0.width.equalTo(288)
+            $0.top.equalTo(tmpView.snp.top).inset(top)
+            $0.leading.equalTo(tmpView.snp.leading).inset(leading)
+            $0.width.equalTo(width)
             $0.height.equalTo(288)
         }
     }
-    
-    private func updateRainy() {
-        self.tempImageView.snp.updateConstraints {
-            $0.top.equalTo(tmpView.snp.top).inset(4)
-            $0.leading.equalTo(tmpView.snp.leading).inset(181)
-            $0.width.equalTo(252)
-            $0.height.equalTo(252)
-        }
-    }
-    
-    private func updateFewCloudy() {
-        self.tempImageView.snp.updateConstraints {
-            $0.top.equalTo(tmpView.snp.top).inset(4)
-            $0.leading.equalTo(tmpView.snp.leading).inset(181)
-            $0.width.equalTo(357)
-            $0.height.equalTo(298)
-        }
-    }
-    
-    private func updateCloudy() {
-        self.tempImageView.snp.updateConstraints {
-            $0.top.equalTo(tmpView.snp.top).inset(4)
-            $0.leading.equalTo(tmpView.snp.leading).inset(177)
-            $0.width.equalTo(340)
-            $0.height.equalTo(340)
-        }
-    }
-    
     private func callAPI() {
         WeatherAPIManager.shared.getForecastWeatherData(latitude: self.latitude, longitude: self.longitude) { result in
             switch result{
@@ -269,11 +243,10 @@ extension FashionViewController: UITableViewDataSource, UITableViewDelegate  {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: FashionTableViewCell.identifier, for: indexPath) as! FashionTableViewCell
-
         cell.fashionLabel.text = Fashion(temp: weatherFashion[indexPath.row]).recommendClothes().joined(separator: ", ")
         cell.subLabel.text = time[indexPath.row]
         cell.tmpLabel.text = "\(weatherFashion[indexPath.row])°"
         return cell
     }
-
+    
 }
