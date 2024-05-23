@@ -59,7 +59,11 @@ class DustyViewController: UIViewController{
     
     let optionSegment = SegmentControlView()
     
-    var longitude: Double = 0.0
+    var longitude: Double = 0.0 {
+        didSet{
+            self.fetchDustyData(for: 0)
+        }
+    }
     
     var latitude: Double = 0.0
     
@@ -74,6 +78,9 @@ class DustyViewController: UIViewController{
                 CurrentWeather.id = weatherData.weather[0].id
                 self?.view.backgroundColor = CurrentWeather.shared.weatherColor()
                 self?.optionSegment.backgroundColor = CurrentWeather.shared.weatherColor()
+                self?.latitude = weatherData.coord.lat
+                self?.longitude = weatherData.coord.lon
+                self?.fetchLocationData(with: weatherData)
             }
             .store(in: &cancellable)
         
@@ -82,18 +89,6 @@ class DustyViewController: UIViewController{
         }
         
         setupLayout()
-        
-        LocationManager.shared.requestLocation { location in
-            guard let location = location else { return }
-            self.latitude = location.coordinate.latitude
-            self.longitude = location.coordinate.longitude
-            DispatchQueue.main.async {
-                self.fetchDustyData(for: 0)
-            }
-            print("Latitude: \(self.latitude)")
-            print("Longitude: \(self.longitude)")
-        }
-        
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -154,9 +149,6 @@ class DustyViewController: UIViewController{
                 }
                 
                 DispatchQueue.main.async {
-                    self.locationCityLabel.text = WeatherDataManager.shared.weatherData?.name
-                    self.locationCountryLabel.text = self.countryName(countryCode: WeatherDataManager.shared.weatherData?.sys.country ?? "")
-                    
                     self.updateLabel(self.dotAnimationView.aqiValueLabel, withText: String(Int(value)))
                     self.updateLabel(self.dotAnimationView.aqiOptionLabel, withText: pollutant)
                     self.updateLabel(self.dotAnimationView.aqiQualityLabel, withText: airQuality)
@@ -167,6 +159,18 @@ class DustyViewController: UIViewController{
                 }
             case .failure(let error):
                 print("getDustData Failure \(error)")
+            }
+        }
+    }
+    
+    func fetchLocationData(with weather: CurrentResponseModel){
+        CurrentWeather.shared.reverseGeocode(latitude: weather.coord.lat, longitude: weather.coord.lon, save: false) { data in
+            switch data{
+            case .success(let name) :
+                self.locationCityLabel.text = name[0]
+                self.locationCountryLabel.text = name[1]
+            case .failure(let error) :
+                print("Reverse Geocode Error: \(error)")
             }
         }
     }
@@ -192,6 +196,7 @@ class DustyViewController: UIViewController{
         case "AQI":
             return Double(data.data.aqi)
         case "PM10":
+            print(data.data.iaqi.pm10?.v)
             return data.data.iaqi.pm10?.v ?? 0.0
         case "PM2.5":
             return data.data.iaqi.pm25?.v ?? 0.0
