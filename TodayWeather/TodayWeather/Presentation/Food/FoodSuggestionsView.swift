@@ -13,6 +13,7 @@ class FoodSuggestionsView: UIView {
     let suggestionsTitleLabel = UILabel().then {
         $0.text = "이런 음식은 어떠세요?"
         $0.font = Pretendard.medium.of(size: 12)
+        $0.textColor = .black.withAlphaComponent(0.7)
     }
     
     let koreanFoodLabel = UILabel().then {
@@ -22,12 +23,12 @@ class FoodSuggestionsView: UIView {
     
     let koreanMenuLabel = UILabel().then {
         $0.text = "음식 내용 데이터 가져오기"
-        $0.font = Pretendard.medium.of(size: 14)
-        $0.textColor = .black
+        $0.font = Pretendard.regular.of(size: 14)
+        $0.textColor = UIColor(named: "menu")
     }
     
     let koreanSeparator = UIView().then {
-        $0.backgroundColor = .black
+        $0.backgroundColor = .black.withAlphaComponent(0.8)
     }
     
     let westernFoodLabel = UILabel().then {
@@ -37,12 +38,12 @@ class FoodSuggestionsView: UIView {
     
     let westernMenuLabel = UILabel().then {
         $0.text = "음식 내용 데이터 가져오기"
-        $0.font = Pretendard.medium.of(size: 14)
-        $0.textColor = .black
+        $0.font = Pretendard.regular.of(size: 14)
+        $0.textColor = UIColor(named: "menu")
     }
     
     let westernSeparator = UIView().then {
-        $0.backgroundColor = .black
+        $0.backgroundColor = .black.withAlphaComponent(0.8)
     }
     
     let chineseFoodLabel = UILabel().then {
@@ -52,12 +53,12 @@ class FoodSuggestionsView: UIView {
     
     let chineseMenuLabel = UILabel().then {
         $0.text = "음식 내용 데이터 가져오기"
-        $0.font = Pretendard.medium.of(size: 14)
-        $0.textColor = .black
+        $0.font = Pretendard.regular.of(size: 14)
+        $0.textColor = UIColor(named: "menu")
     }
     
     let chineseSeparator = UIView().then {
-        $0.backgroundColor = .black
+        $0.backgroundColor = .black.withAlphaComponent(0.8)
     }
     
     let japaneseFoodLabel = UILabel().then {
@@ -67,12 +68,12 @@ class FoodSuggestionsView: UIView {
     
     let japaneseMenuLabel = UILabel().then {
         $0.text = "음식 내용 데이터 가져오기"
-        $0.font = Pretendard.medium.of(size: 14)
-        $0.textColor = .black
+        $0.font = Pretendard.regular.of(size: 14)
+        $0.textColor = UIColor(named: "menu")
     }
     
     let japaneseSeparator = UIView().then {
-        $0.backgroundColor = .black
+        $0.backgroundColor = .black.withAlphaComponent(0.8)
     }
     
     override init(frame: CGRect) {
@@ -99,7 +100,7 @@ class FoodSuggestionsView: UIView {
         
         koreanFoodLabel.snp.makeConstraints {
             $0.top.equalTo(suggestionsTitleLabel.snp.bottom).offset(10)
-            $0.leading.equalToSuperview()
+            $0.leading.equalToSuperview().offset(1)
         }
         
         koreanMenuLabel.snp.makeConstraints {
@@ -108,13 +109,13 @@ class FoodSuggestionsView: UIView {
         }
         
         koreanSeparator.snp.makeConstraints {
-            $0.top.equalTo(koreanFoodLabel.snp.bottom).offset(8)
+            $0.top.equalTo(koreanFoodLabel.snp.bottom).offset(10)
             $0.leading.trailing.equalToSuperview()
-            $0.height.equalTo(0.5)
+            $0.height.equalTo(1)
         }
         
         westernFoodLabel.snp.makeConstraints {
-            $0.top.equalTo(koreanSeparator.snp.bottom).offset(20)
+            $0.top.equalTo(koreanSeparator.snp.bottom).offset(12)
             $0.leading.equalToSuperview()
         }
         
@@ -124,13 +125,13 @@ class FoodSuggestionsView: UIView {
         }
         
         westernSeparator.snp.makeConstraints {
-            $0.top.equalTo(westernFoodLabel.snp.bottom).offset(8)
+            $0.top.equalTo(westernFoodLabel.snp.bottom).offset(10)
             $0.width.equalToSuperview()
-            $0.height.equalTo(0.4)
+            $0.height.equalTo(1)
         }
         
         chineseFoodLabel.snp.makeConstraints {
-            $0.top.equalTo(westernSeparator.snp.bottom).offset(20)
+            $0.top.equalTo(westernSeparator.snp.bottom).offset(12)
             $0.leading.equalToSuperview()
         }
         
@@ -140,13 +141,13 @@ class FoodSuggestionsView: UIView {
         }
         
         chineseSeparator.snp.makeConstraints {
-            $0.top.equalTo(chineseFoodLabel.snp.bottom).offset(8)
-            $0.height.equalTo(0.4)
+            $0.top.equalTo(chineseFoodLabel.snp.bottom).offset(10)
+            $0.height.equalTo(1)
             $0.width.equalToSuperview()
         }
         
         japaneseFoodLabel.snp.makeConstraints {
-            $0.top.equalTo(chineseSeparator.snp.bottom).offset(20)
+            $0.top.equalTo(chineseSeparator.snp.bottom).offset(12)
             $0.leading.equalToSuperview()
         }
         
@@ -156,9 +157,9 @@ class FoodSuggestionsView: UIView {
         }
         
         japaneseSeparator.snp.makeConstraints {
-            $0.top.equalTo(japaneseFoodLabel.snp.bottom).offset(8)
+            $0.top.equalTo(japaneseFoodLabel.snp.bottom).offset(10)
             $0.leading.trailing.equalToSuperview()
-            $0.height.equalTo(0.2)
+            $0.height.equalTo(1)
             $0.bottom.equalToSuperview().offset(-100)
         }
     }
