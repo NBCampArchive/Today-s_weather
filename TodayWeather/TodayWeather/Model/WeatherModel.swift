@@ -15,15 +15,16 @@ enum WeatherModel: Int {
     
     init(id: Int) {
         switch id {
-            case 200...232: self = .rainy
-            case 300...321: self = .rainy
-            case 500...531: self = .rainy
-            case 600...622: self = .rainy
-            case 701...781: self = .cloudy
-            case 800: self = .sunny
-            case 801: self = .fewCloudy
-            case 802...804: self = .cloudy
-            default: self = .sunny
+        case 200...232: self = .rainy
+        case 300...321: self = .rainy
+        case 500...531: self = .rainy
+        case 600...622: self = .rainy
+        case 701...781: self = .cloudy
+        case 800: self = .sunny
+        case 801: self = .fewCloudy
+        case 802...804: self = .cloudy
+        default: self = .sunny
         }
     }
 }
+
