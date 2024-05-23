@@ -68,7 +68,7 @@ class FiveDaysWeatherTableViewCell: UITableViewCell {
         }
         
         weatherImage.snp.makeConstraints {
-            $0.top.equalToSuperview().inset(16)
+            $0.top.equalToSuperview().inset(8)
             $0.trailing.equalToSuperview().inset(20)
         }
     }
