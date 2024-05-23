@@ -44,11 +44,11 @@ class CustomTabControl: UIViewController {
             // 선택되지 않은 상태와 선택된 상태의 텍스트 속성 설정
             let normalAttributes: [NSAttributedString.Key: Any] = [
                 .foregroundColor: UIColor.lightGray,
-                .font: UIFont.systemFont(ofSize: 17, weight: .regular)
+                .font: Gabarito.regular.of(size: 17)
             ]
             let selectedAttributes: [NSAttributedString.Key: Any] = [
                 .foregroundColor: UIColor.black,
-                .font: UIFont.systemFont(ofSize: 17, weight: .bold)
+                .font: Gabarito.semibold.of(size: 17)
             ]
             $0.setTitleTextAttributes(normalAttributes, for: .normal)
             $0.setTitleTextAttributes(selectedAttributes, for: .selected)

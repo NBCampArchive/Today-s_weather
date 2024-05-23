@@ -45,7 +45,7 @@ class FashionTableViewCell: UITableViewCell {
             $0.bottom.equalToSuperview().inset(5)
         }
         tmpLabel.snp.makeConstraints {
-            $0.top.equalToSuperview().offset(16)
+            $0.top.equalToSuperview().offset(10)
             $0.leading.equalToSuperview().offset(20)
         }
         subLabel.snp.makeConstraints {
@@ -55,7 +55,7 @@ class FashionTableViewCell: UITableViewCell {
         }
         fashionLabel.snp.makeConstraints {
             $0.centerY.equalToSuperview()
-            $0.trailing.equalToSuperview().inset(20)
+            $0.trailing.equalToSuperview().inset(30)
         }
     }
     
