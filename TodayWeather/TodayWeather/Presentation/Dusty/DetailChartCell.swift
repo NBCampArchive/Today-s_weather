@@ -219,8 +219,11 @@ class DetailChartCell: UICollectionViewCell {
         let today = Date()
         var days = [String]()
         
-        for i in 0..<7 {
-            if i == 0 {
+        for i in -1..<6 {
+            if i == -1 {
+                let day = Calendar.current.date(byAdding: .day, value: i, to: today)!
+                days.append(formatter.string(from: day))
+            } else if i == 0 {
                 days.append("Today")
             } else {
                 let day = Calendar.current.date(byAdding: .day, value: i, to: today)!

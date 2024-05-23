@@ -17,10 +17,19 @@ class DetailAqiViewController: UIViewController {
     
     var cancellable = Set<AnyCancellable>()
     
+    var longitude: Double = 0.0 {
+        didSet{
+            fetchData()
+        }
+    }
+    
+    var latitude: Double = 0.0
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         configureCollectionView()
-        fetchData()
+        
         
         WeatherDataManager.shared.$weatherData
             .sink { [weak self] weatherData in
@@ -28,6 +37,8 @@ class DetailAqiViewController: UIViewController {
                 CurrentWeather.id = weatherData.weather[0].id
                 self?.view.backgroundColor = CurrentWeather.shared.weatherColor()
                 self?.collectionView.backgroundColor = CurrentWeather.shared.weatherColor()
+                self?.latitude = weatherData.coord.lat
+                self?.longitude = weatherData.coord.lon
             }
             .store(in: &cancellable)
     }
@@ -83,10 +94,7 @@ class DetailAqiViewController: UIViewController {
     }
     
     private func fetchData() {
-        let latitude = 37.7749
-        let longitude = -122.4194
-        
-        DustAPIManager.shared.getDustData(latitude: latitude, longitude: longitude) { [weak self] result in
+        DustAPIManager.shared.getDustData(latitude: self.latitude, longitude: self.longitude) { [weak self] result in
             switch result {
             case .success(let data):
                 print(data.data.iaqi)
@@ -96,7 +104,7 @@ class DetailAqiViewController: UIViewController {
                     data.data.iaqi.co ?? AQIValue(v: 0.0),//일산화탄소
                     data.data.iaqi.so2 ?? AQIValue(v: 0.0)//아황산가스
                 ]
-                
+                print(data.data.forecast.daily)
                 self?.pm10PollutantData = data.data.forecast.daily.pm10
                 self?.pm25PollutantData = data.data.forecast.daily.pm25
                 
