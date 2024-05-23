@@ -104,7 +104,6 @@ class WeatherViewController: UIViewController {
                 self?.updateUI(with: weatherData)
             }
             .store(in: &cancellable)
-        
     }
     // MARK: - API 관련 함수
     // 금일 날씨 API 호출
@@ -166,18 +165,16 @@ class WeatherViewController: UIViewController {
         }
         
         contentsView.snp.makeConstraints {
-            //$0.width.equalTo(self.scrollView.frameLayoutGuide)
-            $0.edges.equalTo(scrollView.contentLayoutGuide)
             $0.width.equalTo(scrollView.frameLayoutGuide)
         }
         
         weatherAndLocationStackView.snp.makeConstraints {
-            $0.top.equalToSuperview().inset(54)
+            $0.top.equalToSuperview().inset(94)
             $0.leading.equalToSuperview().inset(20)
         }
         // Sunny label
         weatherStateLabel.snp.makeConstraints {
-            $0.top.equalTo(contentsView.snp.top).inset(124)
+            $0.top.equalTo(contentsView.snp.top).inset(164)
             $0.trailing.equalToSuperview().inset(-80)
         }
         // Sunny image
@@ -190,7 +187,7 @@ class WeatherViewController: UIViewController {
         
         currentTemperatureLabel.snp.makeConstraints {
             $0.leading.equalToSuperview().inset(44)
-            $0.bottom.equalTo(self.view.safeAreaLayoutGuide).inset(194)
+            $0.bottom.equalTo(self.view.safeAreaLayoutGuide).inset(105)
         }
     }
     
@@ -204,7 +201,7 @@ class WeatherViewController: UIViewController {
         return dateString
     }
     
-    private func countryName(countryCode: String) -> String? {
+    func countryName(countryCode: String) -> String? {
         let current = Locale(identifier: "en_US")
         return current.localizedString(forRegionCode: countryCode)
     }
@@ -213,6 +210,9 @@ class WeatherViewController: UIViewController {
         guard let weatherCondition = weather.weather.first else { return }
         let weatherState = WeatherModel(id: weatherCondition.id)
         
+        self.currentTemperatureLabel.text = String(Int(WeatherDataManager.shared.weatherData?.main.temp ?? 0)) + "°"
+        self.countryLabel.text = countryName(countryCode: WeatherDataManager.shared.weatherData?.sys.country ?? "")
+        
         CurrentWeather.shared.reverseGeocode(latitude: weather.coord.lat, longitude: weather.coord.lon, save: false) { data in
             switch data {
             case .success(let name) :
@@ -220,9 +220,7 @@ class WeatherViewController: UIViewController {
             case .failure(let error) :
                 print("Reverse geocoding error: \(error.localizedDescription)")
             }
-            
         }
-        self.countryLabel.text = countryName(countryCode: WeatherDataManager.shared.weatherData?.sys.country ?? "")
         
         switch weatherState {
             case .sunny:
@@ -241,9 +239,8 @@ class WeatherViewController: UIViewController {
         self.weatherStateLabel.text = "Sunny"
         self.weatherStateLabel.textColor = .sunnyText
         self.weatherImage.image = UIImage(named: "largeSunny")
-        self.currentTemperatureLabel.text = String(Int(WeatherDataManager.shared.weatherData?.main.temp ?? 0)) + "°"
         self.weatherStateLabel.snp.updateConstraints {
-            $0.top.equalTo(contentsView.snp.top).inset(124)
+            $0.top.equalTo(contentsView.snp.top).inset(164)
             $0.trailing.equalToSuperview().inset(-80)
         }
         self.weatherImage.snp.updateConstraints {
@@ -259,9 +256,8 @@ class WeatherViewController: UIViewController {
         self.weatherStateLabel.text = "Rainy"
         self.weatherStateLabel.textColor = .rainyText
         self.weatherImage.image = UIImage(named: "largeRainy")
-        self.currentTemperatureLabel.text = String(Int(WeatherDataManager.shared.weatherData?.main.temp ?? 0)) + "°"
         self.weatherStateLabel.snp.updateConstraints {
-            $0.top.equalTo(contentsView.snp.top).inset(105)
+            $0.top.equalTo(contentsView.snp.top).inset(145)
             $0.trailing.equalToSuperview().inset(-60)
         }
         self.weatherImage.snp.updateConstraints {
@@ -277,9 +273,8 @@ class WeatherViewController: UIViewController {
         self.weatherStateLabel.text = "Cloudy"
         self.weatherStateLabel.textColor = .fewCloudytext
         self.weatherImage.image = UIImage(named: "largeFewCloudy")
-        self.currentTemperatureLabel.text = String(Int(WeatherDataManager.shared.weatherData?.main.temp ?? 0)) + "°"
         self.weatherStateLabel.snp.updateConstraints {
-            $0.top.equalTo(contentsView.snp.top).inset(130)
+            $0.top.equalTo(contentsView.snp.top).inset(170)
             $0.trailing.equalToSuperview().inset(-90)
         }
         self.weatherImage.snp.updateConstraints {
@@ -295,9 +290,8 @@ class WeatherViewController: UIViewController {
         self.weatherStateLabel.text = "Cloudy"
         self.weatherStateLabel.textColor = .white
         self.weatherImage.image = UIImage(named: "largeCloudy")
-        self.currentTemperatureLabel.text = String(Int(WeatherDataManager.shared.weatherData?.main.temp ?? 0)) + "°"
         self.weatherStateLabel.snp.updateConstraints {
-            $0.top.equalTo(contentsView.snp.top).inset(130)
+            $0.top.equalTo(contentsView.snp.top).inset(170)
             $0.trailing.equalToSuperview().inset(-90)
         }
         self.weatherImage.snp.updateConstraints {

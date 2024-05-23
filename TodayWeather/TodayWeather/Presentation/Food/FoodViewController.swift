@@ -31,7 +31,7 @@ class FoodViewController: UIViewController {
                 CurrentWeather.shared.reverseGeocode(latitude: weatherData.coord.lat, longitude: weatherData.coord.lon, save: false) { data in
                     switch data {
                     case .success(let name) :
-                        self?.foodLocationView.cityLabel.text = name
+                        self?.foodLocationView.cityLabel.text = name[0]
                         self?.foodLocationView.countryLabel.text = self?.countryName(countryCode: weatherData.sys.country ?? "")
                         self?.updateUI(with: weatherData)
                     case .failure(let error) :

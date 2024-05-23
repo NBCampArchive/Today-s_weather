@@ -20,17 +20,11 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         
         window = UIWindow(windowScene: windowScene)
         // ⚠️ 여기서 ViewController를 생성하여 window의 rootViewController로 지정해주세요.
-        //        let viewController = ViewController()
-        //
-        //        window?.rootViewController = viewController
-        //        window?.makeKeyAndVisible()
 //        let viewController = ViewController()
         let weatherViewController = TabBarController()
         
-//        let foodViewController = FoodViewController() // FoodViewController 인스턴스 생성
-        
-        window?.rootViewController = weatherViewController // window의 rootViewController로 설정
-        window?.makeKeyAndVisible() // window를 화면에 표시
+        window?.rootViewController = weatherViewController
+        window?.makeKeyAndVisible()
     }
     
     func sceneDidDisconnect(_ scene: UIScene) {

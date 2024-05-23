@@ -12,7 +12,7 @@ extension Bundle{
     
     // OpenWeatherMap API Key
     var weatherApiKey: String{
-        guard let filePath = Bundle.main.path(forResource: "TodayWeatherAPI", ofType: "plist") else {
+        guard let filePath = Bundle.main.path(forResource: "TodayWeatherAPI", ofType: "plist") else{
             fatalError("Couldn't find file 'TodayWeatherAPI.plist'.")
         }
         
@@ -21,7 +21,6 @@ extension Bundle{
         guard let value = plist?.object(forKey: "Weather_API_KEY") as? String else{
             fatalError("Couldn't find key 'API_KEY' in 'TodayWeatherAPI.plist'.")
         }
-        
         return value
     }
     
