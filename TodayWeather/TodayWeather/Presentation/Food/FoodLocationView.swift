@@ -17,7 +17,7 @@ class FoodLocationView: UIView {
     
     let locationStackView = UIStackView().then {
         $0.axis = .horizontal
-        $0.spacing = 4
+        $0.spacing = 10
         $0.alignment = .center
         $0.distribution = .fill
     }
@@ -81,10 +81,6 @@ class FoodLocationView: UIView {
         weatherAndLocationStackView.snp.makeConstraints {
             $0.top.equalToSuperview()
             $0.leading.equalToSuperview().offset(20)
-        }
-        
-        locationMarkImage.snp.makeConstraints {
-            $0.width.height.equalTo(24)
         }
         
         locationLabelStackView.snp.makeConstraints {

@@ -18,7 +18,14 @@ class FoodViewController: UIViewController {
     let foodLocationView = FoodLocationView()
     let foodWeatherView = FoodWeatherView()
     let foodSuggestionsView = FoodSuggestionsView()
-
+    
+    let scrollView = UIScrollView().then{
+        $0.showsVerticalScrollIndicator = false
+    }
+    let containerView = UIView()
+    
+    var weatherData: CurrentResponseModel?
+    
     // View Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -27,6 +34,10 @@ class FoodViewController: UIViewController {
         foodLocationView.dateLabel.text = configureDate()
         configureUI()
         setConstraints()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
         
         WeatherDataManager.shared.$weatherData
             .sink { [weak self] weatherData in
@@ -37,15 +48,32 @@ class FoodViewController: UIViewController {
                     switch data {
                     case .success(let name) :
                         self?.foodLocationView.cityLabel.text = name[0]
-                        self?.foodLocationView.countryLabel.text = self?.countryName(countryCode: weatherData.sys.country ?? "")
+                        self?.foodLocationView.countryLabel.text = self?.countryName(countryCode: weatherData.sys.country)
+                        self?.foodWeatherView.weatherImage.snp.remakeConstraints{
+                            $0.top.equalToSuperview().offset(180)
+                            $0.leading.equalToSuperview().inset(10)
+                            $0.width.equalTo(262)
+                            $0.height.equalTo(262)
+                        }
                         self?.updateUI(with: weatherData)
                     case .failure(let error) :
                         print("Reverse geocoding error: \(error.localizedDescription)")
                     }
-
+                    
                 }
             }
             .store(in: &cancellable)
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        
+        foodWeatherView.weatherImage.snp.remakeConstraints{
+            $0.top.equalToSuperview().offset(15)
+            $0.leading.equalToSuperview().inset(10)
+            $0.width.equalTo(262)
+            $0.height.equalTo(262)
+        }
     }
     
     // JSON 데이터 로드 함수
@@ -87,19 +115,23 @@ class FoodViewController: UIViewController {
         
         switch weatherState {
         case .sunny:
-            weatherDescription = "맑은 날씨"
+            weatherDescription = "더운 날씨"
             updateWeatherUI(backgroundColor: .sunnyBackground, imageName: "largeSunny", temperature: temp, weatherState: weatherState)
             updateFoodRecommendations(for: "sunny", with: recommendations)
+            foodWeatherView.weatherLine1Label.textColor = .black.withAlphaComponent(0.4)
+            foodWeatherView.weatherLine2Label.textColor = .black.withAlphaComponent(0.4)
+            foodWeatherView.weatherLine3Label.textColor = .black.withAlphaComponent(0.4)
+            
         case .rainy:
             weatherDescription = "비오는 날씨"
             updateWeatherUI(backgroundColor: .rainyBackground, imageName: "largeRainy", temperature: temp, weatherState: weatherState)
             updateFoodRecommendations(for: "rainy", with: recommendations)
         case .cloudy:
-            weatherDescription = "흐린 날씨"
+            weatherDescription = "추운 날씨"
             updateWeatherUI(backgroundColor: .cloudyBackground, imageName: "largeCloudy", temperature: temp, weatherState: weatherState)
             updateFoodRecommendations(for: "cloudy", with: recommendations)
         case .fewCloudy:
-            weatherDescription = "구름 조금"
+            weatherDescription = "맑은 날씨"
             updateWeatherUI(backgroundColor: .fewCloudyBackground, imageName: "largeFewCloudy", temperature: temp, weatherState: weatherState)
             updateFoodRecommendations(for: "fewCloudy", with: recommendations)
         }
@@ -159,27 +191,39 @@ class FoodViewController: UIViewController {
     
     // UI 구성 함수
     private func configureUI() {
-        view.addSubview(foodLocationView)
-        view.addSubview(foodWeatherView)
-        view.addSubview(foodSuggestionsView)
+        view.addSubview(scrollView)
+        self.scrollView.addSubview(containerView)
+        containerView.addSubview(foodLocationView)
+        containerView.addSubview(foodWeatherView)
+        containerView.addSubview(foodSuggestionsView)
         
     }
     
     // 제약 조건 설정 함수
     private func setConstraints() {
+        scrollView.snp.makeConstraints {
+            $0.edges.equalToSuperview()
+        }
+        
+        containerView.snp.makeConstraints {
+            $0.edges.equalToSuperview()
+            $0.height.equalTo(880)
+            $0.width.equalTo(scrollView.snp.width)
+        }
+        
         foodLocationView.snp.makeConstraints {
-            $0.top.equalTo(view.safeAreaLayoutGuide).offset(78)
+            $0.top.equalTo(containerView.snp.top).offset(78)
             $0.width.equalToSuperview().offset(20)
         }
         
         foodWeatherView.snp.makeConstraints {
             $0.top.equalTo(foodLocationView.snp.bottom).offset(16)
-            $0.leading.equalToSuperview().inset(16)
+            $0.leading.equalToSuperview().inset(15)
         }
         
         foodSuggestionsView.snp.makeConstraints {
-            $0.leading.trailing.equalToSuperview().inset(16).priority(.high)
-            $0.bottom.equalToSuperview().offset(-20)
+            $0.top.equalTo(foodWeatherView.weatherLine3Label.snp.bottom).offset(32)
+            $0.leading.trailing.equalToSuperview().inset(23).priority(.high)
         }
     }
 }

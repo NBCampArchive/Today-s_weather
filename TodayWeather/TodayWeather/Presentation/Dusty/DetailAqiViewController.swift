@@ -50,7 +50,7 @@ class DetailAqiViewController: UIViewController {
         collectionView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         collectionView.delegate = self
         collectionView.dataSource = self
-        
+        collectionView.showsVerticalScrollIndicator = false
         // Register cells
         collectionView.register(DetailCardCell.self, forCellWithReuseIdentifier: DetailCardCell.reuseIdentifier)
         collectionView.register(DetailChartCell.self, forCellWithReuseIdentifier: DetailChartCell.reuseIdentifier)
