@@ -36,7 +36,6 @@
 		A7937AC12BF3836E00E9AD04 /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7937AC02BF3836E00E9AD04 /* SearchViewController.swift */; };
 		A7C9FF312BFF4CF600D9B041 /* TodayWeather.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = A7C9FF2F2BFF4CF600D9B041 /* TodayWeather.xcdatamodeld */; };
 		A7C9FF332BFF916C00D9B041 /* DGChartsDynamic in Frameworks */ = {isa = PBXBuildFile; productRef = A7C9FF322BFF916C00D9B041 /* DGChartsDynamic */; };
-		A7C9FF342BFF916C00D9B041 /* DGChartsDynamic in Embed Frameworks */ = {isa = PBXBuildFile; productRef = A7C9FF322BFF916C00D9B041 /* DGChartsDynamic */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		A7DD85912BFA313D00823B92 /* CurrentWeather.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7DD85902BFA313D00823B92 /* CurrentWeather.swift */; };
 		A7FDF88D2BFC852F0010E860 /* TabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7FDF88C2BFC852F0010E860 /* TabBarController.swift */; };
 		B54ABF162BF22B4F002E89DC /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B54ABF152BF22B4F002E89DC /* AppDelegate.swift */; };
@@ -74,7 +73,6 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				A7C9FF342BFF916C00D9B041 /* DGChartsDynamic in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
