@@ -37,7 +37,7 @@ class FoodViewController: UIViewController {
                     case .failure(let error) :
                         print("Reverse geocoding error: \(error.localizedDescription)")
                     }
-                    
+
                 }
             }
             .store(in: &cancellable)
@@ -111,25 +111,26 @@ class FoodViewController: UIViewController {
             
             // 날씨별 이미지 오토레이아웃 조절
             self.foodWeatherView.updateWeatherConstraints(
-                topOffset: 
+                topOffset:
                     weatherState == .sunny ? 143 :
-                    weatherState == .rainy ? 130 :
-                    weatherState == .fewCloudy ? 110 : 105,
-                leadingOffset: 
+                    weatherState == .rainy ? 152 :
+                    weatherState == .fewCloudy ? 200 : 128,
+                leadingOffset:
                     weatherState == .sunny ? 8 :
-                    weatherState == .rainy ? 10 :
-                    weatherState == .fewCloudy ? 15 : -64,
-                width: 
+                    weatherState == .rainy ? -6 :
+                    weatherState == .fewCloudy ? -30 : -80,
+                width:
                     weatherState == .sunny ? 262 :
                     weatherState == .rainy ? 252 :
                     weatherState == .fewCloudy ? 357 : 340,
-                height: 
+                height:
                     weatherState == .sunny ? 262 :
                     weatherState == .rainy ? 252 :
                     weatherState == .fewCloudy ? 298 : 340
             )
         }
     }
+    
     
     private func updateFoodRecommendations(for weather: String, with recommendations: WeatherRecommendations?) {
         guard let recommendations = recommendations else { return
