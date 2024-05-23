@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		2BC9A9482BFF15C3006FD6C7 /* FashionModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BC9A9472BFF15C3006FD6C7 /* FashionModel.swift */; };
+		2BC9A94E2BFF1982006FD6C7 /* WeatherFashion.json in Resources */ = {isa = PBXBuildFile; fileRef = 2BC9A94C2BFF1982006FD6C7 /* WeatherFashion.json */; };
+		2BC9A9502BFF2129006FD6C7 /* FashionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BC9A94F2BFF2129006FD6C7 /* FashionViewController.swift */; };
 		856C9B632BF5035800D99A2F /* WeatherViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 856C9B622BF5035800D99A2F /* WeatherViewController.swift */; };
 		856C9B662BF5FE8400D99A2F /* Gabarito-SemiBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 856C9B652BF5FE8400D99A2F /* Gabarito-SemiBold.ttf */; };
 		856C9B682BF5FEE300D99A2F /* Gabarito-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 856C9B672BF5FEE300D99A2F /* Gabarito-Regular.ttf */; };
@@ -76,6 +79,9 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		2BC9A9472BFF15C3006FD6C7 /* FashionModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FashionModel.swift; sourceTree = "<group>"; };
+		2BC9A94D2BFF1982006FD6C7 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.json; name = en; path = "../../../../Today-s_weatherfood/TodayWeather/TodayWeather/Model/Food/en.lproj/WeatherFashion.json"; sourceTree = "<group>"; };
+		2BC9A94F2BFF2129006FD6C7 /* FashionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FashionViewController.swift; sourceTree = "<group>"; };
 		856C9B622BF5035800D99A2F /* WeatherViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherViewController.swift; sourceTree = "<group>"; };
 		856C9B652BF5FE8400D99A2F /* Gabarito-SemiBold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Gabarito-SemiBold.ttf"; sourceTree = "<group>"; };
 		856C9B672BF5FEE300D99A2F /* Gabarito-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Gabarito-Regular.ttf"; sourceTree = "<group>"; };
@@ -247,6 +253,7 @@
 				856C9B822BFB921400D99A2F /* FiveDaysWeatherViewController.swift */,
 				856C9B842BFBA20000D99A2F /* FiveDaysWeatherTableViewCell.swift */,
 				856C9B862BFC2AC900D99A2F /* WeatherTableViewHeaderView.swift */,
+				2BC9A94F2BFF2129006FD6C7 /* FashionViewController.swift */,
 			);
 			path = Presentation;
 			sourceTree = "<group>";
@@ -271,6 +278,8 @@
 				A71003502BFB8F5B00BF6FD4 /* CoreDataManager.swift */,
 				856C9B802BF7500F00D99A2F /* WeatherModel.swift */,
 				856C9B882BFC666100D99A2F /* WeatherDataManager.swift */,
+				2BC9A9472BFF15C3006FD6C7 /* FashionModel.swift */,
+				2BC9A94C2BFF1982006FD6C7 /* WeatherFashion.json */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -368,6 +377,7 @@
 				856C9B682BF5FEE300D99A2F /* Gabarito-Regular.ttf in Resources */,
 				856C9B702BF5FFBF00D99A2F /* Pretendard-SemiBold.otf in Resources */,
 				856C9B662BF5FE8400D99A2F /* Gabarito-SemiBold.ttf in Resources */,
+				2BC9A94E2BFF1982006FD6C7 /* WeatherFashion.json in Resources */,
 				856C9B6E2BF5FFA800D99A2F /* Pretendard-Regular.otf in Resources */,
 				B54ABF222BF22B51002E89DC /* Assets.xcassets in Resources */,
 				856C9B722BF5FFF000D99A2F /* Gabarito-Medium.ttf in Resources */,
@@ -389,6 +399,7 @@
 				B54ABF492BF307B8002E89DC /* ForecastResponseModel.swift in Sources */,
 				B54ABF692BFB61DA002E89DC /* DetailAqiViewController.swift in Sources */,
 				A71003512BFB8F5B00BF6FD4 /* CoreDataManager.swift in Sources */,
+				2BC9A9482BFF15C3006FD6C7 /* FashionModel.swift in Sources */,
 				B54ABF492BF307B8002E89DC /* ForecastResponseModel.swift in Sources */,
 				A7FDF8A22BFE13ED0010E860 /* TodayWeather.xcdatamodeld in Sources */,
 				856C9B892BFC666100D99A2F /* WeatherDataManager.swift in Sources */,
@@ -400,6 +411,7 @@
 				B54ABF452BF304D6002E89DC /* TodayWeatherAPI++Bundle.swift in Sources */,
 				B54ABF4B2BF30C3E002E89DC /* DustAPIManager.swift in Sources */,
 				A7DD85912BFA313D00823B92 /* CurrentWeather.swift in Sources */,
+				2BC9A9502BFF2129006FD6C7 /* FashionViewController.swift in Sources */,
 				A7937AC12BF3836E00E9AD04 /* SearchViewController.swift in Sources */,
 				A710034E2BFB35E200BF6FD4 /* SearchView.swift in Sources */,
 				B54ABF522BF314B4002E89DC /* LocationManager.swift in Sources */,
@@ -422,6 +434,17 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		2BC9A94C2BFF1982006FD6C7 /* WeatherFashion.json */ = {
+			isa = PBXVariantGroup;
+			children = (
+				2BC9A94D2BFF1982006FD6C7 /* en */,
+			);
+			name = WeatherFashion.json;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
 		B54ABF272BF22B51002E89DC /* Debug */ = {
