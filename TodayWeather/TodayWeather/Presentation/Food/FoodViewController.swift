@@ -10,7 +10,6 @@ class FoodViewController: UIViewController {
     var cancellable = Set<AnyCancellable>()
     
     // UI 요소들
-    let contentsView = UIView()
     let foodLocationView = FoodLocationView()
     let foodWeatherView = FoodWeatherView()
     let foodSuggestionsView = FoodSuggestionsView()
@@ -152,8 +151,7 @@ class FoodViewController: UIViewController {
         }
         
         foodSuggestionsView.snp.makeConstraints {
-            $0.leading.equalToSuperview().inset(16)
-            $0.trailing.equalToSuperview().inset(16)
+            $0.leading.trailing.equalToSuperview().inset(16).priority(.high)
             $0.bottom.equalToSuperview().offset(-20)
         }
     }
