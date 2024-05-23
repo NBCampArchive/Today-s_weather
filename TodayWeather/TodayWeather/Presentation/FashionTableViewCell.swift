@@ -22,15 +22,16 @@ class FashionTableViewCell: UITableViewCell {
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         configureUI()
+        self.selectionStyle = .none
     }
     
     func configureUI() {
-        contentView.backgroundColor = .sunnyBackground
+        self.backgroundColor = .clear
         tmpLabel.font = tmpFont
         subLabel.font = subFont
         fashionLabel.font = fashionFont
         boxView.layer.cornerRadius = 16
-        self.boxView.backgroundColor = .white
+        self.boxView.backgroundColor =  #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1).withAlphaComponent(0.4)
         contentView.addSubview(boxView)
         boxView.addSubview(tmpLabel)
         boxView.addSubview(subLabel)
@@ -61,17 +62,6 @@ class FashionTableViewCell: UITableViewCell {
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
-    }
-    
-    override func awakeFromNib() {
-        super.awakeFromNib()
-        // Initialization code
-    }
-
-    override func setSelected(_ selected: Bool, animated: Bool) {
-        super.setSelected(selected, animated: animated)
-
-        // Configure the view for the selected state
     }
 
 }

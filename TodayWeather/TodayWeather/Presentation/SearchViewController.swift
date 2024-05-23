@@ -148,7 +148,7 @@ extension SearchViewController : UISearchBarDelegate {
             CurrentWeather.shared.reverseGeocode(latitude: self!.latitude , longitude: self!.longitude, save: true) { data in
                 switch data {
                 case .success(let name) :
-                    self?.callAPIs(locName: name)
+                    self?.callAPIs(locName: name[0] + ", " + name[1])
                 case .failure(let error) :
                     print("Reverse geocoding error: \(error.localizedDescription)")
                 }

@@ -12,10 +12,6 @@ import Then
 class SelectedTableViewCell: UITableViewCell {
     
     static let Identifier = "SelectedTableViewCell"
-    let container = UIView().then {
-        $0.backgroundColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1).withAlphaComponent(0.4)
-        $0.layer.cornerRadius = 16
-    }
     let tempLbl = UILabel().then {
         $0.font = BagelFatOne.regular.of(size: 40)
         $0.textColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 1)

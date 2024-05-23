@@ -37,7 +37,7 @@ class TabBarController: UITabBarController {
         ThirdViewController.tabBarItem.title = "미세먼지"
         ThirdViewController.tabBarItem.image = UIImage(named: "blizzardSelected")
         
-        let fourthViewController = CustomTabControl(titles: ["Today","Detail"], viewControllers: [DustyViewController(),DetailAqiViewController()])
+        let fourthViewController = CustomTabControl(titles: ["Today","Detail"], viewControllers: [DustyViewController(),FashionViewController()])
         fourthViewController.tabBarItem.title = "추천"
         fourthViewController.tabBarItem.image = UIImage(named: "recommendationSelected")
         

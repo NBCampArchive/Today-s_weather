@@ -27,6 +27,22 @@ class CurrentWeather {
         }
     }
     
+    func weatherImage() -> UIImage {
+        let weatherState = WeatherModel(id: CurrentWeather.id)
+        switch weatherState {
+        case .sunny :
+            return UIImage(named: "largeSunny") ?? UIImage()
+        case .cloudy:
+            return UIImage(named: "largeCloudy") ?? UIImage()
+        case .rainy :
+            return UIImage(named: "largeRainy") ?? UIImage()
+        case .fewCloudy :
+            return UIImage(named: "largeFewCloudy") ?? UIImage()
+        }
+    }
+    
+    
+    
     func weatherColor() -> UIColor {
         let weatherState = WeatherModel(id: CurrentWeather.id)
         switch weatherState {
@@ -41,7 +57,7 @@ class CurrentWeather {
         }
     }
     
-    func reverseGeocode(latitude: Double, longitude: Double, save: Bool, completion : @escaping (Result<String, Error>) -> Void) {
+    func reverseGeocode(latitude: Double, longitude: Double, save: Bool, completion : @escaping (Result<[String], Error>) -> Void) {
            let location = CLLocation(latitude: latitude, longitude: longitude)
             let geocoder: CLGeocoder = CLGeocoder()
             let local: Locale = Locale(identifier: "en-US")
@@ -55,17 +71,11 @@ class CurrentWeather {
                    print("No placemark found")
                    return
                }
-               
+               let name = [(placemark.locality ?? ""), (placemark.country ?? "")]
                if save == true {
-                   let name = (placemark.locality ?? "") + ", " + (placemark.country ?? "")
-                   self?.CDM.saveData(Data: locationData(latitude: latitude, longitude: longitude, locName: name))
-                   
-                   completion(.success(name))
-               }else {
-                   let name = (placemark.locality ?? "")
-                   completion(.success(name))
+                   self?.CDM.saveData(Data: locationData(latitude: latitude, longitude: longitude, locName: (placemark.locality ?? "") + ", " + (placemark.country ?? "")))
                }
-               
+                   completion(.success(name))
            }
        }
 }

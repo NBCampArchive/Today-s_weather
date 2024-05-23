@@ -216,7 +216,7 @@ class WeatherViewController: UIViewController {
         CurrentWeather.shared.reverseGeocode(latitude: weather.coord.lat, longitude: weather.coord.lon, save: false) { data in
             switch data {
             case .success(let name) :
-                self.cityLabel.text = name
+                self.cityLabel.text = name[0]
             case .failure(let error) :
                 print("Reverse geocoding error: \(error.localizedDescription)")
             }
