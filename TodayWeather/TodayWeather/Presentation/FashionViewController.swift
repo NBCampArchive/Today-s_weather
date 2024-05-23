@@ -2,7 +2,7 @@
 //  FashionViewController.swift
 //  TodayWeather
 //
-//  Created by t2023-m0074 on 5/16/24.
+//  Created by t2023-m0074 on 5/23/24.
 //
 
 import UIKit
@@ -92,7 +92,7 @@ class FashionViewController: UIViewController {
         }.store(in: &cancellable)
         
     }
-    
+   
     func configureUI() {
         
         tmpView.addSubview(dayAndLocationStackView)

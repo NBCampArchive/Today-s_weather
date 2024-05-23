@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		2B3EB4022BF625010077E4FD /* FashionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B3EB4012BF625010077E4FD /* FashionViewController.swift */; };
 		2B3EB4042BF6250B0077E4FD /* FashionTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B3EB4032BF6250B0077E4FD /* FashionTableViewCell.swift */; };
+		2BC9A9482BFF15C3006FD6C7 /* FashionModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BC9A9472BFF15C3006FD6C7 /* FashionModel.swift */; };
 		856C9B632BF5035800D99A2F /* WeatherViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 856C9B622BF5035800D99A2F /* WeatherViewController.swift */; };
 		856C9B662BF5FE8400D99A2F /* Gabarito-SemiBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 856C9B652BF5FE8400D99A2F /* Gabarito-SemiBold.ttf */; };
 		856C9B682BF5FEE300D99A2F /* Gabarito-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 856C9B672BF5FEE300D99A2F /* Gabarito-Regular.ttf */; };
@@ -81,6 +82,7 @@
 /* Begin PBXFileReference section */
 		2B3EB4012BF625010077E4FD /* FashionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FashionViewController.swift; sourceTree = "<group>"; };
 		2B3EB4032BF6250B0077E4FD /* FashionTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FashionTableViewCell.swift; sourceTree = "<group>"; };
+		2BC9A9472BFF15C3006FD6C7 /* FashionModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FashionModel.swift; sourceTree = "<group>"; };
 		856C9B622BF5035800D99A2F /* WeatherViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherViewController.swift; sourceTree = "<group>"; };
 		856C9B652BF5FE8400D99A2F /* Gabarito-SemiBold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Gabarito-SemiBold.ttf"; sourceTree = "<group>"; };
 		856C9B672BF5FEE300D99A2F /* Gabarito-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Gabarito-Regular.ttf"; sourceTree = "<group>"; };
@@ -286,6 +288,7 @@
 				A71003502BFB8F5B00BF6FD4 /* CoreDataManager.swift */,
 				856C9B802BF7500F00D99A2F /* WeatherModel.swift */,
 				856C9B882BFC666100D99A2F /* WeatherDataManager.swift */,
+				2BC9A9472BFF15C3006FD6C7 /* FashionModel.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -404,6 +407,7 @@
 				B54ABF492BF307B8002E89DC /* ForecastResponseModel.swift in Sources */,
 				B54ABF692BFB61DA002E89DC /* DetailAqiViewController.swift in Sources */,
 				A71003512BFB8F5B00BF6FD4 /* CoreDataManager.swift in Sources */,
+				2BC9A9482BFF15C3006FD6C7 /* FashionModel.swift in Sources */,
 				B54ABF492BF307B8002E89DC /* ForecastResponseModel.swift in Sources */,
 				856C9B892BFC666100D99A2F /* WeatherDataManager.swift in Sources */,
 				857073C02BFDB3AC00109A2E /* (null) in Sources */,
