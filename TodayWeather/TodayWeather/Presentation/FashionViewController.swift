@@ -14,6 +14,7 @@ class FashionViewController: UIViewController {
     var cancellable = Set<AnyCancellable>()
     let scrollView = UIScrollView()
     let containerView = UIView()
+    var weatherFashion : ForecastWeather?
     private let tableView = UITableView().then {
         $0.backgroundColor = .clear
     }
