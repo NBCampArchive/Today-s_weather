@@ -12,7 +12,9 @@ import Combine
 
 class FashionViewController: UIViewController {
     var cancellable = Set<AnyCancellable>()
-    let scrollView = UIScrollView()
+    let scrollView = UIScrollView().then{
+        $0.showsVerticalScrollIndicator = false
+    }
     let containerView = UIView()
     private let tableView = UITableView().then {
         $0.backgroundColor = .clear
