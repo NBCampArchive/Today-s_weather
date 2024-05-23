@@ -16,6 +16,16 @@ class FashionViewController: UIViewController {
         $0.showsVerticalScrollIndicator = false
     }
     let containerView = UIView()
+    var weatherFashion = [Int]()
+    var time = [String]()
+    var longitude: Double = 0 {
+        didSet {
+            callAPI()
+        }
+    }
+    
+    var latitude: Double = 0
+    
     private let tableView = UITableView().then {
         $0.backgroundColor = .clear
     }
@@ -89,6 +99,9 @@ class FashionViewController: UIViewController {
             self?.view.backgroundColor = CurrentWeather.shared.weatherColor()
             self?.tempImageView.image = CurrentWeather.shared.weatherImage()
             self?.tempLabel.text = String(Int(weatherData.main.temp)) + "°"
+            self?.latitude = weatherData.coord.lat
+            self?.longitude = weatherData.coord.lon
+            print()
             self?.updateUI(with: weatherData)
         }.store(in: &cancellable)
         
@@ -173,19 +186,66 @@ class FashionViewController: UIViewController {
             $0.height.equalTo(288)
         }
     }
+    private func callAPI() {
+        WeatherAPIManager.shared.getForecastWeatherData(latitude: self.latitude, longitude: self.longitude) { result in
+            switch result{
+                case .success(let data):
+                    self.weatherFashion = self.groupAndSortWeatherDataByDay(data)
+//                print(data)
+                    self.tableView.reloadData()
+                case .failure(let error):
+                    print("getForecastWeatherData Failure \(error)")
+            }
+        }
+    }
+    private func groupAndSortWeatherDataByDay(_ forecastResponse: ForecastResponseModel) -> [Int] {
+        var morning = [Int]()
+        var afternoon = [Int]()
+        var evening = [Int]()
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "dd"
+        let date = Date()
+        let calendar = Calendar.current
+        let components = calendar.dateComponents([.year, .month, .day], from: date)
+        let today = (components.day ?? 0) + 3
+        // 오늘 시간대별 날씨
+        for forecastItem in forecastResponse.list {
+            let day = Int(forecastItem.dtTxt.split(separator: " ")[0].split(separator: "-")[2])
+            let time = (Int(forecastItem.dtTxt.split(separator: " ")[1].split(separator: ":")[0]) ?? 0) + 12
+            let newDate = (day ?? 0) + time / 24
+            let newTime = ((Int(forecastItem.dtTxt.split(separator: " ")[1].split(separator: ":")[0]) ?? 0) + 12) % 24
+            if newDate == today {
+                print(newTime ,forecastItem.main.temp)
+                if newTime > 6 && newTime < 12 {
+                    morning.append(Int(forecastItem.main.temp))
+                } else if newTime > 12 && newTime < 21 {
+                    afternoon.append(Int(forecastItem.main.temp))
+                }else {
+                    evening.append(Int(forecastItem.main.temp))
+                }
+            }
+        }
+        var temp = [Int]()
+        temp.append(morning.reduce(0, +) / morning.count)
+        self.time.append("Morning")
+        temp.append(afternoon.reduce(0, +) / afternoon.count)
+        self.time.append("Afternoon")
+        temp.append(evening.reduce(0, +) / evening.count)
+        self.time.append("Evening")
+        return temp
+    }
 }
 
 extension FashionViewController: UITableViewDataSource, UITableViewDelegate  {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 3
+        return weatherFashion.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: FashionTableViewCell.identifier, for: indexPath) as! FashionTableViewCell
-        
-        cell.fashionLabel.text = "나시티,반바지,반팔"
-        cell.subLabel.text = "오후"
-        cell.tmpLabel.text = "21"
+        cell.fashionLabel.text = Fashion(temp: weatherFashion[indexPath.row]).recommendClothes().joined(separator: ", ")
+        cell.subLabel.text = time[indexPath.row]
+        cell.tmpLabel.text = "\(weatherFashion[indexPath.row])°"
         return cell
     }
     

@@ -44,7 +44,7 @@ class SearchViewController : UIViewController{
                 self?.view.backgroundColor = CurrentWeather.shared.weatherColor()
             }
             .store(in: &cancellable)
-        callAPIs(locName: "My Location")
+        callAPIs(locName: "My Location, \(CurrentWeather.currentLocation[0])")
         for i in CDM.readData() {
             longitude = i.longitude
             latitude = i.latitude

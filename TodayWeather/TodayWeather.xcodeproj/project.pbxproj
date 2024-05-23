@@ -157,7 +157,7 @@
 				B54ABF3F2BF22EA6002E89DC /* AlamofireDynamic in Frameworks */,
 				B54ABF652BFB608C002E89DC /* DGCharts in Frameworks */,
 				B54ABF372BF22E95002E89DC /* SnapKit in Frameworks */,
-				A7C9FF2D2BFF4BFA00D9B041 /* DGChartsDynamic in Frameworks */,
+				A7C9FF332BFF916C00D9B041 /* DGChartsDynamic in Frameworks */,
 				B54ABF3A2BF22E9D002E89DC /* Then in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -364,7 +364,7 @@
 				B54ABF3C2BF22EA6002E89DC /* Alamofire */,
 				B54ABF3E2BF22EA6002E89DC /* AlamofireDynamic */,
 				B54ABF642BFB608C002E89DC /* DGCharts */,
-				A7C9FF2C2BFF4BFA00D9B041 /* DGChartsDynamic */,
+				A7C9FF322BFF916C00D9B041 /* DGChartsDynamic */,
 			);
 			productName = TodayWeather;
 			productReference = B54ABF122BF22B4F002E89DC /* TodayWeather.app */;
@@ -736,7 +736,7 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		A7C9FF2C2BFF4BFA00D9B041 /* DGChartsDynamic */ = {
+		A7C9FF322BFF916C00D9B041 /* DGChartsDynamic */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = B54ABF632BFB608C002E89DC /* XCRemoteSwiftPackageReference "Charts" */;
 			productName = DGChartsDynamic;
