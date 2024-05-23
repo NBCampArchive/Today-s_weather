@@ -25,7 +25,7 @@ class TabBarController: UITabBarController {
         setUpTabBar()
     }
     private func setUpTabBar() {
-        let firstViewController = CustomTabControl(titles: ["Today","5days"], viewControllers: [WeatherViewController(),FiveDaysWeatherViewController()])// TabBar Item 의 이름
+        let firstViewController = CustomTabControl(titles: ["Today","5 Days"], viewControllers: [WeatherViewController(),FiveDaysWeatherViewController()])// TabBar Item 의 이름
         firstViewController.tabBarItem.title = "날씨"
         firstViewController.tabBarItem.image = UIImage(named: "weatherSelected")
         
