@@ -107,35 +107,6 @@ class FoodViewController: UIViewController {
         foodWeatherView.weatherLine1Label.text = "\(weatherDescription), 맛있는 선택"
         foodWeatherView.weatherLine2Label.text = "현재기온 \(temp)°에 먹는 맛 여기서 찾기"
     }
-
-//    private func updateWeatherUI(backgroundColor: UIColor, imageName: String, temperature: Int, weatherState: WeatherModel) {
-//        DispatchQueue.main.async {
-//            self.view.backgroundColor = backgroundColor
-//            self.foodWeatherView.weatherImage.image = UIImage(named: imageName)
-//            self.foodWeatherView.currentTemperatureLabel.text = "\(temperature)°"
-//            
-//            // 날씨별 이미지 오토레이아웃 조절
-//            self.foodWeatherView.updateWeatherConstraints(
-//                topOffset:
-//                    weatherState == .sunny ? 143 :
-//                    weatherState == .rainy ? 152 :
-//                    weatherState == .fewCloudy ? 200 : 128,
-//                leadingOffset:
-//                    weatherState == .sunny ? 8 :
-//                    weatherState == .rainy ? -6 :
-//                    weatherState == .fewCloudy ? -30 : -80,
-//                width:
-//                    weatherState == .sunny ? 262 :
-//                    weatherState == .rainy ? 252 :
-//                    weatherState == .fewCloudy ? 357 : 340,
-//                height:
-//                    weatherState == .sunny ? 262 :
-//                    weatherState == .rainy ? 252 :
-//                    weatherState == .fewCloudy ? 298 : 340
-//            )
-//        }
-//    }
-//    
     
     private func updateWeatherUI(backgroundColor: UIColor, imageName: String, temperature: Int, weatherState: WeatherModel) {
         DispatchQueue.main.async {
