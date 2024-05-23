@@ -25,7 +25,7 @@ class TabBarController: UITabBarController {
         setUpTabBar()
     }
     private func setUpTabBar() {
-        let firstViewController = CustomTabControl(titles: ["Today","5days"], viewControllers: [WeatherViewController(),FiveDaysWeatherViewController()])// TabBar Item 의 이름
+        let firstViewController = CustomTabControl(titles: ["Today","5 Days"], viewControllers: [WeatherViewController(),FiveDaysWeatherViewController()])// TabBar Item 의 이름
         firstViewController.tabBarItem.title = "날씨"
         firstViewController.tabBarItem.image = UIImage(named: "weatherSelected")
         
@@ -37,7 +37,7 @@ class TabBarController: UITabBarController {
         ThirdViewController.tabBarItem.title = "미세먼지"
         ThirdViewController.tabBarItem.image = UIImage(named: "blizzardSelected")
         
-        let fourthViewController = CustomTabControl(titles: ["Today","Detail"], viewControllers: [DustyViewController(),DetailAqiViewController()])
+        let fourthViewController = CustomTabControl(titles: ["Today","Detail"], viewControllers: [DustyViewController(),FashionViewController()])
         fourthViewController.tabBarItem.title = "추천"
         fourthViewController.tabBarItem.image = UIImage(named: "recommendationSelected")
         

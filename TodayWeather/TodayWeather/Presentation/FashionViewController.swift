@@ -6,125 +6,201 @@
 //
 
 import UIKit
+import SnapKit
+import Then
+import Combine
 
 class FashionViewController: UIViewController {
-
-    private let tableView = UITableView()
-    let tempLabel = UILabel()
+    var cancellable = Set<AnyCancellable>()
+    let scrollView = UIScrollView()
+    let containerView = UIView()
+    private let tableView = UITableView().then {
+        $0.backgroundColor = .clear
+    }
+    
+    let dayAndLocationStackView = UIStackView().then {
+        $0.axis = .vertical
+        $0.spacing = 4
+    }
+    
+    let dayLabel = UILabel().then {
+        $0.text = WeatherViewController().configureDate()
+        $0.font = Gabarito.bold.of(size: 17)
+        $0.textColor = .black
+    }
+    
+    let locationCityLabel = UILabel().then {
+        $0.text = "Seoul"
+        $0.font = Gabarito.bold.of(size: 32)
+        $0.textColor = .black
+        $0.backgroundColor = .clear
+    }
+    
+    let locationCountryLabel = UILabel().then {
+        $0.text = "Korea"
+        $0.font = Gabarito.bold.of(size: 15)
+        $0.textColor = .black
+    }
+    
+    let locationImageView = UIImageView().then {
+        $0.image = UIImage(named: "locationMark")
+        $0.contentMode = .scaleAspectFit
+    }
+    
+    let locationStackView = UIStackView().then {
+        $0.axis = .horizontal
+        $0.spacing = 4
+    }
+    
+    let locationLabelStackView = UIStackView().then {
+        $0.axis = .horizontal
+        $0.spacing = 4
+        $0.alignment = .firstBaseline
+    }
+    
+    let tempLabel = UILabel().then {
+        $0.font = BagelFatOne.regular.of(size: 96)
+        $0.text = "25°"
+    }
     let tempImageView = UIImageView()
-    let tempFont = UIFont(name: "BagelFatOne-Regular", size: 96)
     let tmpView = UIView()
-    let dayLabel = UILabel()
-    let dayFont = UIFont(name: "Gabarito-Bold", size: 17)
-    let cityLabel = UILabel()
-    let cityFont = UIFont(name: "Gabarito-SemiBold", size: 20)
-    let nationLabel = UILabel()
-    let nationFont = UIFont(name: "Gabarito-Medium", size: 10)
     let markImageView = UIImageView()
     var weather : WeatherModel = .sunny
     
-
     override func viewDidLoad() {
         
         super.viewDidLoad()
-        if weather == .sunny {
-            self.view.backgroundColor = .sunnyBackground
-            tableView.backgroundColor = .sunnyBackground
-        } else if weather == .rainy {
-            self.view.backgroundColor = .rainyBackground
-            tableView.backgroundColor = .rainyBackground
-        } else if weather == .fewCloudy {
-            self.view.backgroundColor = .fewCloudyBackground
-            tableView.backgroundColor = .fewCloudyBackground
-        } else if weather == .cloudy {
-            self.view.backgroundColor = .cloudyBackground
-            tableView.backgroundColor = .cloudyBackground
-        }
-        view.addSubview(tableView)
-        view.addSubview(tempLabel)
-        view.addSubview(tmpView)
-        view.addSubview(tempImageView)
-        view.addSubview(nationLabel)
-        view.addSubview(markImageView)
+        view.addSubview(scrollView)
+        self.scrollView.addSubview(containerView)
+        containerView.addSubview(tableView)
+        containerView.addSubview(tmpView)
+        tmpView.addSubview(tempImageView)
+        tmpView.addSubview(tempLabel)
         configureUI()
         setupConstraints()
-//        self.view.backgroundColor = .sunnyBackground
-//        tableView.backgroundColor = .sunnyBackground
         tableView.separatorStyle = .none
         tableView.dataSource = self
         tableView.delegate = self
         tableView.register(FashionTableViewCell.self, forCellReuseIdentifier: FashionTableViewCell.identifier)
+        WeatherDataManager.shared.$weatherData.sink { [weak self] weatherData in
+                guard let weatherData = weatherData else { return }
+            CurrentWeather.id = weatherData.weather[0].id
+            self?.view.backgroundColor = CurrentWeather.shared.weatherColor()
+            self?.tempImageView.image = CurrentWeather.shared.weatherImage()
+            self?.tempLabel.text = String(Int(weatherData.main.temp)) + "°"
+            self?.updateUI(with: weatherData)
+        }.store(in: &cancellable)
         
     }
    
     func configureUI() {
-        tmpView.addSubview(markImageView)
-        markImageView.image = UIImage(resource: .locationMark)
-        view.addSubview(tmpView)
-        tmpView.addSubview(nationLabel)
-        nationLabel.font = nationFont
-        nationLabel.text = "korea"
-        tmpView.addSubview(tempImageView)
-        tmpView.backgroundColor = .clear
-        tmpView.addSubview(dayLabel)
-        dayLabel.font = dayFont
-        dayLabel.text = "friday August 8"
-        tmpView.addSubview(cityLabel)
-        cityLabel.font = cityFont
-        cityLabel.text = "seoul"
-        tmpView.addSubview(tempLabel)
-        tempLabel.text = "18"
-        tempLabel.font = tempFont
-        tempImageView.image = UIImage(resource: .largeSunny)
+        
+        tmpView.addSubview(dayAndLocationStackView)
+        dayAndLocationStackView.addArrangedSubview(dayLabel)
+        dayAndLocationStackView.addArrangedSubview(locationStackView)
+
+        locationStackView.addArrangedSubview(locationImageView)
+        locationStackView.addArrangedSubview(locationLabelStackView)
+        
+        locationLabelStackView.addArrangedSubview(locationCityLabel)
+        locationLabelStackView.addArrangedSubview(locationCountryLabel)
+        
+        dayAndLocationStackView.snp.makeConstraints{
+            $0.top.equalTo(tmpView.snp.top)
+            $0.leading.equalTo(tmpView.snp.leading).offset(20)
+        }
 }
     func setupConstraints() {
-        dayLabel.snp.makeConstraints {
-            $0.top.equalToSuperview()
+        scrollView.snp.makeConstraints {
+            $0.edges.equalToSuperview()
+        }
+        containerView.snp.makeConstraints {
+            $0.edges.equalToSuperview()
+            $0.height.equalTo(880)
+            $0.width.equalTo(scrollView.snp.width)
+        }
+        
+        tmpView.snp.makeConstraints {
+            $0.top.equalTo(containerView.snp.top).inset(90)
+            $0.height.equalTo(292)
+            $0.width.equalTo(containerView.snp.width)
             $0.leading.equalToSuperview()
         }
-        cityLabel.snp.makeConstraints {
-            $0.top.equalTo(dayLabel.snp.bottom).offset(4)
-            $0.leading.equalTo(markImageView.snp.trailing).offset(5)
-        }
-        nationLabel.snp.makeConstraints {
-            $0.top.equalTo(dayLabel.snp.bottom).inset(-13)
-            $0.leading.equalTo(cityLabel.snp.trailing).inset(-2)
-        }
-        tmpView.snp.makeConstraints {
-            $0.top.equalToSuperview().inset(132)
-            $0.bottom.equalToSuperview().inset(424)
-            $0.leading.equalToSuperview().inset(20)
-            $0.trailing.equalToSuperview()
-        }
-        markImageView.snp.makeConstraints {
-            $0.top.equalTo(dayLabel.snp.bottom)
-            $0.leading.equalTo(dayLabel.snp.leading)
-            $0.width.equalTo(15)
-            $0.height.equalTo(23)
-        }
-        tempImageView.snp.makeConstraints {
-            $0.top.equalToSuperview().inset(6)
-            $0.leading.equalToSuperview().inset(181)
-            $0.bottom.equalToSuperview().inset(428)
-            $0.width.equalTo(262)
-            $0.height.equalTo(262)
-        }
         tempLabel.snp.makeConstraints {
-            $0.top.equalToSuperview().offset(166)
-            $0.bottom.equalTo(tableView.snp.top).inset(-26)
-            $0.leading.trailing.equalToSuperview()
-           
+            $0.top.equalTo(dayAndLocationStackView.snp.bottom).offset(80)
+            $0.leading.equalToSuperview().inset(20)
         }
         tableView.snp.makeConstraints {
-            $0.top.equalTo(tmpView.snp.bottom).inset(10)
-            $0.leading.trailing.equalToSuperview().inset(20)
-            $0.bottom.equalToSuperview().inset(80)
+            $0.top.equalTo(tmpView.snp.bottom).offset(15)
+            $0.leading.trailing.equalToSuperview()
+            $0.bottom.equalTo(containerView.snp.bottom)
+        }
+    }
+    //MARK: - updateUI
+    private func updateUI(with weather: CurrentResponseModel) {
+        guard let weatherCondition = weather.weather.first else { return }
+        let weatherState = WeatherModel(id: weatherCondition.id)
+        
+        CurrentWeather.shared.reverseGeocode(latitude: weather.coord.lat, longitude: weather.coord.lon, save: false) { data in
+            switch data {
+            case .success(let name) :
+                self.locationCityLabel.text = name[0]
+                self.locationCountryLabel.text = name[1]
+            case .failure(let error) :
+                print("Reverse geocoding error: \(error.localizedDescription)")
+            }
+            
+        }
+        switch weatherState {
+            case .sunny:
+                updateSunny()
+            case .rainy:
+                updateRainy()
+            case .cloudy:
+                updateCloudy()
+            case .fewCloudy:
+                updateFewCloudy()
         }
     }
     
+    private func updateSunny() {
+        self.tempImageView.snp.updateConstraints {
+            $0.top.equalTo(tmpView.snp.top).inset(4)
+            $0.leading.equalTo(tmpView.snp.leading).inset(181)
+            $0.width.equalTo(288)
+            $0.height.equalTo(288)
+        }
+    }
+    
+    private func updateRainy() {
+        self.tempImageView.snp.updateConstraints {
+            $0.top.equalTo(tmpView.snp.top).inset(4)
+            $0.leading.equalTo(tmpView.snp.leading).inset(181)
+            $0.width.equalTo(252)
+            $0.height.equalTo(252)
+        }
+    }
+    
+    private func updateFewCloudy() {
+        self.tempImageView.snp.updateConstraints {
+            $0.top.equalTo(tmpView.snp.top).inset(4)
+            $0.leading.equalTo(tmpView.snp.leading).inset(181)
+            $0.width.equalTo(357)
+            $0.height.equalTo(298)
+        }
+    }
+    
+    private func updateCloudy() {
+        self.tempImageView.snp.updateConstraints {
+            $0.top.equalTo(tmpView.snp.top).inset(4)
+            $0.leading.equalTo(tmpView.snp.leading).inset(177)
+            $0.width.equalTo(340)
+            $0.height.equalTo(340)
+        }
+    }
 }
 
-extension FashionViewController: UITableViewDataSource {
+extension FashionViewController: UITableViewDataSource, UITableViewDelegate  {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return 3
     }
@@ -138,7 +214,4 @@ extension FashionViewController: UITableViewDataSource {
         return cell
     }
 
-}
-extension FashionViewController: UITableViewDelegate {
-    
 }

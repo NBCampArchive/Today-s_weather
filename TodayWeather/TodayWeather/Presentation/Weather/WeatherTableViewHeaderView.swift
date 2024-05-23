@@ -11,16 +11,15 @@ import UIKit
 
 class WeatherTableViewHeaderView: UITableViewHeaderFooterView {
     static let identifier = String(describing: WeatherTableViewHeaderView.self)
-    private let weatherViewController = WeatherViewController()
     
     private let dateLocationStacview = UIStackView().then {
         $0.axis = .vertical
         $0.spacing = 13
     }
     
-    private lazy var dateLabel = UILabel().then {
+    private let dateLabel = UILabel().then {
         $0.font = Gabarito.medium.of(size: 13)
-        $0.text = weatherViewController.configureDate()
+        $0.text = WeatherViewController().configureDate()
         $0.textColor = .black.withAlphaComponent(0.8)
     }
     
@@ -41,12 +40,12 @@ class WeatherTableViewHeaderView: UITableViewHeaderFooterView {
     
     private lazy var cityLabel = UILabel().then {
         $0.font = Gabarito.semibold.of(size: 18)
-        $0.text = "Cupertino"
+        $0.text = WeatherDataManager.shared.weatherData?.name
     }
     
-    private lazy var countryLabel = UILabel().then {
+    private let countryLabel = UILabel().then {
         $0.font = Gabarito.semibold.of(size: 18)
-        $0.text = "United States"
+        $0.text = WeatherViewController().countryName(countryCode: WeatherDataManager.shared.weatherData?.sys.country ?? "US")
     }
     // MARK: - init
     override init(reuseIdentifier: String?) {
@@ -77,8 +76,9 @@ class WeatherTableViewHeaderView: UITableViewHeaderFooterView {
         }
         
         dateLocationStacview.snp.makeConstraints {
-            $0.verticalEdges.equalToSuperview().inset(24)
+            $0.top.equalToSuperview().inset(80).priority(.high)
             $0.leading.equalToSuperview().inset(20)
+            $0.bottom.equalToSuperview().inset(24)
         }
     }
 }
