@@ -109,10 +109,8 @@ class FoodSuggestionsView: UIView {
         
         koreanSeparator.snp.makeConstraints {
             $0.top.equalTo(koreanFoodLabel.snp.bottom).offset(8)
-            
             $0.leading.trailing.equalToSuperview()
-            
-            $0.height.equalTo(1)
+            $0.height.equalTo(0.5)
         }
         
         westernFoodLabel.snp.makeConstraints {
@@ -128,7 +126,7 @@ class FoodSuggestionsView: UIView {
         westernSeparator.snp.makeConstraints {
             $0.top.equalTo(westernFoodLabel.snp.bottom).offset(8)
             $0.width.equalToSuperview()
-            $0.height.equalTo(1)
+            $0.height.equalTo(0.4)
         }
         
         chineseFoodLabel.snp.makeConstraints {
@@ -143,8 +141,8 @@ class FoodSuggestionsView: UIView {
         
         chineseSeparator.snp.makeConstraints {
             $0.top.equalTo(chineseFoodLabel.snp.bottom).offset(8)
+            $0.height.equalTo(0.4)
             $0.width.equalToSuperview()
-            $0.height.equalTo(1)
         }
         
         japaneseFoodLabel.snp.makeConstraints {
@@ -160,8 +158,8 @@ class FoodSuggestionsView: UIView {
         japaneseSeparator.snp.makeConstraints {
             $0.top.equalTo(japaneseFoodLabel.snp.bottom).offset(8)
             $0.leading.trailing.equalToSuperview()
-            $0.height.equalTo(1)
-            $0.bottom.equalToSuperview().offset(-80)
+            $0.height.equalTo(0.2)
+            $0.bottom.equalToSuperview().offset(-100)
         }
     }
 }
