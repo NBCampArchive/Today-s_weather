@@ -57,7 +57,7 @@ class FoodWeatherView: UIView {
     
     private func setConstraints() {
         weatherImage.snp.makeConstraints {
-            $0.top.equalToSuperview().offset(10)
+            $0.top.equalToSuperview().offset(15)
             $0.leading.equalToSuperview().inset(10)
             $0.width.equalTo(262)
             $0.height.equalTo(262)

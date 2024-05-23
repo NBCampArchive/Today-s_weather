@@ -31,7 +31,6 @@ class FoodViewController: UIViewController {
                 CurrentWeather.shared.reverseGeocode(latitude: weatherData.coord.lat, longitude: weatherData.coord.lon, save: false) { data in
                     switch data {
                     case .success(let name) :
-                        
                         self?.foodLocationView.cityLabel.text = name
                         self?.foodLocationView.countryLabel.text = self?.countryName(countryCode: weatherData.sys.country ?? "")
                         self?.updateUI(with: weatherData)
@@ -110,11 +109,24 @@ class FoodViewController: UIViewController {
             self.foodWeatherView.weatherImage.image = UIImage(named: imageName)
             self.foodWeatherView.currentTemperatureLabel.text = "\(temperature)°"
             
+            // 날씨별 이미지 오토레이아웃 조절
             self.foodWeatherView.updateWeatherConstraints(
-                topOffset: weatherState == .sunny ? 120 : weatherState == .rainy ? 130 : weatherState == .fewCloudy ? 110 : 105,
-                leadingOffset: weatherState == .sunny ? 24 : weatherState == .rainy ? 10 : weatherState == .fewCloudy ? 15 : -64,
-                width: weatherState == .sunny ? 262 : weatherState == .rainy ? 252 : weatherState == .fewCloudy ? 357 : 340,
-                height: weatherState == .sunny ? 262 : weatherState == .rainy ? 252 : weatherState == .fewCloudy ? 298 : 340
+                topOffset: 
+                    weatherState == .sunny ? 143 :
+                    weatherState == .rainy ? 130 :
+                    weatherState == .fewCloudy ? 110 : 105,
+                leadingOffset: 
+                    weatherState == .sunny ? 8 :
+                    weatherState == .rainy ? 10 :
+                    weatherState == .fewCloudy ? 15 : -64,
+                width: 
+                    weatherState == .sunny ? 262 :
+                    weatherState == .rainy ? 252 :
+                    weatherState == .fewCloudy ? 357 : 340,
+                height: 
+                    weatherState == .sunny ? 262 :
+                    weatherState == .rainy ? 252 :
+                    weatherState == .fewCloudy ? 298 : 340
             )
         }
     }

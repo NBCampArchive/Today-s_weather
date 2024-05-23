@@ -31,7 +31,7 @@ class FoodLocationView: UIView {
     
     let dateLabel = UILabel().then {
         $0.font = Gabarito.bold.of(size: 17)
-        $0.text = "ian"
+        $0.text = "오늘 날짜 라인"
     }
     
     let locationMarkImage = UIImageView().then {
